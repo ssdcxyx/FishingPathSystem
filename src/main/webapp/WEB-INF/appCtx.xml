@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 指定Spring配置文件的Schema信息 -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <bean id="userService"
+          class="edu.jxufe.tiamo.fishingpathsys.service.impl.UserServiceImpl"
+          p:userDao-ref="userDao"
+          p:staffInfoDao-ref="staffInfoDao"/>
+
+    <!--配置Hibernate的局部事务管理器-->
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate5.HibernateTransactionManager"
+          p:sessionFactory-ref="sessionFactory"/>
+
+    <!--配置事务切面Bean,指定事务管理器-->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <!--用于配置详细的事务定义-->
+        <tx:attributes>
+            <tx:method name="get*" read-only="true" timeout="8"/>
+            <tx:method name="*" timeout="5"/>
+        </tx:attributes>
+    </tx:advice>
+    <aop:config>
+        <!--配置一个切入点，匹配指定包下所有以Impl结尾的类执行的所有方法-->
+        <aop:pointcut id="userPc" expression="execution(* edu.jxufe.tiamo.fishingpathsys.service.impl.*Impl.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="userPc"/>
+    </aop:config>
+</beans>
