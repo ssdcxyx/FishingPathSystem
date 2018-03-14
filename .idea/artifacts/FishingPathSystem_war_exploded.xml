@@ -1,6 +1,6 @@
 <component name="ArtifactManager">
   <artifact type="exploded-war" name="FishingPathSystem:war exploded">
-    <output-path>$PROJECT_DIR$/target/FishingPath</output-path>
+    <output-path>$PROJECT_DIR$/target/FishingPathSystem</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
         <element id="directory" name="classes">
@@ -35,10 +35,13 @@
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.9.4" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.9.4" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.9.0" />
+          <element id="library" level="project" name="Maven: commons-logging:commons-logging:1.2" />
+          <element id="library" level="project" name="Maven: commons-httpclient:commons-httpclient:3.1" />
+          <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.11" />
         </element>
       </element>
       <element id="directory" name="META-INF">
-        <element id="file-copy" path="$PROJECT_DIR$/target/FishingPath/META-INF/MANIFEST.MF" />
+        <element id="file-copy" path="$PROJECT_DIR$/target/FishingPathSystem/META-INF/MANIFEST.MF" />
       </element>
       <element id="javaee-facet-resources" facet="FishingPathSystem/web/Web" />
     </root>

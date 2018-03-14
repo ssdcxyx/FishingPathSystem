@@ -12,9 +12,9 @@ function pageTitle($rootScope, $timeout) {
         link: function(scope, element) {
             var listener = function(event, toState, toParams, fromState, fromParams) {
                 // Default title - load on Dashboard 1
-                var title = 'INSPINIA | Responsive Admin Theme';
+                var title = '渔径科技 | 后台管理系统';
                 // Create your own title pattern
-                if (toState.data && toState.data.pageTitle) title = 'INSPINIA | ' + toState.data.pageTitle;
+                if (toState.data && toState.data.pageTitle) title = '渔径科技 | ' + toState.data.pageTitle;
                 $timeout(function() {
                     element.text(title);
                 });
@@ -165,6 +165,39 @@ function minimalizaSidebar($timeout) {
     };
 }
 
+// 发送验证码按钮
+function timerButton($timeout,$interval){
+    return {
+        restrict: 'AE',
+        scope: {
+            showTimer: '=',
+            timeout: '='
+        },
+        link: function(scope, element, attrs){
+            scope.timer = false;
+            scope.timerCount = scope.timeout / 1000;
+            scope.text = "获取验证码";
+
+            scope.onClick = function(){
+
+                scope.showTimer = true;
+                scope.timer = true;
+                scope.text = "s";
+                var counter = $interval(function(){
+                    scope.timerCount = scope.timerCount - 1;
+                }, 1000);
+                $timeout(function(){
+                    scope.text = "获取验证码";
+                    scope.timer = false;
+                    $interval.cancel(counter);
+                    scope.showTimer = false;
+                    scope.timerCount = scope.timeout / 1000;
+                }, scope.timeout);
+            }
+        },
+        template: '<button type="button" ng-click="onClick()" class="btn btn-primary" style="width: 96px;" ng-disabled="timer"><span ng-if="showTimer">{{ timerCount }}</span>{{text}}</a>'
+    };
+}
 
 /**
  *
@@ -176,4 +209,5 @@ angular
     .directive('sideNavigation', sideNavigation)
     .directive('iboxTools', iboxTools)
     .directive('minimalizaSidebar', minimalizaSidebar)
-    .directive('iboxToolsFullScreen', iboxToolsFullScreen);
+    .directive('iboxToolsFullScreen', iboxToolsFullScreen)
+    .directive('timerButton',timerButton);

@@ -17,7 +17,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
         .state('index.main', {
             url: "/main",
             templateUrl: "res/views/main.html",
-            data: { pageTitle: 'Example view' }
+            data: { pageTitle: '首页' }
         })
         .state('index.minor', {
             url: "/minor",
@@ -28,8 +28,13 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
             url: "/login",
             controller:UserLoginCtrl,
             templateUrl: "res/views/login.html",
-            data: { pageTitle: 'Login', specialClass: 'gray-bg' }
-    })
+            data: { pageTitle: '登录', specialClass: 'gray-bg' }
+        })
+        .state('register', {
+            url: "/register",
+            templateUrl: "res/views/register.html",
+            data: { pageTitle: '注册', specialClass: 'gray-bg' }
+        })
 }
 angular
     .module('fishing-path')

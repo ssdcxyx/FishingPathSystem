@@ -5,6 +5,7 @@ import edu.jxufe.tiamo.fishingpathsys.dao.UserDao;
 import edu.jxufe.tiamo.fishingpathsys.domain.StaffInfo;
 import edu.jxufe.tiamo.fishingpathsys.domain.User;
 import edu.jxufe.tiamo.fishingpathsys.service.UserService;
+import edu.jxufe.tiamo.util.OtherAPIRequestUtil;
 
 import java.util.List;
 
@@ -22,6 +23,12 @@ public class UserServiceImpl implements UserService {
         this.staffInfoDao = staffInfoDao;
     }
 
+    /**
+     * 用户登录函数
+     * @param account 用户账号
+     * @param password 用户密码
+     * @return
+     */
     @Override
     public User userLogin(String account, String password) {
         List<User> userList = userDao.findUserByAccountAndPassword(account,password);
@@ -34,8 +41,19 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+
+    /**
+     * 用户注册
+     * @param user 用户注册
+     * @return
+     */
     @Override
     public Boolean userRegister(User user) {
         return null;
+    }
+
+    @Override
+    public void sendVerificationCode(String telephone, String verificationCode) throws Exception{
+        OtherAPIRequestUtil.sendPhoneVerificationCode(telephone,verificationCode);
     }
 }

@@ -9,4 +9,7 @@ public interface UserService {
 
     // 用户注册
     Boolean userRegister(User user);
+
+    // 发送验证码
+    void sendVerificationCode(String telephone,String verificationCode) throws Exception;
 }
