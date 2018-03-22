@@ -15,6 +15,14 @@ public class StaffInfo {
     @Column(name = "sex")
     private Integer sex;
 
+    public StaffInfo() {
+    }
+
+    public StaffInfo(String name, Integer sex) {
+        this.name = name;
+        this.sex = sex;
+    }
+
     public Integer getId() {
         return id;
     }

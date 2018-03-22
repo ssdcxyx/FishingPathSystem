@@ -170,32 +170,60 @@ function timerButton($timeout,$interval){
     return {
         restrict: 'AE',
         scope: {
-            showTimer: '=',
-            timeout: '='
+            showTimer: '=', // 支持解析变量
+            timeout: '=',
+            telephone:'@', // 单项绑定
+            msgId:'=',
+            telephonePattern:'@'
         },
         link: function(scope, element, attrs){
             scope.timer = false;
             scope.timerCount = scope.timeout / 1000;
             scope.text = "获取验证码";
-
-            scope.onClick = function(){
-
-                scope.showTimer = true;
-                scope.timer = true;
-                scope.text = "s";
-                var counter = $interval(function(){
-                    scope.timerCount = scope.timerCount - 1;
-                }, 1000);
-                $timeout(function(){
-                    scope.text = "获取验证码";
-                    scope.timer = false;
-                    $interval.cancel(counter);
-                    scope.showTimer = false;
-                    scope.timerCount = scope.timeout / 1000;
-                }, scope.timeout);
-            }
+            element.on('click',function(){
+                // 正则表达式验证类
+                var reg = new RegExp(scope.telephonePattern);
+                if(!reg.test(($('#telephone').val()))){
+                    // 兼容性可能存在问题
+                    $('#telephone').get(0).setCustomValidity("手机号码格式错误");
+                    $('#telephone').get(0).reportValidity();
+                }else{
+                    scope.timer = true;
+                    $.get("sendVerificationCode",{telephone:scope.telephone},function (data,statusText) {
+                        if(data.exception){
+                            alert("与服务器交互出现异常:"+data.exception);
+                            scope.timer = false;
+                        }else{
+                            if(data!=null&&data!=""){
+                                if(data=="isExist"){
+                                    $('#telephone').get(0).setCustomValidity("手机号码已注册");
+                                    $('#telephone').get(0).reportValidity();
+                                    scope.timer=false;
+                                }else{
+                                    scope.msgId = data;
+                                    // 触发时间按钮事件
+                                    scope.showTimer = true;
+                                    scope.text = "s";
+                                    var counter = $interval(function(){
+                                        scope.timerCount = scope.timerCount - 1;
+                                    }, 1000);
+                                    $timeout(function(){
+                                        scope.text = "获取验证码";
+                                        scope.timer = false;
+                                        $interval.cancel(counter);
+                                        scope.showTimer = false;
+                                        scope.timerCount = scope.timeout / 1000;
+                                    }, scope.timeout);
+                                }
+                            }else{
+                                scope.timer=false;
+                            }
+                        }
+                    });
+                }
+            });
         },
-        template: '<button type="button" ng-click="onClick()" class="btn btn-primary" style="width: 96px;" ng-disabled="timer"><span ng-if="showTimer">{{ timerCount }}</span>{{text}}</a>'
+        template: '<button type="button" class="btn btn-primary" style="width: 96px;" ng-disabled="timer"><span ng-if="showTimer">{{ timerCount }}</span>{{text}}</a>'
     };
 }
 

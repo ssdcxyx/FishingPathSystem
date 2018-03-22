@@ -14,4 +14,11 @@ public class UserDaoHibernate extends BaseDaoHibernate<User> implements UserDao 
         List<User> userList = find(hql,account,password);
         return userList;
     }
+
+    @Override
+    public List<User> findUserByTelephone(String telephone) {
+        String hql = "FROM "+User.class.getSimpleName()+" where account=?0";
+        List<User> userList = find(hql,telephone);
+        return userList;
+    }
 }

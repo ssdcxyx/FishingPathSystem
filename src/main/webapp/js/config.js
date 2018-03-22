@@ -17,7 +17,9 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
         .state('index.main', {
             url: "/main",
             templateUrl: "res/views/main.html",
-            data: { pageTitle: '首页' }
+            data: {
+                pageTitle: '首页'
+            }
         })
         .state('index.minor', {
             url: "/minor",
@@ -32,6 +34,7 @@ function config($stateProvider, $urlRouterProvider, $ocLazyLoadProvider) {
         })
         .state('register', {
             url: "/register",
+            controller:UserRegisterCtrl,
             templateUrl: "res/views/register.html",
             data: { pageTitle: '注册', specialClass: 'gray-bg' }
         })

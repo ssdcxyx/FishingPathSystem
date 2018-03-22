@@ -7,6 +7,9 @@ import java.util.List;
 
 public interface UserDao extends BaseDao<User> {
 
-    //根据账号和密码查找用户
+    // 根据账号和密码查找用户
     List<User> findUserByAccountAndPassword(String account,String password);
+
+    // 根据手机号查找用户
+    List<User> findUserByTelephone(String telephone);
 }

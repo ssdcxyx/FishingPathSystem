@@ -33,7 +33,7 @@
 
 <!-- ControllerAs syntax -->
 <!-- Main controller with serveral data used in Inspinia theme on diferent view -->
-<body ng-controller="MainCtrl as main">
+<body ng-controller="ApplicationController as appCtrl">
 
 <!-- Main view  -->
 <div ui-view></div>
@@ -67,6 +67,9 @@
 <script src="${pageContext.request.contextPath}/js/config.js"></script>
 <script src="${pageContext.request.contextPath}/js/directives.js"></script>
 <script src="${pageContext.request.contextPath}/js/controllers.js"></script>
+<script src="${pageContext.request.contextPath}/js/inspinia.js"></script>
+<script src="${pageContext.request.contextPath}/js/factory.js"></script>
+<script src="${pageContext.request.contextPath}/js/service.js"></script>
 
 </body>
 </html>

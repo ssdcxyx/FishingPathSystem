@@ -7,7 +7,7 @@
         <!--配置数据库方言-->
         <property name="hibernate.dialect">org.hibernate.dialect.MySQL5Dialect</property>
         <!--指定是否显示SQL-->
-        <property name="hibernate.show_sql">false</property>
+        <property name="hibernate.show_sql">true</property>
         <!--指定是否格式化SQL-->
         <property name="hibernate.format_sql">false</property>
         <!--指定是否自动创建数据表-->

@@ -4,14 +4,14 @@
             <img src="../../../img/logo.png">
         </div>
         <h3 class="m-t">Welcome to FishingPath+</h3>
-        <form class="m-t" role="form" ng-submit="userLogin();">
+        <form class="m-t" role="form" ng-submit="userLogin(credentials);">
             <div class="form-group">
-                <input type="tel" class="form-control" placeholder="输入账号"
-                       name="account" id="account" ng-model="account" required>
+                <input type="tel" class="form-control" placeholder="输入手机号" name="account" id="account"
+                       minlength="11" maxlength="11" oninput="this.setCustomValidity('')" ng-model="credentials.account" required>
             </div>
             <div class="form-group">
-                <input type="password" class="form-control" placeholder="输入密码" required="true"
-                        name="password" id="password" ng-model="password" required>
+                <input type="password" class="form-control" placeholder="输入密码" name="password" id="password"
+                       minlength="7" maxlength="20" oninput="this.setCustomValidity('')" ng-model="credentials.password" required>
             </div>
             <button type="submit" class="btn btn-primary block full-width m-b">登录</button>
             <a ui-sref="forgot_password"><small>忘记密码？</small></a>

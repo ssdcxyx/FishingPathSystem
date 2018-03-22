@@ -21,6 +21,16 @@ public class User {
     @JoinColumn(name = "staff_info_id",referencedColumnName = "staff_info_id")
     private StaffInfo staffInfo;
 
+    public User() {
+    }
+
+    public User(String account, String password, String type, StaffInfo staffInfo) {
+        this.account = account;
+        this.password = password;
+        this.type = type;
+        this.staffInfo = staffInfo;
+    }
+
     public Integer getId() {
         return id;
     }
