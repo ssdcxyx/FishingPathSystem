@@ -56,6 +56,7 @@ function UserRegisterCtrl($rootScope, $scope, $location, AuthService,REG_CONSTAN
             function(err) {
                 $rootScope.error = err;
             });
+
     };
     return false;
 }
