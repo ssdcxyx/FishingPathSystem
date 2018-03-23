@@ -7,6 +7,7 @@ jQuery.ajaxSetup({
 (function () {
     angular.module('fishing-path', [
         'ui.router',                    // Routing
+        'ngCookies',                    // cookies
         'oc.lazyLoad',                  // ocLazyLoad
         'ui.bootstrap',                 // Ui Bootstrap
     ])
@@ -33,13 +34,6 @@ jQuery.ajaxSetup({
             sessionTimeout: 'auth-session-timeout',
             notAuthenticated: 'auth-not-authenticated',
             notAuthorized: 'auth-not-authorized'
-        })
-        .constant('USER_ROLES', {
-            all: '*',
-            enterprise: 'enterprise',
-            admin: 'admin',
-            staff:'staff',
-            guest: 'guest'
         })
 
 })();

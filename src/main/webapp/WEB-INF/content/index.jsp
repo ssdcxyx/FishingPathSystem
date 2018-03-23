@@ -57,6 +57,7 @@
 
 <!-- Main Angular scripts-->
 <script src="${pageContext.request.contextPath}/js/angular/angular.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/angular/angular-cookies.js"></script>
 <script src="${pageContext.request.contextPath}/js/plugins/oclazyload/dist/ocLazyLoad.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/ui-router/angular-ui-router.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/bootstrap/ui-bootstrap-tpls-1.1.2.min.js"></script>
@@ -70,6 +71,7 @@
 <script src="${pageContext.request.contextPath}/js/inspinia.js"></script>
 <script src="${pageContext.request.contextPath}/js/factory.js"></script>
 <script src="${pageContext.request.contextPath}/js/service.js"></script>
+<script src="${pageContext.request.contextPath}/js/routingConfig.js"></script>
 
 </body>
 </html>

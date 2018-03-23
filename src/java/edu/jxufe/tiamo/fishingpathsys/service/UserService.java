@@ -9,7 +9,7 @@ public interface UserService {
     User userLogin(String account,String password);
 
     // 用户注册
-    Integer userRegister(String userName,String telephone,String password,String type);
+    User userRegister(String userName,String telephone,String password,String type);
 
     // 发送手机验证码
     String sendVerificationCode(String telephone);

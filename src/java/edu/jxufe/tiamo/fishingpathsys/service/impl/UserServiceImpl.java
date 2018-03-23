@@ -59,12 +59,13 @@ public class UserServiceImpl implements UserService {
      * @return
      */
     @Override
-    public Integer userRegister(String userName, String telephone, String password, String type) {
+    public User userRegister(String userName, String telephone, String password, String type) {
         try{
             StaffInfo staffInfo = new StaffInfo(userName,0);
             staffInfoDao.save(staffInfo);
             User user = new User(telephone,password,type,staffInfo);
-            return (Integer) userDao.save(user);
+            user.setId((Integer)userDao.save(user));
+            return user;
         }catch (Exception ex){
             ex.printStackTrace();
             throw new CustomException("用户注册时出现异常，请通知管理员！");

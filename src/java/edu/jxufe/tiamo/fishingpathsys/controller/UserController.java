@@ -20,8 +20,8 @@ public class UserController extends BaseController {
 
     @ResponseBody
     @PostMapping(value = "userLogin")
-    public Object userLogin(String account,String password){
-        return userService.userLogin(account,password);
+    public Object userLogin(String username,String password){
+        return userService.userLogin(username,password);
     }
 
     @ResponseBody
@@ -45,10 +45,7 @@ public class UserController extends BaseController {
         if(userService.getUserByTelephone(telephone)!=null){
             return Code.jiguangReturnResult.REPEAT;
         }
-        Integer id = userService.userRegister(userName, telephone, password, type);
-        Map<String,Integer> map = new HashMap<>();
-        map.put("status",id);
-        return map;
+        return userService.userRegister(userName, telephone, password, type);
     }
 
     @ResponseBody

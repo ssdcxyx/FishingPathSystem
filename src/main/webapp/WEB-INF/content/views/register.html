@@ -13,7 +13,7 @@
             <img src="../../../img/logo.png">
         </div>
         <h3 class="m-t">Register to FishingPath+</h3>
-        <form class="m-t" role="form" ng-submit="userRegister();">
+        <form class="m-t" role="form" ng-submit="register();">
             <div class="form-group">
                 <input type="text" class="form-control" placeholder="用户名" id="userName" name="userName"
                        minlength="4" maxlength="10" ng-model="userName" required>
@@ -42,7 +42,7 @@
             <button type="submit" class="btn btn-primary block full-width m-b">注册</button>
 
             <p class="text-muted text-center"><small>已经注册了账号?</small></p>
-            <a class="btn btn-sm btn-white btn-block" ui-sref="login">登录</a>
+            <a class="btn btn-sm btn-white btn-block" ui-sref="anon.login">登录</a>
         </form>
         <p class="m-t"> <small>渔径科技 &copy; 2018</small> </p>
     </div>
