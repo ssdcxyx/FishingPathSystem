@@ -9,9 +9,56 @@
             </form>
         </div>
         <ul class="nav navbar-top-links navbar-right">
+            <li uib-dropdown>
+                <a class="count-info" href uib-dropdown-toggle>
+                    <i class="fa fa-bell"></i> <span class="label label-primary">10</span>
+                </a>
+                <ul class="dropdown-alerts" uib-dropdown-menu>
+                    <li>
+                        <a ui-sref="inbox">
+                            <div>
+                                <i class="fa fa-envelope fa-fw"></i> 您有5条新通知.
+                                <span class="pull-right text-muted small">4 分钟前</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a ui-sref="inbox">
+                            <div>
+                                <i class="fa fa-comments fa-fw"></i> 您有6条新消息.
+                                <span class="pull-right text-muted small">10 分钟前</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <a ui-sref="inbox">
+                            <div>
+                                <i class="fa fa-desktop fa-fw"></i> 新公告
+                                <span class="pull-right text-muted small">30 分钟前</span>
+                            </div>
+                        </a>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                        <div class="text-center link-block">
+                            <a ui-sref="miscellaneous.notify">
+                                <strong>查看所有通知</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </li>
             <li>
-                <a href="">
-                    <i class="fa fa-sign-out"></i> Log out
+                <a>
+                    <i class="fa fa-sign-out" ng-click="logout();"></i>注销登录
+                </a>
+            </li>
+            <li>
+                <a>
+                    <i class="fa fa-tasks"></i>
                 </a>
             </li>
         </ul>

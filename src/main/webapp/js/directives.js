@@ -227,10 +227,71 @@ function timerButton($timeout,$interval){
     };
 }
 
-/**
- *
- * Pass all functions into module
- */
+function accessLevel(AuthService) {
+    return {
+        restrict: 'A',
+        link: function($scope, element, attrs) {
+            var prevDisp = element.css('display')
+                , userRole
+                , accessLevel;
+
+            $scope.user = AuthService.user;
+            $scope.$watch('user', function(user) {
+                if(user.role)
+                    userRole = user.role;
+                updateCSS();
+            }, true);
+
+            attrs.$observe('accessLevel', function(al) {
+                if(al) accessLevel = $scope.$eval(al);
+                updateCSS();
+            });
+
+            function updateCSS() {
+                if(userRole && accessLevel) {
+                    if(!AuthService.authorize(accessLevel, userRole))
+                        element.css('display', 'none');
+                    else
+                        element.css('display', prevDisp);
+                }
+            }
+        }
+    };
+}
+
+function activeNav($location) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            var anchor = element[0];
+            if(element[0].tagName.toUpperCase() != 'A')
+                anchor = element.find('a')[0];
+            var path = anchor.href;
+
+            scope.location = $location;
+            scope.$watch('location.absUrl()', function(newPath) {
+                path = normalizeUrl(path);
+                newPath = normalizeUrl(newPath);
+
+                if(path === newPath ||
+                    (attrs.activeNav === 'nestedTop' && newPath.indexOf(path) === 0)) {
+                    element.addClass('active');
+                } else {
+                    element.removeClass('active');
+                }
+            });
+        }
+
+    };
+
+    function normalizeUrl(url) {
+        if(url[url.length - 1] !== '/')
+            url = url + '/';
+        return url;
+    }
+
+}
+
 angular
     .module('fishing-path')
     .directive('pageTitle', pageTitle)
@@ -238,4 +299,6 @@ angular
     .directive('iboxTools', iboxTools)
     .directive('minimalizaSidebar', minimalizaSidebar)
     .directive('iboxToolsFullScreen', iboxToolsFullScreen)
-    .directive('timerButton',timerButton);
+    .directive('timerButton',timerButton)
+    .directive('accessLevel',['AuthService',accessLevel])
+    .directive('activeNav',['$location',activeNav])

@@ -2,12 +2,12 @@ function AuthService($http, $cookieStore,CODE_CONSTANT){
 
     var accessLevels = routingConfig.accessLevels
         , userRoles = routingConfig.userRoles
-        , currentUser = $cookieStore.get('user') || { username: '', role: userRoles.public };
-
-    $cookieStore.remove('user');
+        , currentUser = $cookieStore.get('user') || { user: '', role: userRoles.public };
 
     function changeUser(user) {
+        $cookieStore.remove('user');
         angular.extend(currentUser, user);
+        $cookieStore.put('user',currentUser);
     }
 
     return {
@@ -49,9 +49,9 @@ function AuthService($http, $cookieStore,CODE_CONSTANT){
                                 } else if (!!data) {
                                     let res = {}
                                     if(data.type === 'admin'){
-                                        res = {username:data.username,role:userRoles.admin};
+                                        res = {user:data,role:userRoles.admin};
                                     }else if (data.type === "staff"){
-                                        res = {username:data.username,role:userRoles.staff};
+                                        res = {user:data,role:userRoles.staff};
                                     }
                                     changeUser(res);
                                     success();
@@ -87,12 +87,12 @@ function AuthService($http, $cookieStore,CODE_CONSTANT){
                     if(!!data){
                         let res = {}
                         if(data.type === 'admin'){
-                            res = {username:data.username,role:userRoles.admin};
+                            res = {user:data,role:userRoles.admin};
                         }else if (data.type === "staff"){
-                            res = {username:data.username,role:userRoles.staff};
+                            res = {user:data,role:userRoles.staff};
                         }
                         changeUser(res);
-                        success(data);
+                        success(res);
                     }else{
                         // 反馈账号和密码错误
                         $('#password').get(0).setCustomValidity("登录名或密码错误");
@@ -102,14 +102,11 @@ function AuthService($http, $cookieStore,CODE_CONSTANT){
                 }
             });
         },
-        logout: function(success, error) {
-            $http.post('/logout').success(function(){
-                changeUser({
-                    username: '',
-                    role: userRoles.public
-                });
-                success();
-            }).error(error);
+        logout: function(success) {
+            $cookieStore.remove('user');
+            currentUser = {user: '',role: userRoles.public};
+            $cookieStore.put('user',currentUser);
+            success();
         },
         accessLevels: accessLevels,
         userRoles: userRoles,

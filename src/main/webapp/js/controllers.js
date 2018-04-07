@@ -1,15 +1,12 @@
 // 主控制器
-function ApplicationController($rootScope, $scope, $state, AuthService) {
-    $scope.currentUser = null;
-    $scope.user = AuthService.user;
+function ApplicationController($rootScope, $scope, $location, $state, AuthService) {
+    $scope.currentUser = AuthService.user;
     $scope.userRoles = AuthService.userRoles;
     $scope.accessLevels = AuthService.accessLevels;
 
     $scope.logout = function() {
         AuthService.logout(function() {
             $location.path('/login');
-        }, function() {
-            $rootScope.error = "Failed to logout";
         });
     };
 }
@@ -27,7 +24,7 @@ function UserLoginCtrl($rootScope, $scope, $state, $location, $window, AuthServi
                 $scope.$apply();
             },
             function(err) {
-                $rootScope.error = "Failed to login";
+                $rootScope.error = "登录失败";
             });
     };
     return false;
@@ -56,7 +53,6 @@ function UserRegisterCtrl($rootScope, $scope, $location, AuthService,REG_CONSTAN
             function(err) {
                 $rootScope.error = err;
             });
-
     };
     return false;
 }
@@ -65,7 +61,7 @@ function UserRegisterCtrl($rootScope, $scope, $location, AuthService,REG_CONSTAN
 
 angular
     .module('fishing-path')
-    .controller('ApplicationController',['$rootScope', '$scope', '$location', 'AuthService',
+    .controller('ApplicationController',['$rootScope', '$scope', '$location','$state', 'AuthService',
         ApplicationController])
     .controller('UserLoginCtrl',['$rootScope', '$scope', '$state','$location', '$window', 'AuthService',
         UserLoginCtrl])

@@ -27,13 +27,13 @@ function config($stateProvider, $urlRouterProvider, $locationProvider, $httpProv
             }
         })
         .state('anon.login', {
-            url: "/login",
+            url: "/login/",
             controller:UserLoginCtrl,
             templateUrl: "res/views/login.html",
             data: { pageTitle: '登录', specialClass: 'gray-bg' }
         })
         .state('anon.register', {
-            url: "/register",
+            url: "/register/",
             controller:UserRegisterCtrl,
             templateUrl: "res/views/register.html",
             data: { pageTitle: '注册', specialClass: 'gray-bg' }
@@ -53,7 +53,7 @@ function config($stateProvider, $urlRouterProvider, $locationProvider, $httpProv
             templateUrl: "res/views/main.html"
         })
         .state('index.minor', {
-            url: "/minor",
+            url: "/minor/",
             templateUrl: "res/views/minor.html",
             data: { pageTitle: 'Example view' }
         });
@@ -72,7 +72,7 @@ function config($stateProvider, $urlRouterProvider, $locationProvider, $httpProv
         });
 
     // 指定默认地址
-    $urlRouterProvider.otherwise("/login");
+    $urlRouterProvider.otherwise("/404");
 
     $ocLazyLoadProvider.config({
         // 设置是否查看动态加载的内容和时间

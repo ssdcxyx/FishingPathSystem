@@ -15,10 +15,11 @@
     <!--定义数据源Bean,使用C3P0数据源实现
         并通过依赖注入设置数据库的驱动、URL、用户名、密码
         最大连接数、最小连接数、初始化连接数、最大空闲时间-->
+    <!--mysql连接时解除时区限制，不使用ssl的方式连接-->
     <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
           destroy-method="close"
-          p:driverClass="com.mysql.jdbc.Driver"
-          p:jdbcUrl="jdbc:mysql://localhost:3306/FishingPathSystem?useUnicode=true&amp;characterEncoding=utf-8"
+          p:driverClass="com.mysql.cj.jdbc.Driver"
+          p:jdbcUrl="jdbc:mysql://localhost:3306/FishingPathSystem?useUnicode=true&amp;serverTimezone=UTC&amp;useSSL=false&amp;characterEncoding=utf-8"
           p:user="root"
           p:password="123456"
           p:maxPoolSize="200"
