@@ -20,10 +20,18 @@
 
     <mvc:annotation-driven/>
 
+
+
     <mvc:resources location="/css/" mapping="/css/**"></mvc:resources>
     <mvc:resources location="/font-awesome/" mapping="/font-awesome/**"></mvc:resources>
     <mvc:resources location="/fonts/" mapping="/fonts/**"></mvc:resources>
     <mvc:resources location="/img/" mapping="/img/**"></mvc:resources>
     <mvc:resources location="/js/" mapping="/js/**"></mvc:resources>
     <mvc:resources location="/WEB-INF/content/" mapping="/res/**"></mvc:resources>
+
+    <mvc:interceptors>
+        <bean class="org.springframework.orm.hibernate5.support.OpenSessionInViewInterceptor">
+            <property name="sessionFactory" ref="sessionFactory"/>
+        </bean>
+    </mvc:interceptors>
 </beans>

@@ -1,8 +1,11 @@
 package edu.jxufe.tiamo.fishingpathsys.controller;
 
 
+import edu.jxufe.tiamo.fishingpathsys.controller.BaseController;
+import edu.jxufe.tiamo.fishingpathsys.domain.User;
 import edu.jxufe.tiamo.fishingpathsys.service.UserService;
 import edu.jxufe.tiamo.util.Code;
+import edu.jxufe.tiamo.util.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,14 +22,9 @@ public class UserController extends BaseController {
     private UserService userService;
 
     @ResponseBody
-    @PostMapping(value = "userLogin")
-    public Object userLogin(String username,String password){
-        return userService.userLogin(username,password);
-    }
-
-    @ResponseBody
-    @GetMapping(value = "sendVerificationCode")
+    @GetMapping(value = "/sendVerificationCode")
     public String sendVerificationCode(String telephone){
+        Logger.Log.info(this.getClass().getName()+": verifyVerificationCode "+telephone);
         if(userService.getUserByTelephone(telephone)!=null){
             return Code.isExist;
         }
@@ -34,23 +32,16 @@ public class UserController extends BaseController {
     }
 
     @ResponseBody
-    @GetMapping(value = "verifyVerificationCode")
+    @GetMapping(value = "/verifyVerificationCode")
     public Code.jiguangReturnResult verifyVerificationCode(String msgId, String authCode){
+        Logger.Log.info(this.getClass().getName()+": verifyVerificationCode "+msgId);
         return userService.verifyVerificationCode(msgId,authCode);
     }
 
     @ResponseBody
-    @PostMapping(value = "userRegister")
-    public Object userRegister(String userName,String telephone,String password,String type){
-        if(userService.getUserByTelephone(telephone)!=null){
-            return Code.jiguangReturnResult.REPEAT;
-        }
-        return userService.userRegister(userName, telephone, password, type);
-    }
-
-    @ResponseBody
-    @GetMapping(value = "getUserByTelephone")
-    public Object getUserByTelephone(String telephone){
-        return userService.getUserByTelephone(telephone);
+    @PostMapping(value = "userLogin")
+    public Object userLogin(String telephone,String password){
+        Logger.Log.info(this.getClass().getName()+": userLogin "+password);
+        return userService.userLogin(telephone, password);
     }
 }

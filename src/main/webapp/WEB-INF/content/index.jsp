@@ -24,10 +24,15 @@
     <!-- Bootstrap and Fonts -->
     <link href="${pageContext.request.contextPath}/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- Sweet Alert -->
+    <link href="${pageContext.request.contextPath}/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+
     <!-- Main Inspinia CSS files -->
     <link href="${pageContext.request.contextPath}/css/animate.css" rel="stylesheet">
     <link id="loadBefore" href="${pageContext.request.contextPath}/css/style.css" rel="stylesheet">
 
+    <!-- jQuery UI -->
+    <link href="${pageContext.request.contextPath}/js/plugins/jquery-ui/jquery-ui.min.css" rel="stylesheet">
 
 </head>
 
@@ -43,6 +48,7 @@
 <script src="${pageContext.request.contextPath}/js/plugins/jquery-ui/jquery-ui.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/bootstrap/bootstrap.min.js"></script>
 
+
 <!-- MetsiMenu -->
 <script src="${pageContext.request.contextPath}/js/plugins/metisMenu/jquery.metisMenu.js"></script>
 
@@ -52,26 +58,37 @@
 <!-- Peace JS -->
 <script src="${pageContext.request.contextPath}/js/plugins/pace/pace.min.js"></script>
 
+
 <!-- Custom and plugin javascript -->
 <script src="${pageContext.request.contextPath}/js/inspinia.js"></script>
 
+
 <!-- Main Angular scripts-->
 <script src="${pageContext.request.contextPath}/js/angular/angular.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/angular/angular-sanitize.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/angular/angular-cookies.js"></script>
 <script src="${pageContext.request.contextPath}/js/plugins/oclazyload/dist/ocLazyLoad.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/ui-router/angular-ui-router.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/bootstrap/ui-bootstrap-tpls-1.1.2.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/angular-translate/angular-translate.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/plugins/angular-idle/angular-idle.js"></script>
 
+<!-- Sweet Alert -->
+<script src="${pageContext.request.contextPath}/js/plugins/pace/pace.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/plugins/sweetalert/sweetalert.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/plugins/sweetalert/angular-sweetalert.min.js"></script>
 
 <!-- Anglar App Script -->
 <script src="${pageContext.request.contextPath}/js/app.js"></script>
 <script src="${pageContext.request.contextPath}/js/config.js"></script>
+<script src="${pageContext.request.contextPath}/js/translation.js"></script>
 <script src="${pageContext.request.contextPath}/js/directives.js"></script>
 <script src="${pageContext.request.contextPath}/js/controllers.js"></script>
 <script src="${pageContext.request.contextPath}/js/inspinia.js"></script>
 <script src="${pageContext.request.contextPath}/js/factory.js"></script>
 <script src="${pageContext.request.contextPath}/js/service.js"></script>
 <script src="${pageContext.request.contextPath}/js/routingConfig.js"></script>
+
 
 </body>
 </html>

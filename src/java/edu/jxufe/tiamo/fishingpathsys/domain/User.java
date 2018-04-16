@@ -1,41 +1,34 @@
 package edu.jxufe.tiamo.fishingpathsys.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
-@Table(name = "user")
+@Table(name = "user",schema = "FishingPathSystem")
+@JsonIgnoreProperties(value={"staff","enterprise","admin"})
 public class User {
-
-    //标识属性
     @Id
-    @Column(name = "user_id")
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    private short id;
+    @Basic
     @Column(name = "account")
     private String account;
+    @Basic
     @Column(name = "password")
     private String password;
-    @Column(name = "type")
-    private String type;
-    @OneToOne(targetEntity = StaffInfo.class)
-    @JoinColumn(name = "staff_info_id",referencedColumnName = "staff_info_id")
-    private StaffInfo staffInfo;
+    @Basic
+    @Column(name = "role")
+    private short role;
 
-    public User() {
-    }
-
-    public User(String account, String password, String type, StaffInfo staffInfo) {
-        this.account = account;
-        this.password = password;
-        this.type = type;
-        this.staffInfo = staffInfo;
-    }
-
-    public Integer getId() {
+    public short getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(short id) {
         this.id = id;
     }
 
@@ -55,19 +48,28 @@ public class User {
         this.password = password;
     }
 
-    public String getType() {
-        return type;
+    public short getRole() {
+        return role;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setRole(short role) {
+        this.role = role;
     }
 
-    public StaffInfo getStaffInfo() {
-        return staffInfo;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        User user = (User) o;
+        return id == user.id &&
+                Objects.equals(account, user.account) &&
+                Objects.equals(password, user.password) &&
+                Objects.equals(role,user.role);
     }
 
-    public void setStaffInfo(StaffInfo staffInfo) {
-        this.staffInfo = staffInfo;
+    @Override
+    public int hashCode() {
+
+        return Objects.hash(id, account, password, role);
     }
 }

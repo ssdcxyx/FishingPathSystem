@@ -12,8 +12,22 @@
         <property name="hibernate.format_sql">false</property>
         <!--指定是否自动创建数据表-->
         <property name="hibernate.hbm2ddl.auto">update</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/FishingPathSystem</property>
+        <property name="connection.driver_class">com.mysql.jdbc.Driver</property>
         <!--列出所有持久化类-->
+        <mapping class="edu.jxufe.tiamo.fishingpathsys.domain.Admin"/>
+        <mapping class="edu.jxufe.tiamo.fishingpathsys.domain.Announcement"/>
+        <mapping class="edu.jxufe.tiamo.fishingpathsys.domain.Course"/>
+        <mapping class="edu.jxufe.tiamo.fishingpathsys.domain.CourseType"/>
+        <mapping class="edu.jxufe.tiamo.fishingpathsys.domain.Department"/>
+        <mapping class="edu.jxufe.tiamo.fishingpathsys.domain.Enterprise"/>
+        <mapping class="edu.jxufe.tiamo.fishingpathsys.domain.EnterpriseType"/>
+        <mapping class="edu.jxufe.tiamo.fishingpathsys.domain.Interest"/>
+        <mapping class="edu.jxufe.tiamo.fishingpathsys.domain.InterestType"/>
+        <mapping class="edu.jxufe.tiamo.fishingpathsys.domain.LearningPath"/>
+        <mapping class="edu.jxufe.tiamo.fishingpathsys.domain.LearningRecord"/>
+        <mapping class="edu.jxufe.tiamo.fishingpathsys.domain.PostType"/>
+        <mapping class="edu.jxufe.tiamo.fishingpathsys.domain.Staff"/>
         <mapping class="edu.jxufe.tiamo.fishingpathsys.domain.User"/>
-        <mapping class="edu.jxufe.tiamo.fishingpathsys.domain.StaffInfo"/>
     </session-factory>
 </hibernate-configuration>

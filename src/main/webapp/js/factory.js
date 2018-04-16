@@ -11,6 +11,9 @@ function AuthService($http, $cookieStore,CODE_CONSTANT){
     }
 
     return {
+        changeUser : function(user){
+          changeUser(user);
+        },
         authorize: function(accessLevel, role) {
             if(role === undefined) {
                 role = currentUser.role;
@@ -21,26 +24,32 @@ function AuthService($http, $cookieStore,CODE_CONSTANT){
             if(user === undefined) {
                 user = currentUser;
             }
-            return user.role.title === userRoles.staff.title || user.role.title === userRoles.admin.title;
+            return user.role.title;
         },
-        register: function(registerForm, success, error) {
+        enterpriseRegister: function(registerForm,SweetAlert, success, error) {
             $.get("verifyVerificationCode", {
                 msgId: registerForm.msgId,
                 authCode: registerForm.authCode
             }, function (data, statusText) {
                 if (data.exception) {
-                    alert("与服务器交互出现异常：" + data.exception)
+                    SweetAlert.swal({
+                        title:"发送验证码失败",
+                        text:"与服务器交互出现异常："+data.exception,
+                        type:"error"
+                    })
                 } else {
                     var result = data;
                     if (result == CODE_CONSTANT.SUCCESS) {
-                        $.post("userRegister", {
-                            userName: registerForm.userName,
+                        $.post("enterpriseRegister", {
                             telephone: registerForm.telephone,
-                            password: registerForm.password,
-                            type: 'staff'
+                            password: registerForm.password
                         }, function (data, statusText) {
                             if (data.exception) {
-                                alert("与服务器交互出现异常：" + data.exception)
+                                SweetAlert.swal({
+                                    title:"企业用户注册失败",
+                                    text:"与服务器交互出现异常："+data.exception,
+                                    type:"error"
+                                })
                             } else {
                                 var returnResult = data;
                                 if (returnResult == CODE_CONSTANT.REPEAT) {
@@ -48,11 +57,7 @@ function AuthService($http, $cookieStore,CODE_CONSTANT){
                                     $('#telephone').get(0).reportValidity();
                                 } else if (!!data) {
                                     let res = {}
-                                    if(data.type === 'admin'){
-                                        res = {user:data,role:userRoles.admin};
-                                    }else if (data.type === "staff"){
-                                        res = {user:data,role:userRoles.staff};
-                                    }
+                                    res = {user: data, role:userRoles.enterprise}
                                     changeUser(res);
                                     success();
                                 }
@@ -78,29 +83,38 @@ function AuthService($http, $cookieStore,CODE_CONSTANT){
                     }
                 }
             })
+            return false;
         },
-        login: function(user, success, error) {
+        login: function(user,SweetAlert,success, error) {
             $.post("userLogin",user,function (data,statusText) {
                 if(data.exception){
-                    alert("与服务器交互出现异常："+data.exception)
+                    SweetAlert.swal({
+                        title:"用户登录失败",
+                        text:"与服务器交互出现异常："+err,
+                        type:"error"
+                    })
                 }else{
                     if(!!data){
                         let res = {}
-                        if(data.type === 'admin'){
+                        if(data.user.role==3){
                             res = {user:data,role:userRoles.admin};
-                        }else if (data.type === "staff"){
+                        }else if (data.user.role == 2){
+                            res = {user:data,role:userRoles.enterprise};
+                        } else if (data.user.role == 1){
                             res = {user:data,role:userRoles.staff};
                         }
                         changeUser(res);
-                        success(res);
+                        success(data.user.role);
                     }else{
                         // 反馈账号和密码错误
-                        $('#password').get(0).setCustomValidity("登录名或密码错误");
-                        $('#password').get(0).reportValidity();
+                        $('#telephone').parent().addClass("has-error");
+                        $('#telephone').get(0).setCustomValidity("登录名或密码错误");
+                        $('#telephone').get(0).reportValidity();
                         error();
                     }
                 }
-            });
+            },"json");
+            return false;
         },
         logout: function(success) {
             $cookieStore.remove('user');
@@ -114,6 +128,46 @@ function AuthService($http, $cookieStore,CODE_CONSTANT){
     };
 }
 
+function EnterpriseService(){
+    return {
+        getAllEnterpriseTypes : function (success,error) {
+            $.get("getAllEnterpriseTypes",null,function (data,statusText) {
+                if(data.exception){
+                    error(data.exception);
+                }else{
+                    success(data);
+                }
+            })
+        },
+        updateEnterpriseInfo : function (enterprise,success,error) {
+            $.post('updateEnterpriseInfo',enterprise,function(data,statusText){
+                if(data.exception){
+                    error(data.exception);
+                }else{
+                    success(data);
+                }
+            })
+        }
+    }
+}
+
+function StaffService(){
+    return {
+        getStaffsByEnterpriseId : function (enterprise_id,success,error) {
+           $.get('getStaffsByEnterpriseId',enterprise_id,function (data,statusText) {
+               if(data.exception){
+                   error(data.exception);
+               }else{
+                   success(data);
+               }
+           })
+        }
+    }
+}
+
+
 angular
     .module('fishing-path')
     .factory('AuthService',['$http','$cookieStore','CODE_CONSTANT',AuthService])
+    .factory('EnterpriseService',EnterpriseService)
+    .factory('StaffService',StaffService)

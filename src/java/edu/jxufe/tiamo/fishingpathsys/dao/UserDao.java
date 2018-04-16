@@ -5,6 +5,7 @@ import edu.jxufe.tiamo.fishingpathsys.domain.User;
 
 import java.util.List;
 
+
 public interface UserDao extends BaseDao<User> {
 
     // 根据账号和密码查找用户

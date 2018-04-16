@@ -10,6 +10,10 @@ jQuery.ajaxSetup({
         'ngCookies',                    // cookies
         'oc.lazyLoad',                  // ocLazyLoad
         'ui.bootstrap',                 // Ui Bootstrap
+        'pascalprecht.translate',       // Angular Translate
+        'ngIdle',                       // Idle timer
+        'oitozero.ngSweetAlert',
+        'ngSanitize'
     ])
         // 常量
         .constant('REG_CONSTANT',{

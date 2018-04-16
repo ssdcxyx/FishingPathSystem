@@ -1,7 +1,10 @@
-function config($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider,$ocLazyLoadProvider) {
+function config($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider,$ocLazyLoadProvider,IdleProvider) {
+
+    // Idle监听用户活动事件
+    IdleProvider.idle(5);
+    IdleProvider.timeout(120);
 
     var access = routingConfig.accessLevels;
-
     // 公共路由
     $stateProvider
 
@@ -34,45 +37,140 @@ function config($stateProvider, $urlRouterProvider, $locationProvider, $httpProv
         })
         .state('anon.register', {
             url: "/register/",
-            controller:UserRegisterCtrl,
-            templateUrl: "res/views/register.html",
+            controller:EnterpriseRegisterCtrl,
+            templateUrl: "res/views/enterpriseRegister.html",
             data: { pageTitle: '注册', specialClass: 'gray-bg' }
         });
 
-    // 员工路由
+    // 员工用户路由
     $stateProvider
-        .state('index', {
+        .state('staff', {
             abstract: true,
-            templateUrl: "res/views/common/content.html",
+            templateUrl: "res/views/staff/common/content.html",
             data: {
                 access: access.staff
             }
         })
-        .state('index.main', {
-            url: "/",
-            templateUrl: "res/views/main.html"
+        .state('staff.main', {
+            url: "/staff/main",
+            templateUrl: "res/views/staff/main.html"
         })
-        .state('index.minor', {
+        .state('staff.minor', {
             url: "/minor/",
-            templateUrl: "res/views/minor.html",
+            templateUrl: "res/views/staff/staffs_management.html",
             data: { pageTitle: 'Example view' }
         });
+
+    // 企业用户路由
+    $stateProvider
+        .state('enterprise', {
+            abstract: true,
+            templateUrl: "res/views/enterprise/common/content.html",
+            data: {
+                access: access.enterprise
+            }
+        })
+        .state('enterprise.main', {
+            url: "/enterprise/main",
+            templateUrl: "res/views/enterprise/main.html",
+            data: { pageTitle: '渔径-首页' },
+            resolve: {
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            name: 'angles',
+                            files: ['js/plugins/chartJs/angles.js', 'js/plugins/chartJs/Chart.min.js']
+                        },
+                        {
+                            name: 'angular-peity',
+                            files: ['js/plugins/peity/jquery.peity.min.js', 'js/plugins/peity/angular-peity.js']
+                        },
+                        {
+                            name: 'ui.checkbox',
+                            files: ['js/bootstrap/angular-bootstrap-checkbox.js']
+                        }
+                    ]);
+                }
+            }
+        })
+        .state('enterprise.users', {
+            url: "/enterprise/users/",
+            templateUrl: "res/views/enterprise/staffs_management.html",
+            data: { pageTitle: '渔径 - 员工管理' },
+            resolve:{
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/jquery.dataTables.min.js','js/plugins/dataTables/dataTables.buttons.min.js',
+                                'js/plugins/dataTables/dataTables.select.min.js']
+                        },
+                        {
+                            serie: true,
+                            files: ['css/plugins/dataTables/select.bootstrap.min.css']
+                        },
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/dataTables.jqueryui.min.js','css/plugins/dataTables/dataTables.jqueryui.min.css']
+                        },
+                        {
+                            serie: true,
+                            files: ['js/plugins/dataTables/datatables.min.js','css/plugins/dataTables/datatables.min.css']
+                        },
+                        {
+                            serie:true,
+                            files:['js/plugins/editor/dataTables.editor.min.js','css/plugins/editor/editor.dataTables.min.css']
+                        }
+                    ]);
+                }
+            }
+        })
+        .state('enterprise.info',{
+            url:"/enterprise/info",
+            templateUrl:"res/views/enterprise/info_management.html",
+            controller:EnterpriseUserInfoCtrl,
+            data: { pageTitle: '渔径-企业信息' },
+            resolve:{
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            files: ['js/plugins/jasny/jasny-bootstrap.min.js', 'css/plugins/jasny/jasny-bootstrap.min.css' ]
+                        },
+                        {
+                            name: 'ui.select',
+                            files: ['js/plugins/ui-select/select.min.js', 'css/plugins/ui-select/select.min.css']
+                        }
+                        ]);
+                }
+            }
+        })
 
     // 管理员路由
     $stateProvider
         .state('admin', {
             abstract: true,
-            template: "<ui-view/>",
+            template: "res/views/enterprise/admin/common/content.html",
             data: {
                 access: access.admin
             }
         })
-        .state('admin.admin', {
-
+        .state('admin.main', {
+            url: "/admin/main/",
+            templateUrl: "res/views/admin/main.html"
+        })
+        .state('admin.minor', {
+            url: "admin/minor/",
+            templateUrl: "res/views/admin/staffs_management.html",
+            data: { pageTitle: 'Example view' }
         });
 
+
     // 指定默认地址
-    $urlRouterProvider.otherwise("/404");
+    $urlRouterProvider.otherwise(function($injector) {
+        // 防止无限循环
+        var $state = $injector.get('$state');
+        $state.go('anon.login');
+    });
 
     $ocLazyLoadProvider.config({
         // 设置是否查看动态加载的内容和时间
@@ -118,7 +216,6 @@ function config($stateProvider, $urlRouterProvider, $locationProvider, $httpProv
 
 function run($rootScope, $state, AuthService) {
 
-    // 获得全局的state
     $rootScope.$state = $state;
 
     // 监听路由改变事件
@@ -132,9 +229,14 @@ function run($rootScope, $state, AuthService) {
             $rootScope.error = "你没有访问的权限.";
             event.preventDefault();
 
+            // 刚开始访问系统
             if(fromState.url === '^') {
-                if(AuthService.isLoggedIn()) {
-                    $state.go('index.main');
+                if(AuthService.isLoggedIn()===routingConfig.userRoles.staff.title) {
+                    $state.go('staff.main');
+                }else if(AuthService.isLoggedIn()===routingConfig.userRoles.enterprise.title){
+                    $state.go('enterprise.main');
+                } else if(AuthService.isLoggedIn()===routingConfig.userRoles.admin.title){
+                    $state.go('admin.main');
                 } else {
                     $rootScope.error = null;
                     $state.go('anon.login');
@@ -147,7 +249,7 @@ function run($rootScope, $state, AuthService) {
 
 angular
     .module('fishing-path')
-    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider','$ocLazyLoadProvider',
+    .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider','$ocLazyLoadProvider','IdleProvider',
         config])
     .run(['$rootScope', '$state', 'AuthService',
         run]);

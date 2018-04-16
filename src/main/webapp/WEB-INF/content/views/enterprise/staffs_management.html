@@ -1,0 +1,58 @@
+<style type="text/css">
+    .table tbody tr td {
+        text-align: center;
+        vertical-align: center;
+    }
+    .table tr th {
+        text-align: center;
+        vertical-align: center;
+    }
+</style>
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>员工管理</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.jsp">首页</a>
+            </li>
+            <li>
+                <a>企业管理</a>
+            </li>
+            <li class="active">
+                <strong>员工管理</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight" ng-controller="StaffsManagementCtrl">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Table with data from $scope - <strong>(The angular way)</strong></h5>
+
+                    <div ibox-tools></div>
+                </div>
+                <div class="ibox-content">
+                    <table id="table_staffs" datatable="ng" class="display">
+                        <thead>
+                        <tr>
+                            <th>工号</th>
+                            <th>姓名</th>
+                            <th>性别</th>
+                            <th>部门</th>
+                            <th>职位</th>
+                            <th>联系方式</th>
+                        </tr>
+                        </thead>
+                    </table>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

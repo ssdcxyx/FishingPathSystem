@@ -18,12 +18,25 @@
     <bean id="userService"
           class="edu.jxufe.tiamo.fishingpathsys.service.impl.UserServiceImpl"
           p:userDao-ref="userDao"
-          p:staffInfoDao-ref="staffInfoDao"/>
+            p:staffDao-ref="staffDao"
+            p:enterpriseDao-ref="enterpriseDao"
+            p:adminDao-ref="adminDao"/>
+
+    <bean id="enterpriseService"
+          class="edu.jxufe.tiamo.fishingpathsys.service.impl.EnterpriseServiceImpl"
+          p:enterpriseDao-ref="enterpriseDao"
+            p:userDao-ref="userDao"
+            p:enterpriseTypeDao-ref="enterpriseTypeDao"/>
+
+    <bean id="staffService"
+          class="edu.jxufe.tiamo.fishingpathsys.service.impl.StaffServiceImpl"
+          p:staffDao-ref="staffDao"/>
 
     <!--配置Hibernate的局部事务管理器-->
     <bean id="transactionManager"
           class="org.springframework.orm.hibernate5.HibernateTransactionManager"
-          p:sessionFactory-ref="sessionFactory"/>
+          p:sessionFactory-ref="sessionFactory"
+           />
 
     <!--配置事务切面Bean,指定事务管理器-->
     <tx:advice id="txAdvice" transaction-manager="transactionManager">

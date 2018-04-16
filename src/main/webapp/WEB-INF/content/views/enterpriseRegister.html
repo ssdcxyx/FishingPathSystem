@@ -1,0 +1,43 @@
+<script type="text/javascript">
+    function validateClause(ele,tip) {
+        if(ele.validity.valueMissing){
+            ele.setCustomValidity(tip)
+        }else{
+            ele.setCustomValidity('')
+        }
+    }
+</script>
+<div class="middle-box text-center loginscreen  animated fadeInDown">
+    <div>
+        <div>
+            <img src="../../../img/logo.png">
+        </div>
+        <h3 class="m-t">注册渔径企业账号</h3>
+        <form class="m-t" role="form" ng-submit="enterpriseRegister();">
+            <div class="form-group">
+                <input type="text" class="form-control " placeholder="手机号码" id="telephone" name="telephone"
+                       pattern="{{validateTelephone}}" oninput="this.setCustomValidity('')"
+                       ng-model="telephone" required>
+            </div>
+            <div class="form-group">
+                <input type="password" class="form-control" placeholder="密码" id="password" name="password"
+                       minlength="7" maxlength="20" ng-model="password" required>
+            </div>
+            <div class="form-group">
+                <div class="input-group m-b">
+                    <input type="text" class="form-control" style="width: auto;" placeholder="验证码" id="authCode" name="authCode"
+                           minlength="6" maxlength="6" oninput="this.setCustomValidity('')" ng-model="authCode" required>
+                    <timer-button show-timer="false" timeout="60000" telephone="{{telephone}}" msg-id="msgId" telephone_pattern="{{validateTelephone}}">获取验证码</timer-button>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="checkbox i-checks"><label> <input type="checkbox" oninvalid="validateClause(this,'请同意相关条款')" required><i></i>我已阅读并同意相关服务条款和隐私政策</label></div>
+            </div>
+            <button type="submit" class="btn btn-primary block full-width m-b">企业账号注册</button>
+
+            <p class="text-muted text-center"><small>已经注册了账号?</small></p>
+            <a class="btn btn-sm btn-white btn-block" ui-sref="anon.login">登录</a>
+        </form>
+        <p class="m-t"> <small>渔径科技 &copy; 2018</small> </p>
+    </div>
+</div>

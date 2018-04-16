@@ -8,6 +8,7 @@
         roles :[
             'public',
             'staff',
+            'enterprise',
             'admin'],
 
         /*
@@ -16,7 +17,8 @@
         accessLevels : {
             'public' : "*",
             'anon': ['public'],
-            'staff' : ['staff', 'admin'],
+            'staff' : ['staff','enterprise'],
+            'enterprise':['enterprise'],
             'admin': ['admin']
         }
 

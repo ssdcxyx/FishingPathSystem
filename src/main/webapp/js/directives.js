@@ -14,7 +14,17 @@ function pageTitle($rootScope, $timeout) {
                 // Default title - load on Dashboard 1
                 var title = '渔径科技 | 后台管理系统';
                 // Create your own title pattern
-                if (toState.data && toState.data.pageTitle) title = '渔径科技 | ' + toState.data.pageTitle;
+                var enterprise = '渔径科技';
+                if($rootScope.currentUser.role.title==='enterprise'){
+                    if($rootScope.currentUser.user.name!=null){
+                        enterprise = $rootScope.currentUser.user.name;
+                    }
+                }else if($rootScope.currentUser.role.title==='staff'){
+                    if($rootScope.currentUser.user.enterprise.name!=null){
+                        enterprise = $rootScope.currentUser.user.enterprise.name;
+                    }
+                }
+                if (toState.data && toState.data.pageTitle) title = enterprise +' | '+ toState.data.pageTitle;
                 $timeout(function() {
                     element.text(title);
                 });
@@ -64,7 +74,7 @@ function iboxTools($timeout) {
     return {
         restrict: 'A',
         scope: true,
-        templateUrl: 'views/common/ibox_tools.html',
+        templateUrl: '/res/views/common/ibox_tools.html',
         controller: function ($scope, $element) {
             // Function for collapse ibox
             $scope.showhide = function () {
@@ -220,6 +230,7 @@ function timerButton($timeout,$interval){
                             }
                         }
                     });
+                    return false;
                 }
             });
         },

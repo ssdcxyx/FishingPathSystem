@@ -1,0 +1,42 @@
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul side-navigation class="nav metismenu" id="side-menu">
+            <li class="nav-header">
+
+                <div class="profile-element" uib-dropdown>
+                    <img alt="image" class="img-circle" src="../../../../../img/profile_small.jpg"/>
+                    <a uib-dropdown-toggle href>
+                            <span class="clear">
+                                <span class="block m-t-xs">
+                                    <strong class="font-bold" ng-if="currentUser">{{currentUser.user.staffInfo.name}}</strong>
+                             </span>
+                                <span class="text-muted text-xs block" ng-switch="currentUser.role.title">
+                                    <div ng-switch-when="staff">员工<b class="caret"></b></div>
+                                    <div ng-switch-when="admin">管理员<b class="caret"></b></div>
+                                </span>
+                            </span>
+                    </a>
+                    <ul uib-dropdown-menu="" class="animated fadeInRight m-t-xs">
+                        <li><a>我的渔径</a></li>
+                        <li><a>通讯录</a></li>
+                        <li><a>消息</a></li>
+                        <li class="divider"></li>
+                        <li><a ng-click="logout();">注销登录</a></li>
+                    </ul>
+                </div>
+                <div class="logo-element">
+                    <img alt="image" src="../../../../../img/logo_small.png"/>
+                </div>
+
+            </li>
+
+            <li ui-sref-active="active">
+                <a ui-sref="staff.main"><i class="fa fa-home"></i> <span class="nav-label">首页</span> </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="staff.minor"><i class="fa fa-users"></i> <span class="nav-label">员工管理</span></a>
+            </li>
+        </ul>
+
+    </div>
+</nav>

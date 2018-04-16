@@ -39710,7 +39710,7 @@ angular.scenario.matcher = angular.scenario.matcher || function(name, fn) {
  * Access global window and document object
  * Access $runner through closure
  *
- * @param {Object=} config Config options
+ * @param {Object=} config config options
  */
 angular.scenario.setUpAndRun = function(config) {
   var href = window.location.href;
