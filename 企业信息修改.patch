@@ -1,0 +1,7 @@
+Index: src/main/webapp/WEB-INF/content/views/common/ibox_tools.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/main/webapp/WEB-INF/content/views/common/ibox_tools.html	(date 1524222206000)
++++ src/main/webapp/WEB-INF/content/views/common/ibox_tools.html	(date 1524190118000)
