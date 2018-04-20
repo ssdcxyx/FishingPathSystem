@@ -16,7 +16,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
     <!-- Page title set in pageTitle directive -->
-    <title page-title></title>
+    <title page-title>渔径科技学习管理系统</title>
 
     <!-- Font awesome -->
     <link href="${pageContext.request.contextPath}/font-awesome/css/font-awesome.css" rel="stylesheet">
@@ -47,6 +47,7 @@
 <script src="${pageContext.request.contextPath}/js/jquery/jquery-3.1.1.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/plugins/jquery-ui/jquery-ui.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/bootstrap/bootstrap.min.js"></script>
+
 
 
 <!-- MetsiMenu -->

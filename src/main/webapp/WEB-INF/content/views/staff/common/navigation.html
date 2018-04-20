@@ -4,20 +4,21 @@
             <li class="nav-header">
 
                 <div class="profile-element" uib-dropdown>
-                    <img alt="image" class="img-circle" src="../../../../../img/profile_small.jpg"/>
+                    <img alt="image" class="img-circle" src="img/profile.png"/>
                     <a uib-dropdown-toggle href>
                             <span class="clear">
                                 <span class="block m-t-xs">
-                                    <strong class="font-bold" ng-if="currentUser">{{currentUser.user.staffInfo.name}}</strong>
+                                    <strong class="font-bold" ng-if="currentUser.user.name">{{currentUser.user.name}}</strong>
                              </span>
                                 <span class="text-muted text-xs block" ng-switch="currentUser.role.title">
-                                    <div ng-switch-when="staff">员工<b class="caret"></b></div>
+                                    <div ng-switch-when="staff">员工用户<b class="caret"></b></div>
+                                    <div ng-switch-when="enterprise">企业用户<b class="caret"></b></div>
                                     <div ng-switch-when="admin">管理员<b class="caret"></b></div>
                                 </span>
                             </span>
                     </a>
                     <ul uib-dropdown-menu="" class="animated fadeInRight m-t-xs">
-                        <li><a>我的渔径</a></li>
+                        <li><a ui-sref="enterprise.info">个人信息</a></li>
                         <li><a>通讯录</a></li>
                         <li><a>消息</a></li>
                         <li class="divider"></li>
@@ -25,16 +26,28 @@
                     </ul>
                 </div>
                 <div class="logo-element">
-                    <img alt="image" src="../../../../../img/logo_small.png"/>
+                    <img alt="image" src="/img/logo_small.png"/>
                 </div>
 
             </li>
 
             <li ui-sref-active="active">
-                <a ui-sref="staff.main"><i class="fa fa-home"></i> <span class="nav-label">首页</span> </a>
+                <a ui-sref="staff.main"><i class="fa fa-home"></i> <span class="nav-label">{{ 'MAIN_PAGE' | translate}}</span> </a>
             </li>
             <li ui-sref-active="active">
-                <a ui-sref="staff.minor"><i class="fa fa-users"></i> <span class="nav-label">员工管理</span></a>
+                <a ui-sref="staff.coursesLibrary"><i class="fa fa-bookmark"></i> <span class="nav-label">{{ 'COURSES_LIBRARY' | translate}}</span> </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="staff.learningPath"><i class="fa fa-road"></i> <span class="nav-label">{{ 'LEARNING_PATH' | translate}}</span> </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="staff.associates"><i class="fa fa-star"></i> <span class="nav-label">{{ 'ASSOCIATES' | translate}}</span> </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="staff.announcementBoard"><i class="fa fa-tv"></i> <span class="nav-label">{{ 'ANNOUNCEMENTS_BOARD' | translate}}</span> </a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="staff.others"><i class="fa fa-spin fa-cog"></i> <span class="nav-label">{{ 'OTHERS' | translate}}</span> </a>
             </li>
         </ul>
 

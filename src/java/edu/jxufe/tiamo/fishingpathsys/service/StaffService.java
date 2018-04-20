@@ -8,4 +8,5 @@ public interface StaffService {
 
     // 根据企业id获得所有员工信息
     List<Staff> getAllStaffsByEnterpriseId(Short enterpriseId);
+
 }

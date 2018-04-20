@@ -1,6 +1,7 @@
 package edu.jxufe.tiamo.fishingpathsys.service.impl;
 
 import edu.jxufe.tiamo.fishingpathsys.dao.StaffDao;
+import edu.jxufe.tiamo.fishingpathsys.domain.Department;
 import edu.jxufe.tiamo.fishingpathsys.domain.Staff;
 import edu.jxufe.tiamo.fishingpathsys.exception.CustomException;
 import edu.jxufe.tiamo.fishingpathsys.service.StaffService;
@@ -18,6 +19,7 @@ public class StaffServiceImpl implements StaffService {
     public void setStaffDao(StaffDao staffDao) {
         this.staffDao = staffDao;
     }
+
 
     @Override
     public List<Staff> getAllStaffsByEnterpriseId(Short enterpriseId) {

@@ -1,0 +1,307 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+        <h2>课程管理</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.jsp">首页</a>
+            </li>
+            <li class="active">
+                <strong>课程管理</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content animated fadeInUp">
+
+            <div class="ibox">
+                <div class="ibox-title">
+                    <h5>课程列表</h5>
+
+                    <div class="ibox-tools">
+                        <a href="" class="btn btn-primary btn-xs">添加课程</a>
+                    </div>
+                </div>
+                <div class="ibox-content">
+                    <div class="row m-b-sm m-t-sm">
+                        <div class="col-md-1">
+                            <button type="button" id="loading-example-btn" class="btn btn-white btn-sm"><i class="fa fa-refresh"></i> 刷新</button>
+                        </div>
+                        <div class="col-md-11">
+                            <div class="input-group"><input type="text" placeholder="查找课程" class="input-sm form-control"> <span class="input-group-btn">
+                                        <button type="button" class="btn btn-sm btn-primary"> 查找</button> </span></div>
+                        </div>
+                    </div>
+
+                    <div class="project-list">
+
+                        <table class="table table-hover">
+                            <tbody>
+                            <tr>
+                                <td class="project-status">
+                                    <span class="label label-warning">必修</span>
+                                </td>
+                                <td class="project-title">
+                                    <a ui-sref="project_detail">轻松做好PPT</a>
+                                    <br/>
+                                    <small>安排日期:2017/10/01</small>
+                                </td>
+                                <td class="project-completion text-center">
+                                    <small>完成情况：48%</small>
+                                    <div class="progress progress-mini">
+                                        <div style="width: 48%;" class="progress-bar"></div>
+                                    </div>
+                                </td>
+                                <td class="project-people">
+                                    <a href=""><img alt="image" class="img-circle" src="img/staff/1.png"></a>
+                                    <a href=""><img alt="image" class="img-circle" src="img/staff/2.png"></a>
+                                    <a href=""><img alt="image" class="img-circle" src="img/staff/3.png"></a>
+                                    <a href=""><img alt="image" class="img-circle" src="img/staff/4.png"></a>
+                                    <a href=""><img alt="image" class="img-circle" src="img/staff/1.png"></a>
+                                </td>
+                                <td class="project-actions">
+                                    <a href="" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> 查看 </a>
+                                    <a href="" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 自定义 </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="project-status">
+                                    <span class="label label-warning">必修</span>
+                                </td>
+                                <td class="project-title">
+                                    <a ui-sref="project_detail">不同层级的沟通</a>
+                                    <br/>
+                                    <small>添加日期：2017/08/10</small>
+                                </td>
+                                <td class="project-completion text-center">
+                                    <small>完成情况：66%</small>
+                                    <div class="progress progress-mini">
+                                        <div style="width: 66%;" class="progress-bar"></div>
+                                    </div>
+                                </td>
+                                <td class="project-people">
+                                    <a href=""><img alt="image" class="img-circle" src="img/staff/2.png"></a>
+                                    <a href=""><img alt="image" class="img-circle" src="img/staff/4.png"></a>
+                                    <a href=""><img alt="image" class="img-circle" src="img/staff/3.png"></a>
+                                </td>
+                                <td class="project-actions">
+                                    <a href="" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> 查看 </a>
+                                    <a href="" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 自定义 </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="project-status">
+                                    <span class="label label-warning">必修</span>
+                                </td>
+                                <td class="project-title">
+                                    <a ui-sref="project_detail">积极倾听</a>
+                                    <br/>
+                                    <small>添加日期：2017/07/01</small>
+                                </td>
+                                <td class="project-completion text-center">
+                                    <small>完成情况：98%</small>
+                                    <div class="progress progress-mini">
+                                        <div style="width: 98%;" class="progress-bar"></div>
+                                    </div>
+                                </td>
+                                <td class="project-people">
+                                    <a href=""><img alt="image" class="img-circle" src="img/staff/3.png"></a>
+                                    <a href=""><img alt="image" class="img-circle" src="img/staff/1.png"></a>
+                                </td>
+                                <td class="project-actions">
+                                    <a href="" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> 查看 </a>
+                                    <a href="" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 自定义 </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="project-status">
+                                    <span class="label label-primary">必修</span>
+                                </td>
+                                <td class="project-title">
+                                    <a ui-sref="project_detail">提问的诀窍</a>
+                                    <br/>
+                                    <small>添加日期：2017/01/03</small>
+                                </td>
+                                <td class="project-completion">
+                                    <small>完成情况：100%</small>
+                                    <div class="progress progress-mini">
+                                        <div style="width: 100%;" class="progress-bar"></div>
+                                    </div>
+                                </td>
+                                <td class="project-people">
+                                    <a href=""><img alt="image" class="img-circle" src="img/staff/4.png"></a>
+                                    <a href=""><img alt="image" class="img-circle" src="img/staff/2.png"></a>
+                                    <a href=""><img alt="image" class="img-circle" src="img/staff/1.png"></a>
+                                    <a href=""><img alt="image" class="img-circle" src="img/staff/3.png"></a>
+                                </td>
+                                <td class="project-actions">
+                                    <a href="" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> 查看 </a>
+                                    <a href="" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 自定义 </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="project-status">
+                                    <span class="label label-primary">选修</span>
+                                </td>
+                                <td class="project-title">
+                                    <a ui-sref="project_detail">角色定位</a>
+                                </td>
+                                <td class="project-completion">
+                                    <small>完成情况：97%</small>
+                                    <div class="progress progress-mini">
+                                        <div style="width: 97%;" class="progress-bar"></div>
+                                    </div>
+                                </td>
+                                <td class="project-people">
+                                    <a href=""><img alt="image" class="img-circle" src="img/staff/2.png"></a>
+                                </td>
+                                <td class="project-actions">
+                                    <a href="" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> 查看 </a>
+                                    <a href="" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 自定义 </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="project-status">
+                                    <span class="label label-primary">选修</span>
+                                </td>
+                                <td class="project-title">
+                                    <a ui-sref="project_detail">打造优秀的服务团队</a>
+                                </td>
+                                <td class="project-completion">
+                                    <small>完成情况：48%</small>
+                                    <div class="progress progress-mini">
+                                        <div style="width: 48%;" class="progress-bar"></div>
+                                    </div>
+                                </td>
+                                <td class="project-people">
+                                    <a href=""><img alt="image" class="img-circle" src="img/staff/3.png"></a>
+                                    <a href=""><img alt="image" class="img-circle" src="img/staff/1.png"></a>
+                                    <a href=""><img alt="image" class="img-circle" src="img/staff/2.png"></a>
+                                    <a href=""><img alt="image" class="img-circle" src="img/staff/4.png"></a>
+                                </td>
+                                <td class="project-actions">
+                                    <a href="" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> 查看 </a>
+                                    <a href="" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 自定义 </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="project-status">
+                                    <span class="label label-primary">选修</span>
+                                </td>
+                                <td class="project-title">
+                                    <a ui-sref="project_detail">高效Excel</a>
+                                </td>
+                                <td class="project-completion">
+                                    <small>完成情况： 28%</small>
+                                    <div class="progress progress-mini">
+                                        <div style="width: 28%;" class="progress-bar"></div>
+                                    </div>
+                                </td>
+                                <td class="project-people">
+                                    <a href=""><img alt="image" class="img-circle" src="img/staff/3.png"></a>
+                                    <a href=""><img alt="image" class="img-circle" src="img/staff/1.png"></a>
+                                    <a href=""><img alt="image" class="img-circle" src="img/staff/4.png"></a>
+                                </td>
+                                <td class="project-actions">
+                                    <a href="" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> 查看 </a>
+                                    <a href="" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 自定义 </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="project-status">
+                                    <span class="label label-primary">选修</span>
+                                </td>
+                                <td class="project-title">
+                                    <a ui-sref="project_detail">如何制作美观的WORD文档</a>
+                                </td>
+                                <td class="project-completion">
+                                    <small>完成情况：8%</small>
+                                    <div class="progress progress-mini">
+                                        <div style="width: 8%;" class="progress-bar"></div>
+                                    </div>
+                                </td>
+                                <td class="project-people">
+                                    <a href=""><img alt="image" class="img-circle" src="img/staff/4.png"></a>
+                                    <a href=""><img alt="image" class="img-circle" src="img/staff/3.png"></a>
+                                </td>
+                                <td class="project-actions">
+                                    <a href="" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> 查看 </a>
+                                    <a href="" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 自定义 </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="project-status">
+                                    <span class="label label-primary">选修</span>
+                                </td>
+                                <td class="project-title">
+                                    <a ui-sref="project_detail">客户即是上帝</a>
+                                </td>
+                                <td class="project-completion">
+                                    <small>完成情况：83%</small>
+                                    <div class="progress progress-mini">
+                                        <div style="width: 83%;" class="progress-bar"></div>
+                                    </div>
+                                </td>
+                                <td class="project-people">
+                                    <a href=""><img alt="image" class="img-circle" src="img/staff/1.png"></a>
+                                    <a href=""><img alt="image" class="img-circle" src="img/staff/4.png"></a>
+                                    <a href=""><img alt="image" class="img-circle" src="img/staff/3.png"></a>
+                                </td>
+                                <td class="project-actions">
+                                    <a href="" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> 查看 </a>
+                                    <a href="" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 自定义 </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="project-status">
+                                    <span class="label label-primary">选修</span>
+                                </td>
+                                <td class="project-title">
+                                    <a ui-sref="project_detail">唤醒你的自信</a>
+                                </td>
+                                <td class="project-completion">
+                                    <small>完成情况：97%</small>
+                                    <div class="progress progress-mini">
+                                        <div style="width: 97%;" class="progress-bar"></div>
+                                    </div>
+                                </td>
+                                <td class="project-people">
+                                    <a href=""><img alt="image" class="img-circle" src="img/staff/3.png"></a>
+                                </td>
+                                <td class="project-actions">
+                                    <a href="" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> 查看 </a>
+                                    <a href="" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 自定义 </a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="project-status">
+                                    <span class="label label-primary">选修</span>
+                                </td>
+                                <td class="project-title">
+                                    <a ui-sref="project_detail">挑战更高的自己</a>
+                                </td>
+                                <td class="project-completion">
+                                    <small>完成情况：28%</small>
+                                    <div class="progress progress-mini">
+                                        <div style="width: 28%;" class="progress-bar"></div>
+                                    </div>
+                                </td>
+                                <td class="project-people">
+                                    <a href=""><img alt="image" class="img-circle" src="img/staff/2.png"></a>
+                                    <a href=""><img alt="image" class="img-circle" src="img/staff/4.png"></a>
+                                    <a href=""><img alt="image" class="img-circle" src="img/staff/1.png"></a>
+                                </td>
+                                <td class="project-actions">
+                                    <a href="" class="btn btn-white btn-sm"><i class="fa fa-folder"></i> 查看 </a>
+                                    <a href="" class="btn btn-white btn-sm"><i class="fa fa-pencil"></i> 自定义 </a>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

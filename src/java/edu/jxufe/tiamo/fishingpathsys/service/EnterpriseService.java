@@ -1,8 +1,6 @@
 package edu.jxufe.tiamo.fishingpathsys.service;
 
-import edu.jxufe.tiamo.fishingpathsys.domain.Enterprise;
-import edu.jxufe.tiamo.fishingpathsys.domain.EnterpriseType;
-import edu.jxufe.tiamo.fishingpathsys.domain.Staff;
+import edu.jxufe.tiamo.fishingpathsys.domain.*;
 
 import java.util.List;
 
@@ -14,6 +12,21 @@ public interface EnterpriseService {
     // 获得企业类型种类
     List<EnterpriseType> getAllEnterpriseTypes();
 
+    // 获得部门种类
+    List<Department> getAllDepartment();
+
+    // 获得所有职位种类
+    List<PostType> getAllPostType();
+
     // 更新企业信息
     Enterprise updateEnterpriseInfo(Short id, String name, Short enterpriseTypeId,String description,String linkMan,String telephone);
+
+    // 添加员工账号
+    Staff addStaff(String jobNumber,String name,String sex,short departmentId,short postTypeId,String telephone,String account,String password,short enterpriseId);
+
+    // 更新员工账号
+    Staff updateStaff(short id,String jobNumber,String name,String sex,short departmentId,short postTypeId,String telephone,String account,String password,short enterpriseId);
+
+    // 删除员工账号
+    Staff deleteStaff(short id);
 }

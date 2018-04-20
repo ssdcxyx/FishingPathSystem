@@ -51,6 +51,16 @@ public class Staff {
     @OneToMany(targetEntity = Interest.class, mappedBy = "staff",fetch = FetchType.LAZY)
     private List<Interest> interestList;
 
+    public Staff() {
+    }
+
+    public Staff(String jobNumber, String name, String telephone, String sex) {
+        this.jobNumber = jobNumber;
+        this.name = name;
+        this.telephone = telephone;
+        this.sex = sex;
+    }
+
     public short getId() {
         return id;
     }

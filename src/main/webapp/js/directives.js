@@ -13,18 +13,7 @@ function pageTitle($rootScope, $timeout) {
             var listener = function(event, toState, toParams, fromState, fromParams) {
                 // Default title - load on Dashboard 1
                 var title = '渔径科技 | 后台管理系统';
-                // Create your own title pattern
-                var enterprise = '渔径科技';
-                if($rootScope.currentUser.role.title==='enterprise'){
-                    if($rootScope.currentUser.user.name!=null){
-                        enterprise = $rootScope.currentUser.user.name;
-                    }
-                }else if($rootScope.currentUser.role.title==='staff'){
-                    if($rootScope.currentUser.user.enterprise.name!=null){
-                        enterprise = $rootScope.currentUser.user.enterprise.name;
-                    }
-                }
-                if (toState.data && toState.data.pageTitle) title = enterprise +' | '+ toState.data.pageTitle;
+                if (toState.data && toState.data.pageTitle) title =  toState.data.pageTitle;
                 $timeout(function() {
                     element.text(title);
                 });
@@ -138,6 +127,45 @@ function iboxToolsFullScreen($timeout) {
                     $(window).trigger('resize');
                 }, 100);
             }
+        }
+    };
+}
+
+/**
+ * fullScroll - Directive for slimScroll with 100%
+ */
+function fullScroll($timeout){
+    return {
+        restrict: 'A',
+        link: function(scope, element) {
+            $timeout(function(){
+                element.slimscroll({
+                    height: '100%',
+                    railOpacity: 0.9
+                });
+
+            });
+        }
+    };
+}
+
+/**
+ * slimScroll - Directive for slimScroll with custom height
+ */
+function slimScroll($timeout){
+    return {
+        restrict: 'A',
+        scope: {
+            boxHeight: '@'
+        },
+        link: function(scope, element) {
+            $timeout(function(){
+                element.slimscroll({
+                    height: scope.boxHeight,
+                    railOpacity: 0.9
+                });
+
+            });
         }
     };
 }
@@ -303,6 +331,48 @@ function activeNav($location) {
 
 }
 
+function passwordMeter() {
+    return {
+        restrict: 'A',
+        scope: {
+            pwOptions: '='
+        },
+        link: function (scope, element, attrs) {
+            scope.$watch(scope.pwOptions, function(){
+                render();
+            });
+            var render = function () {
+                $(element).pwstrength(scope.pwOptions);
+            };
+        }
+    }
+
+
+};
+
+function responsiveVideo() {
+    return {
+        restrict: 'A',
+        link:  function(scope, element) {
+            var figure = element;
+            var video = element.children();
+            video
+                .attr('data-aspectRatio', video.height() / video.width())
+                .removeAttr('height')
+                .removeAttr('width')
+
+            //We can use $watch on $window.innerWidth also.
+            $(window).resize(function() {
+                var newWidth = figure.width();
+                video
+                    .width(newWidth)
+                    .height(newWidth * video.attr('data-aspectRatio'));
+            }).resize();
+        }
+    }
+}
+
+
 angular
     .module('fishing-path')
     .directive('pageTitle', pageTitle)
@@ -310,6 +380,10 @@ angular
     .directive('iboxTools', iboxTools)
     .directive('minimalizaSidebar', minimalizaSidebar)
     .directive('iboxToolsFullScreen', iboxToolsFullScreen)
-    .directive('timerButton',timerButton)
+    .directive('fullScroll', fullScroll)
+    .directive('slimScroll', slimScroll)
     .directive('accessLevel',['AuthService',accessLevel])
     .directive('activeNav',['$location',activeNav])
+    .directive('passwordMeter', passwordMeter)
+    .directive('timerButton',timerButton)
+    .directive('responsiveVideo', responsiveVideo)

@@ -1,0 +1,68 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>课程学习</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.jsp">首页</a>
+            </li>
+            <li>
+                <a>课程学习</a>
+            </li>
+            <li class="active">
+                    <strong>奥巴马每周演讲</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>奥巴马每周演讲</h5>
+                </div>
+                <div class="ibox-content">
+                    <figure responsive-video>
+                        <video id="my-video" class="video-js" controls preload="auto" width="640" height="264"
+                                data-setup="{}">
+                            <source src="/video/Obama.mp4" type='video/mp4'>
+                        </video>
+                    </figure>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>课程描述</h5>
+                </div>
+                <div class="ibox-content profile-content">
+                    <h4><strong>奥巴马每周演讲</strong></h4>
+                    <p><i class="fa fa-user">贝拉克·侯赛因·奥巴马</i></p>
+                    <h5>
+                        演讲与口才
+                    </h5>
+                    <div class="row m-t-md">
+                        <div class="col-md-3">
+                            <h5><strong>169</strong>学习</h5>
+                        </div>
+                        <div class="col-md-9">
+                            <h5><strong>28</strong>评论</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+<script>
+    $(document).on('webkitfullscreenchange mozfullscreenchange fullscreenchange', function (e){
+        $('body').hasClass('fullscreen-video') ? $('body').removeClass('fullscreen-video') : $('body').addClass('fullscreen-video')
+    });
+</script>

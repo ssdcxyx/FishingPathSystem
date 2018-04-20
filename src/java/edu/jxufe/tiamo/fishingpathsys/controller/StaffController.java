@@ -17,7 +17,7 @@ public class StaffController extends BaseController {
 
     @ResponseBody
     @GetMapping(value = "/getStaffsByEnterpriseId")
-    public Object getStaffsByEnterpriseId(){
-        return staffService.getAllStaffsByEnterpriseId((short)1);
+    public Object getStaffsByEnterpriseId(Short enterpriseId){
+        return staffService.getAllStaffsByEnterpriseId(enterpriseId);
     }
 }

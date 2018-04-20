@@ -4,7 +4,7 @@
             <li class="nav-header">
 
                 <div class="profile-element" uib-dropdown>
-                    <img alt="image" class="img-circle" src="../../../../../img/profile_small.jpg"/>
+                    <img alt="image" class="img-circle" src="img/profile.png"/>
                     <a uib-dropdown-toggle href>
                             <span class="clear">
                                 <span class="block m-t-xs">
@@ -26,7 +26,7 @@
                     </ul>
                 </div>
                 <div class="logo-element">
-                    <img alt="image" src="../../../../../img/logo_small.png"/>
+                    <img alt="image" src="/img/logo_small.png"/>
                 </div>
 
             </li>
@@ -35,7 +35,22 @@
                 <a ui-sref="enterprise.main"><i class="fa fa-home"></i> <span class="nav-label">{{ 'MAIN_PAGE' | translate}}</span> </a>
             </li>
             <li ui-sref-active="active">
-                <a ui-sref="enterprise.users"><i class="fa fa-users"></i> <span class="nav-label">{{ 'USERS_MANAGEMENT' | translate}}</span></a>
+                <a ui-sref="enterprise.staffs"><i class="fa fa-users"></i> <span class="nav-label">{{ 'STAFFS_MANAGEMENT' | translate}}</span></a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="enterprise.studyStatistics"><i class="fa fa-pie-chart"></i> <span class="nav-label">{{ 'STUDY_STATISTICS' | translate}}</span></a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="enterprise.courses"><i class="fa fa-book"></i> <span class="nav-label">{{ 'COURSES_MANAGEMENT' | translate}}</span><span class="label label-info pull-right">新课程</span></a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="enterprise.associates"><i class="fa fa-star"></i> <span class="nav-label">{{ 'ASSOCIATES' | translate}}</span></a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="enterprise.announcement"><i class="fa fa-tv"></i> <span class="nav-label">{{ 'ANNOUNCEMENTS_MANAGEMENT' | translate}}</span><span class="label label-warning pull-right">新通知</span></a>
+            </li>
+            <li ui-sref-active="active">
+                <a ui-sref="enterprise.others"><i class="fa fa-spin fa-cog"></i> <span class="nav-label">{{ 'OTHERS' | translate}}</span></a>
             </li>
         </ul>
 

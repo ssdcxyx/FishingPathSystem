@@ -88,11 +88,7 @@ function AuthService($http, $cookieStore,CODE_CONSTANT){
         login: function(user,SweetAlert,success, error) {
             $.post("userLogin",user,function (data,statusText) {
                 if(data.exception){
-                    SweetAlert.swal({
-                        title:"用户登录失败",
-                        text:"与服务器交互出现异常："+err,
-                        type:"error"
-                    })
+                    error();
                 }else{
                     if(!!data){
                         let res = {}
@@ -104,16 +100,15 @@ function AuthService($http, $cookieStore,CODE_CONSTANT){
                             res = {user:data,role:userRoles.staff};
                         }
                         changeUser(res);
-                        success(data.user.role);
+                        success(currentUser);
                     }else{
                         // 反馈账号和密码错误
                         $('#telephone').parent().addClass("has-error");
                         $('#telephone').get(0).setCustomValidity("登录名或密码错误");
                         $('#telephone').get(0).reportValidity();
-                        error();
                     }
                 }
-            },"json");
+            });
             return false;
         },
         logout: function(success) {
@@ -139,6 +134,24 @@ function EnterpriseService(){
                 }
             })
         },
+        getAllDepartments : function (success,error) {
+            $.get("getAllDepartments",null,function (data,statusText) {
+                if(data.exception){
+                    error(data.exception);
+                }else{
+                    success(data);
+                }
+            })
+        },
+        getAllPostTypes : function (success,error) {
+            $.get("getAllPostTypes",null,function (data,statusText) {
+                if(data.exception){
+                    error(data.exception);
+                }else{
+                    success(data);
+                }
+            })
+        },
         updateEnterpriseInfo : function (enterprise,success,error) {
             $.post('updateEnterpriseInfo',enterprise,function(data,statusText){
                 if(data.exception){
@@ -146,7 +159,7 @@ function EnterpriseService(){
                 }else{
                     success(data);
                 }
-            })
+            });
         }
     }
 }

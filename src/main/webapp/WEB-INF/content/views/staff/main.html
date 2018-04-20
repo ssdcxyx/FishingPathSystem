@@ -1,10 +1,35 @@
-<div class="wrapper wrapper-content animated fadeInRight">
+<div class="wrapper wrapper-content" ng-controller="StaffMainCtrl as main">
     <div class="row">
         <div class="col-lg-12">
-            <div class="text-center m-t-lg">
-                <h1>
-                    员工用户
-                </h1>
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>推荐课程</h5>
+                </div>
+                <div class="ibox-content">
+                    <uib-carousel interval="main.slideInterval">
+                        <uib-slide class="active">
+                            <img ng-src="img/recommended/1.jpeg" style="margin:auto;">
+                            <div class="carousel-caption">
+                                <h3>你真的会"说话"嘛？</h3>
+                                <h4>渔径告诉你，治愈系的朗诵应该是这样的。</h4>
+                            </div>
+                        </uib-slide>
+                        <uib-slide>
+                            <img ng-src="img/recommended/2.jpeg" style="margin:auto;">
+                            <div class="carousel-caption">
+                                <h3>提升自我表达力，原来说话这么简单</h3>
+                                <h4>提神"言值"，让你称为演讲与表单高手。</h4>
+                            </div>
+                        </uib-slide>
+                        <uib-slide>
+                            <img ng-src="img/recommended/3.jpeg" style="margin:auto;">
+                            <div class="carousel-caption">
+                                <h3>多学一门技能，就少一个求人的理由</h3>
+                                <h4>Excel从小白到高手，让你一步到位。</h4>
+                            </div>
+                        </uib-slide>
+                    </uib-carousel>
+                </div>
             </div>
         </div>
     </div>

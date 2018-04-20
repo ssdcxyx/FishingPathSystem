@@ -25,8 +25,11 @@
     <bean id="enterpriseService"
           class="edu.jxufe.tiamo.fishingpathsys.service.impl.EnterpriseServiceImpl"
           p:enterpriseDao-ref="enterpriseDao"
+            p:staffDao-ref="staffDao"
             p:userDao-ref="userDao"
-            p:enterpriseTypeDao-ref="enterpriseTypeDao"/>
+            p:enterpriseTypeDao-ref="enterpriseTypeDao"
+            p:postTypeDao-ref="postTypeDao"
+            p:departmentDao-ref="departmentDao"/>
 
     <bean id="staffService"
           class="edu.jxufe.tiamo.fishingpathsys.service.impl.StaffServiceImpl"

@@ -1,17 +1,17 @@
 <div class="middle-box text-center loginscreen  animated fadeInDown">
     <div>
         <div>
-            <img src="./../../../img/logo.png">
+            <img src="/img/logo.png">
         </div>
         <h3 class="m-t">登录渔径系统</h3>
         <form class="m-t" role="form" ng-submit="login();">
             <div class="form-group">
                 <input type="tel" class="form-control" placeholder="输入用户名" name="telephone" id="telephone"
-                       minlength="11" maxlength="11" oninput="this.setCustomValidity('');$(this).parent().removeClass('has-error')" ng-model="telephone" required>
+                       minlength="11" maxlength="11" oninput="removeError()" ng-model="telephone" required>
             </div>
             <div class="form-group">
                 <input type="password" class="form-control" placeholder="输入密码" name="password" id="password"
-                       minlength="7" maxlength="20" oninput="this.setCustomValidity('')" ng-model="password" required>
+                       minlength="7" maxlength="20" oninput="removeError()" ng-model="password" required>
             </div>
             <button type="submit" class="btn btn-primary block full-width m-b">登录</button>
             <a ui-sref="forgot_password"><small>忘记密码？</small></a>
@@ -20,4 +20,12 @@
         </form>
         <p class="m-t"> <small>渔径科技 &copy; 2018</small> </p>
     </div>
+    <script type="text/javascript">
+        function removeError() {
+            $('#telephone')[0].setCustomValidity('');
+            $('#password')[0].setCustomValidity('');
+            $('#telephone').parent().removeClass('has-error');
+            $('#password').parent().removeClass('has-error');
+        }
+    </script>
 </div>
