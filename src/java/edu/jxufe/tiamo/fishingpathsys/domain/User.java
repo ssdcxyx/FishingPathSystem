@@ -23,6 +23,9 @@ public class User {
     @Basic
     @Column(name = "role")
     private short role;
+    @Basic
+    @Column(name = "logo_path")
+    private String logoPath;
 
     public short getId() {
         return id;
@@ -56,6 +59,14 @@ public class User {
         this.role = role;
     }
 
+    public String getLogoPath() {
+        return logoPath;
+    }
+
+    public void setLogoPath(String logoPath) {
+        this.logoPath = logoPath;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -64,12 +75,13 @@ public class User {
         return id == user.id &&
                 Objects.equals(account, user.account) &&
                 Objects.equals(password, user.password) &&
-                Objects.equals(role,user.role);
+                Objects.equals(role,user.role) &&
+                Objects.equals(logoPath,user.logoPath);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, account, password, role);
+        return Objects.hash(id, account, password, role, logoPath);
     }
 }

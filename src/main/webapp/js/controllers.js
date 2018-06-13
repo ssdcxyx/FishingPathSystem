@@ -75,53 +75,8 @@ function EnterpriseRegisterCtrl($rootScope, $state, $scope, $location,SweetAlert
     };
 }
 
-function EnterpriseUserInfoCtrl($scope,SweetAlert,EnterpriseService,AuthService){
-
-    $scope.enterprise = $scope.currentUser.user;
-    $scope.enterprise_type = {};
-    $scope.enterpriseTypes = [];
-    EnterpriseService.getAllEnterpriseTypes(
-        function (data) {
-            $scope.enterpriseTypes = data;
-            if($scope.enterprise.enterpriseType!=null){
-                $scope.enterprise_type = $scope.enterpriseTypes[$scope.enterprise.enterpriseType.id-1];
-                $scope.$apply();
-            }
-        },
-        function (err) {
-            SweetAlert.swal({
-                title:"获取信息失败",
-                text:"与服务器交互出现异常："+err + "！",
-                type:"error"
-            })
-        }
-    );
-    $scope.updateEnterpriseInfo = function () {
-        EnterpriseService.updateEnterpriseInfo({
-                "id":$scope.enterprise.id,
-                "name":$scope.enterprise.name,
-                "enterpriseTypeId":$scope.enterprise_type.id,
-                "description":$scope.enterprise.description,
-                "linkMan":$scope.enterprise.linkMan,
-                "telephone":$scope.enterprise.telephone
-            },
-            function (data) {
-                let res = {}
-                res = {user:data,role:$scope.userRoles.enterprise};
-                AuthService.changeUser(res)
-                SweetAlert.swal("更新成功！", "企业信息获得更新！", "success");
-            },function (err) {
-                SweetAlert.swal(
-                    "失败",
-                    "更新企业信息失败！",
-                    "error"
-                )
-            })
-    }
-}
 
 function EnterpriseMainCtrl(){
-
 
     /**
      * Data for Line chart
@@ -170,13 +125,82 @@ function EnterpriseMainCtrl(){
 
 }
 
+function EnterpriseContactsCtrl($scope,SweetAlert,StaffService) {
+    $scope.enterprise = $scope.currentUser.user;
+    $scope.staff = $scope.currentUser.user;
+    StaffService.getAllStaffsByEnterpriseIdAndDepartmentIdAndPostTypeId(
+        $scope.enterprise.id,
+        null,
+        null,
+        function (data) {
+            $scope.staffs = data;
+            $scope.$apply();
+        },function(err){
+            SweetAlert.swal({
+                title:"获取员工信息失败",
+                text:"与服务器交互出现异常："+err + "！",
+                type:"error"
+            })
+        }
+    )
+}
+
+function EnterpriseUserInfoCtrl($scope,SweetAlert,EnterpriseService,AuthService){
+
+    $scope.enterprise = $scope.currentUser.user;
+    $scope.enterprise_type = {};
+    $scope.enterpriseTypes = [];
+    EnterpriseService.getAllEnterpriseTypes(
+        function (data) {
+            $scope.enterpriseTypes = data;
+            if($scope.enterprise.enterpriseType!=null){
+                $scope.enterprise_type = $scope.enterpriseTypes[$scope.enterprise.enterpriseType.id-1];
+                $scope.$apply();
+            }
+        },
+        function (err) {
+            SweetAlert.swal({
+                title:"获取信息失败",
+                text:"与服务器交互出现异常："+err + "！",
+                type:"error"
+            })
+        }
+    );
+    $scope.updateEnterpriseInfo = function () {
+        $scope.loading = true;
+        EnterpriseService.updateEnterpriseInfo({
+                "id":$scope.enterprise.id,
+                "name":$scope.enterprise.name,
+                "enterpriseTypeId":$scope.enterprise_type.id,
+                "description":$scope.enterprise.description,
+                "linkMan":$scope.enterprise.linkMan,
+                "telephone":$scope.enterprise.telephone
+            },
+            function (data) {
+                $scope.loading = false;
+                let res = {};
+                res = {user:data,role:$scope.userRoles.enterprise};
+                AuthService.changeUser(res)
+                SweetAlert.swal("更新成功！", "企业信息获得更新！", "success");
+            },function (err) {
+                $scope.loading = false;
+                SweetAlert.swal(
+                    "失败",
+                    "更新企业信息失败！",
+                    "error"
+                )
+            })
+    }
+}
+
 function StaffsManagementCtrl($scope,SweetAlert,EnterpriseService,StaffService){
     $scope.departmentsOptions = [];
     $scope.postTypesOptions = [];
     EnterpriseService.getAllDepartments(
         function (data) {
             $scope.departments = data;
-            for(var i = 0;i<$scope.departments.length;i++){
+            // 移除第一个数据即所有部门
+            for(var i = 1;i<$scope.departments.length;i++){
                 $scope.departmentsOptions.push({"label":$scope.departments[i].name,"value":$scope.departments[i].id});
             }
             EnterpriseService.getAllPostTypes(
@@ -350,7 +374,6 @@ function StaffsManagementCtrl($scope,SweetAlert,EnterpriseService,StaffService){
                         ]
                     });
                     editor.on('submitComplete',function(){
-                        console.log("postSubmit");
                         tableStaffs.ajax.reload();
                     });
                 },
@@ -373,16 +396,252 @@ function StaffsManagementCtrl($scope,SweetAlert,EnterpriseService,StaffService){
     );
 }
 
-function AnnouncementManagementCtrl($scope){
-    $scope.sendRoles = [
-        {"id":'1','name':'所有员工'},
-        {'id':'2','name':'管理部员工'}
-    ];
-    $scope.sendRole = $scope.sendRoles[0];
+function StudyStatisticsCtrl($scope,SweetAlert,EnterpriseService,StaffService){
+    $scope.enterprise = $scope.currentUser.user;
+    StaffService.getStaffsByEnterpriseId(
+        {
+            'enterpriseId':$scope.enterprise.id
+        },
+        function (data) {
+            $scope.staffs = data;
+            $scope.departments = new Array();
+            $scope.departmentNames = new Array();
+            $scope.staffs.forEach(function (item) {
+                if($scope.departmentNames.indexOf(item.department.name)<0){
+                    $scope.departmentNames.push(item.department.name);
+                    $scope.departments.push(item.department);
+                }
+            })
+            $scope.$apply();
+        },function(err){
+            SweetAlert.swal({
+                title:"获取员工信息失败",
+                text:"与服务器交互出现异常："+err + "！",
+                type:"error"
+            })
+        }
+    )
+}
+
+function EnterpriseAnnouncementsCtrl($scope,SweetAlert,EnterpriseService){
+    $scope.enterprise = $scope.currentUser.user;
+    EnterpriseService.getAnnouncementsByEnterpriseId(
+        $scope.enterprise.id,
+        function (data) {
+            $scope.announcements = data;
+            $scope.$apply();
+        },function(err){
+            SweetAlert.swal({
+                title:"获取课程信息失败",
+                text:"与服务器交互出现异常："+err + "！",
+                type:"error"
+            })
+        }
+    )
+}
+
+function AnnouncementManagementCtrl($scope,SweetAlert,EnterpriseService){
+    $scope.sendRole = 0;
+    $scope.enterprise = $scope.currentUser.user;
+    EnterpriseService.getAllDepartments(
+        function (data) {
+            $scope.departments = data;
+            if($scope.departments!=null){
+                $scope.sendRole = $scope.departments[0];
+                $scope.$apply();
+            }
+        },
+        function (err) {
+            SweetAlert.swal({
+                title:"获取信息失败",
+                text:"与服务器交互出现异常："+err + "！",
+                type:"error"
+            })
+        });
+
+    $scope.publishAnnouncement = function(){
+        $scope.loading=true;
+        EnterpriseService.publishAnnouncement(
+            {
+                "title":$scope.announcementTitle,
+                "information":$scope.announcementInfo,
+                "enterpriseId":$scope.enterprise.id,
+                "departmentId":$scope.sendRole.id
+            },
+            function (data) {
+                $scope.loading=false;
+                SweetAlert.swal("发布成功！", "公告信息已经成功推送至指定部门！", "success");
+                $('#announcementForm')[0].reset();
+            },
+            function (err) {
+                $scope.loading=false;
+                SweetAlert.swal({
+                    title:"发布公告失败",
+                    text:"与服务器交互出现异常："+err + "！",
+                    type:"error"
+                })
+            }
+        )
+    }
 }
 
 function StaffMainCtrl(){
     this.slideInterval = 3000;
+}
+
+function StaffContactsCtrl($scope,SweetAlert,StaffService) {
+    $scope.staff = $scope.currentUser.user;
+    StaffService.getAllStaffsByEnterpriseIdAndDepartmentIdAndPostTypeId(
+        $scope.staff.enterprise.id,
+        $scope.staff.department.id,
+        $scope.staff.postType.id,
+        function (data) {
+            $scope.staffs = data;
+            $scope.$apply();
+        },function(err){
+            SweetAlert.swal({
+                title:"获取员工信息失败",
+                text:"与服务器交互出现异常："+err + "！",
+                type:"error"
+            })
+        }
+    )
+}
+
+function findCoursesByPage($scope,SweetAlert,CourseService,coursesLength,pageNo,pageSize) {
+    CourseService.findCoursesByPage(
+        {pageNo:pageNo,pageSize:pageSize},
+        function (data) {
+            $scope.courses=data;
+            $('#pagination').twbsPagination({
+                totalPages: coursesLength/12 + 1,
+                visiblePages: 10,
+                onPageClick: function (event, page) {
+                    findCoursesByPage($scope,SweetAlert,CourseService,coursesLength,page,pageSize);
+                }
+            });
+            $scope.$apply();
+            $('.star-grade').each(function () {
+                $(this).raty();
+                $(this).raty('score',parseInt($(this).attr('score'))/2)
+                $(this).raty('readOnly',true);
+            });
+            shave('.product-name',32)
+            shave('.m-t-xs',38);
+        },
+        function (err) {
+            SweetAlert.swal({
+                title:"获取课程信息失败",
+                text:"与服务器交互出现异常："+err + "！",
+                type:"error"
+            })
+        }
+    )
+}
+
+function CoursesLibraryCtrl($scope,SweetAlert,CourseService){
+    CourseService.findCoursesLength(function (data) {
+        $scope.coursesLenth = data;
+        findCoursesByPage($scope,SweetAlert,CourseService,$scope.coursesLenth,1,12);
+    },function(err){
+        SweetAlert.swal({
+            title:"获取课程信息失败",
+            text:"与服务器交互出现异常："+err + "！",
+            type:"error"
+        })
+    });
+}
+
+function CourseDetailCtrl($scope,$stateParams,SweetAlert,CourseService){
+    $scope.courseId = $stateParams.courseId;
+    CourseService.findCourseByCourseId(
+        $scope.courseId,
+        function (data) {
+            $scope.course = data;
+            $scope.$apply();
+        },function(err){
+            SweetAlert.swal({
+                title:"获取课程信息失败",
+                text:"与服务器交互出现异常："+err + "！",
+                type:"error"
+            })
+        }
+    )
+}
+
+function StudyVideoCtrl($scope,$stateParams,SweetAlert,CourseService,StaffService){
+    $scope.courseId = $stateParams.courseId;
+    CourseService.findCourseByCourseId(
+        $scope.courseId,
+        function (data) {
+            $scope.course = data;
+            $scope.courseChapter = $scope.course.courseChapterList[$stateParams.courseChapterIndex];
+            $scope.courseSection = $scope.courseChapter.courseSectionList[$stateParams.courseSectionIndex];
+            $scope.$apply();
+            StaffService.storeLearningRecord(
+                $scope.currentUser.user.id,
+                $scope.course.id,
+                $scope.courseSection.id,
+                function (data) {
+
+                },function(err){
+                    SweetAlert.swal({
+                        title:"获取课程信息失败",
+                        text:"与服务器交互出现异常："+err + "！",
+                        type:"error"
+                    })
+                }
+            )
+        },function(err){
+            SweetAlert.swal({
+                title:"获取课程信息失败",
+                text:"与服务器交互出现异常："+err + "！",
+                type:"error"
+            })
+        }
+    )
+}
+
+function LearningPathCtrl($scope,SweetAlert,StaffService){
+    $scope.staff = $scope.currentUser.user;
+    StaffService.getLearningPathByStaffId(
+        $scope.staff.id,
+        function (data) {
+            $scope.learningPaths = data;
+            $scope.tab = $scope.learningPaths[0].id;
+            $scope.tabIndex = 0;
+            $scope.$apply();
+        },function(err){
+            SweetAlert.swal({
+                title:"获取学习记录信息失败",
+                text:"与服务器交互出现异常："+err + "！",
+                type:"error"
+            })
+        }
+    )
+    $scope.tabChange = function (learning_path_id,index) {
+        $scope.tab = learning_path_id;
+        $scope.tabIndex = index;
+    }
+}
+
+
+function StaffAnnouncementsCtrl($scope,SweetAlert,StaffService){
+    $scope.staff = $scope.currentUser.user;
+    StaffService.getAnnouncementsByEnterpriseIdAndDepartmentId(
+        $scope.staff.enterprise.id,
+        $scope.staff.department.id,
+        function (data) {
+            $scope.announcements = data;
+            $scope.$apply();
+        },function(err){
+            SweetAlert.swal({
+                title:"获取课程信息失败",
+                text:"与服务器交互出现异常："+err + "！",
+                type:"error"
+            })
+        }
+    )
 }
 
 
@@ -394,8 +653,19 @@ angular
         UserLoginCtrl])
     .controller('EnterpriseRegisterCtrl',['$rootScope', '$scope', '$state', '$location','SweetAlert','AuthService','REG_CONSTANT',
         EnterpriseRegisterCtrl])
+    // 企业控制器
     .controller('EnterpriseMainCtrl', EnterpriseMainCtrl)
+    .controller('EnterpriseContactsCtrl',['$scope','SweetAlert','StaffService',EnterpriseContactsCtrl])
     .controller('EnterpriseUserInfoCtrl',['$scope','SweetAlert','EnterpriseService','AuthService',EnterpriseUserInfoCtrl])
     .controller('StaffsManagementCtrl',['$scope','SweetAlert','EnterpriseService','StaffService',StaffsManagementCtrl])
-    .controller('AnnouncementManagementCtrl',['$scope',AnnouncementManagementCtrl])
+    .controller('StudyStatisticsCtrl',['$scope','SweetAlert','EnterpriseService','StaffService',StudyStatisticsCtrl])
+    .controller('EnterpriseAnnouncementsCtrl'['$scope','SweetAlert','EnterpriseService',EnterpriseAnnouncementsCtrl])
+    .controller('AnnouncementManagementCtrl',['$scope','SweetAlert','EnterpriseService',AnnouncementManagementCtrl])
+    // 员工控制器
     .controller('StaffMainCtrl', StaffMainCtrl)
+    .controller('StaffContactsCtrl',['$scope','SweetAlert','StaffService',StaffContactsCtrl])
+    .controller('CoursesLibraryCtrl',['$scope','SweetAlert','CourseService',CoursesLibraryCtrl])
+    .controller('CourseDetailCtrl',['$scope','$stateParams','SweetAlert','CourseService',CourseDetailCtrl])
+    .controller('StudyVideoCtrl',['$scope','$stateParams','SweetAlert','CourseService','StaffService',StudyVideoCtrl])
+    .controller('LearningPathCtrl',['$scope','SweetAlert','StaffService',LearningPathCtrl])
+    .controller('StaffAnnouncementsCtrl',['$scope','SweetAlert','StaffService',StaffAnnouncementsCtrl])

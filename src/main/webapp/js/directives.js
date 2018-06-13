@@ -23,6 +23,7 @@ function pageTitle($rootScope, $timeout) {
     }
 }
 
+
 /**
  * sideNavigation - Directive for run metsiMenu on sidebar navigation
  */
@@ -82,7 +83,12 @@ function iboxTools($timeout) {
                 // Function for close ibox
                 $scope.closebox = function () {
                     var ibox = $element.closest('div.ibox');
+                    var div1 = ibox.parent();
+                    var div2 = div1.prev();
                     ibox.remove();
+                    div1.remove();
+                    div2.removeClass('col-lg-8');
+                    div2.addClass('col-lg-12');
                 }
         }
     };
@@ -203,100 +209,7 @@ function minimalizaSidebar($timeout) {
     };
 }
 
-// 发送验证码按钮
-function timerButton($timeout,$interval){
-    return {
-        restrict: 'AE',
-        scope: {
-            showTimer: '=', // 支持解析变量
-            timeout: '=',
-            telephone:'@', // 单项绑定
-            msgId:'=',
-            telephonePattern:'@'
-        },
-        link: function(scope, element, attrs){
-            scope.timer = false;
-            scope.timerCount = scope.timeout / 1000;
-            scope.text = "获取验证码";
-            element.on('click',function(){
-                // 正则表达式验证类
-                var reg = new RegExp(scope.telephonePattern);
-                if(!reg.test(($('#telephone').val()))){
-                    // 兼容性可能存在问题
-                    $('#telephone').get(0).setCustomValidity("手机号码格式错误");
-                    $('#telephone').get(0).reportValidity();
-                }else{
-                    scope.timer = true;
-                    $.get("sendVerificationCode",{telephone:scope.telephone},function (data,statusText) {
-                        if(data.exception){
-                            alert("与服务器交互出现异常:"+data.exception);
-                            scope.timer = false;
-                        }else{
-                            if(data!=null&&data!=""){
-                                if(data=="isExist"){
-                                    $('#telephone').get(0).setCustomValidity("手机号码已注册");
-                                    $('#telephone').get(0).reportValidity();
-                                    scope.timer=false;
-                                }else{
-                                    scope.msgId = data;
-                                    // 触发时间按钮事件
-                                    scope.showTimer = true;
-                                    scope.text = "s";
-                                    var counter = $interval(function(){
-                                        scope.timerCount = scope.timerCount - 1;
-                                    }, 1000);
-                                    $timeout(function(){
-                                        scope.text = "获取验证码";
-                                        scope.timer = false;
-                                        $interval.cancel(counter);
-                                        scope.showTimer = false;
-                                        scope.timerCount = scope.timeout / 1000;
-                                    }, scope.timeout);
-                                }
-                            }else{
-                                scope.timer=false;
-                            }
-                        }
-                    });
-                    return false;
-                }
-            });
-        },
-        template: '<button type="button" class="btn btn-primary" style="width: 96px;" ng-disabled="timer"><span ng-if="showTimer">{{ timerCount }}</span>{{text}}</a>'
-    };
-}
 
-function accessLevel(AuthService) {
-    return {
-        restrict: 'A',
-        link: function($scope, element, attrs) {
-            var prevDisp = element.css('display')
-                , userRole
-                , accessLevel;
-
-            $scope.user = AuthService.user;
-            $scope.$watch('user', function(user) {
-                if(user.role)
-                    userRole = user.role;
-                updateCSS();
-            }, true);
-
-            attrs.$observe('accessLevel', function(al) {
-                if(al) accessLevel = $scope.$eval(al);
-                updateCSS();
-            });
-
-            function updateCSS() {
-                if(userRole && accessLevel) {
-                    if(!AuthService.authorize(accessLevel, userRole))
-                        element.css('display', 'none');
-                    else
-                        element.css('display', prevDisp);
-                }
-            }
-        }
-    };
-}
 
 function activeNav($location) {
     return {
@@ -373,6 +286,115 @@ function responsiveVideo() {
 }
 
 
+function landingScrollspy(){
+    return {
+        restrict: 'A',
+        link: function (scope, element, attrs) {
+            element.scrollspy({
+                target: '.navbar-fixed-top',
+                offset: 80
+            });
+        }
+    }
+}
+
+function accessLevel(AuthService) {
+    return {
+        restrict: 'A',
+        link: function($scope, element, attrs) {
+            var prevDisp = element.css('display')
+                , userRole
+                , accessLevel;
+
+            $scope.user = AuthService.user;
+            $scope.$watch('user', function(user) {
+                if(user.role)
+                    userRole = user.role;
+                updateCSS();
+            }, true);
+
+            attrs.$observe('accessLevel', function(al) {
+                if(al) accessLevel = $scope.$eval(al);
+                updateCSS();
+            });
+
+            function updateCSS() {
+                if(userRole && accessLevel) {
+                    if(!AuthService.authorize(accessLevel, userRole))
+                        element.css('display', 'none');
+                    else
+                        element.css('display', prevDisp);
+                }
+            }
+        }
+    };
+}
+
+
+// 发送验证码按钮
+function timerButton($timeout,$interval){
+    return {
+        restrict: 'AE',
+        scope: {
+            showTimer: '=', // 支持解析变量
+            timeout: '=',
+            telephone:'@', // 单项绑定
+            msgId:'=',
+            telephonePattern:'@'
+        },
+        link: function(scope, element, attrs){
+            scope.timer = false;
+            scope.timerCount = scope.timeout / 1000;
+            scope.text = "获取验证码";
+            element.on('click',function(){
+                // 正则表达式验证类
+                var reg = new RegExp(scope.telephonePattern);
+                if(!reg.test(($('#telephone').val()))){
+                    // 兼容性可能存在问题
+                    $('#telephone').get(0).setCustomValidity("手机号码格式错误");
+                    $('#telephone').get(0).reportValidity();
+                }else{
+                    scope.timer = true;
+                    $.get("sendVerificationCode",{telephone:scope.telephone},function (data,statusText) {
+                        if(data.exception){
+                            alert("与服务器交互出现异常:"+data.exception);
+                            scope.timer = false;
+                        }else{
+                            if(data!=null&&data!=""){
+                                if(data=="isExist"){
+                                    $('#telephone').get(0).setCustomValidity("手机号码已注册");
+                                    $('#telephone').get(0).reportValidity();
+                                    scope.timer=false;
+                                }else{
+                                    scope.msgId = data;
+                                    // 触发时间按钮事件
+                                    scope.showTimer = true;
+                                    scope.text = "s";
+                                    var counter = $interval(function(){
+                                        scope.timerCount = scope.timerCount - 1;
+                                    }, 1000);
+                                    $timeout(function(){
+                                        scope.text = "获取验证码";
+                                        scope.timer = false;
+                                        $interval.cancel(counter);
+                                        scope.showTimer = false;
+                                        scope.timerCount = scope.timeout / 1000;
+                                    }, scope.timeout);
+                                }
+                            }else{
+                                scope.timer=false;
+                            }
+                        }
+                    });
+                    return false;
+                }
+            });
+        },
+        template: '<button type="button" class="btn btn-primary" style="width: 96px;" ng-disabled="timer"><span ng-if="showTimer">{{ timerCount }}</span>{{text}}</a>'
+    };
+}
+
+
 angular
     .module('fishing-path')
     .directive('pageTitle', pageTitle)
@@ -382,8 +404,9 @@ angular
     .directive('iboxToolsFullScreen', iboxToolsFullScreen)
     .directive('fullScroll', fullScroll)
     .directive('slimScroll', slimScroll)
-    .directive('accessLevel',['AuthService',accessLevel])
     .directive('activeNav',['$location',activeNav])
     .directive('passwordMeter', passwordMeter)
-    .directive('timerButton',timerButton)
     .directive('responsiveVideo', responsiveVideo)
+    .directive('landingScrollspy', landingScrollspy)
+    .directive('accessLevel',['AuthService',accessLevel])
+    .directive('timerButton',timerButton)

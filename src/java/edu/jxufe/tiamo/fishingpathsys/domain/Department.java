@@ -24,6 +24,10 @@ public class Department {
     @JoinColumn(name = "department_id")
     @JsonBackReference
     private List<Staff> staffList;
+    @OneToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "department_id")
+    @JsonBackReference
+    private List<Department> departments;
 
     public short getId() {
         return id;
@@ -57,6 +61,14 @@ public class Department {
         this.staffList = staffList;
     }
 
+    public List<Department> getDepartments() {
+        return departments;
+    }
+
+    public void setDepartments(List<Department> departments) {
+        this.departments = departments;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -65,12 +77,13 @@ public class Department {
         return id == that.id &&
                 Objects.equals(name, that.name) &&
                 Objects.equals(description, that.description) &&
-                Objects.equals(staffList,that.staffList);
+                Objects.equals(staffList,that.staffList) &&
+                Objects.equals(departments,that.departments);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, name, description, staffList);
+        return Objects.hash(id, name, description, staffList,departments);
     }
 }

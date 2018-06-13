@@ -26,8 +26,9 @@
     <mvc:resources location="/font-awesome/" mapping="/font-awesome/**"></mvc:resources>
     <mvc:resources location="/fonts/" mapping="/fonts/**"></mvc:resources>
     <mvc:resources location="/img/" mapping="/img/**"></mvc:resources>
-    <mvc:resources location="/js/" mapping="/js/**"></mvc:resources>
     <mvc:resources location="/video/" mapping="/video/**"></mvc:resources>
+    <mvc:resources location="/js/" mapping="/js/**"></mvc:resources>
+    <mvc:resources location="/plugins/" mapping="/plugins/**"></mvc:resources>
     <mvc:resources location="/WEB-INF/content/" mapping="/res/**"></mvc:resources>
 
     <mvc:interceptors>

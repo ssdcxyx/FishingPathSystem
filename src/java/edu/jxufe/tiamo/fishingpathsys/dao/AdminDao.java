@@ -8,4 +8,5 @@ import java.util.List;
 public interface AdminDao extends BaseDao<Admin> {
 
     List<Admin> findAdminByUserId(short userId);
+
 }

@@ -1,0 +1,121 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-sm-4">
+        <h2>课程信息</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.jsp">首页</a>
+            </li>
+            <li>
+                <a href="#/staff/coursesLibrary">课程库</a>
+            </li>
+            <li>
+                <strong>{{course.name}}</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-9">
+        <div class="wrapper wrapper-content animated fadeInRight">
+            <div class="widget-head-color-box white-bg p-lg">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="m-b-md text-center">
+                            <h2 class="font-bold no-margins">{{course.name}}</h2>
+                        </div>
+                        <dl class="dl-horizontal">
+                            <dt>讲师：</dt>
+                            <dd><span class="label label-primary">{{course.author}}</span></dd>
+                        </dl>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-5">
+                        <dl class="dl-horizontal">
+                            <dt>难度：</dt>
+                            <div ng-switch="course.rank">
+                                <dd ng-switch-when="0">
+                                    入门
+                                </dd>
+                                <dd ng-switch-when="1">
+                                    初级
+                                </dd>
+                                <dd ng-switch-when="2">
+                                    中级
+                                </dd>
+                                <dd ng-switch-when="3">
+                                    高级
+                                </dd>
+                                <dd ng-switch-when="4">
+                                    进阶
+                                </dd>
+                                <dd ng-switch-when="5">
+                                    实战
+                                </dd>
+                            </div>
+                            <dt>时长：</dt>
+                            <dd>{{(course.duration/60%60)|number:0}}时{{course.duration%60|number:0}}分</dd>
+                            <dt>章数：</dt>
+                            <dd>{{course.chapterNumber}}</dd>
+                            <dt>节数：</dt>
+                            <dd>{{course.sectionNumber}}</dd>
+                        </dl>
+                    </div>
+                    <div class="col-lg-7" id="cluster_info">
+                        <dl class="dl-horizontal">
+                            <dt>学习人数：</dt>
+                            <dd>{{course.learningNumber}}</dd>
+                            <dt>综合评分：</dt>
+                            <dd>{{course.totalGrade}}</dd>
+                        </dl>
+                    </div>
+                </div>
+            </div>
+            <div class="widget-text-box white-bg">
+                <div class="row m-t-sm">
+                    <div class="col-lg-12">
+                        <div class="panel blank-panel ui-tab">
+                            <uib-tabset>
+                                <uib-tab heading="课程章节" active="tab.active">
+                                    <div class="widget gray-bg p-lg" ng-repeat="courseChapter in course.courseChapterList" ng-init="outerIndex1 = $index">
+                                        <div class="row">
+                                            <h3 class="font-bold no-margins"><strong>第{{(courseChapter.serialNumber+"")|chineseNumber}}章&nbsp;</strong>{{courseChapter.name}}</h3>
+                                            <small style="margin-left: 10px;margin-top: 10px;">{{courseChapter.description}}</small>
+                                            <ul class="todo-list m-t">
+                                                <li ng-repeat="courseSection in course.courseChapterList[outerIndex1].courseSectionList" ng-init="outerIndex2 = $index" ui-sref="staff.studyVideo({courseId:{{course.id}},courseChapterIndex:{{outerIndex1}},courseSectionIndex:{{outerIndex2}}})">
+                                                    <span class="m-l-xs"><i class="fa fa-play-circle fa-lg"></i>&nbsp;&nbsp;&nbsp;{{courseChapter.serialNumber}}.{{courseSection.serialNumber}}&nbsp;&nbsp;{{courseSection.name}}</span>
+                                                    <small class="label label-primary"><i class="fa fa-clock-o"></i>&nbsp;{{(courseSection.duration/60%60 + "")|minute}}:{{(courseSection.duration%60+"")|second}}</small>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </uib-tab>
+                                <uib-tab heading="讨论区">
+
+                                </uib-tab>
+                            </uib-tabset>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3">
+        <div class="wrapper wrapper-content project-manager">
+            <div class="widget white-bg p-lg">
+                <img ng-src="{{course.courseLogoPath}}" class="img-responsive">
+                <h4>课程简介</h4>
+                <p class="small">
+                    {{course.description}}
+                </p>
+                <h5>课程特点</h5>
+                <ul class="tag-list" style="padding: 0">
+                    <li><a href=""><i class="fa fa-tag"></i> 内容实用 </a></li>
+                    <li><a href=""><i class="fa fa-tag"></i> 简洁易懂 </a></li>
+                    <li><a href=""><i class="fa fa-tag"></i> 逻辑清晰 </a></li>
+                </ul>
+                <p>&nbsp;</p>
+            </div>
+        </div>
+    </div>
+</div>

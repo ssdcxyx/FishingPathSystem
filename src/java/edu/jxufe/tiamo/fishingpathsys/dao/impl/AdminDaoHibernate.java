@@ -14,4 +14,5 @@ public class AdminDaoHibernate extends BaseDaoHibernate<Admin> implements AdminD
         List<Admin> adminList = find(hql,userId);
         return adminList;
     }
+
 }

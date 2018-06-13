@@ -4,7 +4,7 @@
             <li class="nav-header">
 
                 <div class="profile-element" uib-dropdown>
-                    <img alt="image" class="img-circle" src="img/profile.png"/>
+                    <img alt="image" class="img-circle img-responsive" style="width: 48px;height: 48px;" ng-src="{{currentUser.user.user.logoPath}}"/>
                     <a uib-dropdown-toggle href>
                             <span class="clear">
                                 <span class="block m-t-xs">
@@ -19,8 +19,7 @@
                     </a>
                     <ul uib-dropdown-menu="" class="animated fadeInRight m-t-xs">
                         <li><a ui-sref="enterprise.info">企业信息</a></li>
-                        <li><a>通讯录</a></li>
-                        <li><a>消息</a></li>
+                        <li><a ui-sref="enterprise.contacts">通讯录</a></li>
                         <li class="divider"></li>
                         <li><a ng-click="logout();">注销登录</a></li>
                     </ul>
@@ -47,7 +46,7 @@
                 <a ui-sref="enterprise.associates"><i class="fa fa-star"></i> <span class="nav-label">{{ 'ASSOCIATES' | translate}}</span></a>
             </li>
             <li ui-sref-active="active">
-                <a ui-sref="enterprise.announcement"><i class="fa fa-tv"></i> <span class="nav-label">{{ 'ANNOUNCEMENTS_MANAGEMENT' | translate}}</span><span class="label label-warning pull-right">新通知</span></a>
+                <a ui-sref="enterprise.announcementBoard"><i class="fa fa-tv"></i> <span class="nav-label">{{ 'ANNOUNCEMENTS_MANAGEMENT' | translate}}</span><span class="label label-warning pull-right">新通知</span></a>
             </li>
             <li ui-sref-active="active">
                 <a ui-sref="enterprise.others"><i class="fa fa-spin fa-cog"></i> <span class="nav-label">{{ 'OTHERS' | translate}}</span></a>

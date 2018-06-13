@@ -1,0 +1,77 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>课程学习</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.jsp">首页</a>
+            </li>
+            <li>
+                <a href="#/staff/coursesLibrary">课程库</a>
+            </li>
+            <li>
+                <a href="#/staff/courseDetail/{{course.id}}">{{course.name}}</a>
+            </li>
+            <li class="active">
+                <strong>{{courseSection.name}}</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-2">
+
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>{{courseSection.name}}</h5>
+                </div>
+                <div class="ibox-content">
+                    <figure responsive-video>
+                        <video id="my-video" class="video-js" controls preload="auto"
+                               data-setup="{}" allowfullscreen>
+                            <source src="{{courseSection.fileAddress}}" type='video/mp4'>
+                        </video>
+                    </figure>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>章节描述</h5>
+                    <div ibox-tools></div>
+                </div>
+                <div class="ibox-content profile-content">
+                    <img ng-src="{{course.courseLogoPath}}" class="img-responsive">
+                    <h4><strong>{{course.name}}</strong></h4>
+                    <h5>
+                        {{course.courseType.courseCategory.name}}
+                    </h5>
+                    <p>
+                        <i class="fa fa-book"></i>&nbsp;{{courseChapter.name}}
+                    </p>
+                    <p>{{course.description}}</p>
+                    <div class="row m-t-md">
+                        <div class="col-md-4">
+                            <h5><strong>内容实用</strong>&nbsp;{{course.practicalGrade}}</h5>
+                        </div>
+                        <div class="col-md-4">
+                            <h5><strong>简洁易懂</strong>&nbsp;{{course.conciseGrade}}</h5>
+                        </div>
+                        <div class="col-md-4">
+                            <h5><strong>逻辑清晰</strong>&nbsp;{{course.clearGrade}}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+<script>
+    $(document).on('webkitfullscreenchange mozfullscreenchange fullscreenchange', function (e){
+        $('body').hasClass('fullscreen-video') ? $('body').removeClass('fullscreen-video') : $('body').addClass('fullscreen-video')
+    });
+</script>

@@ -19,11 +19,13 @@ public class LearningPath {
     @Column(name = "description")
     private String description;
 
-    @ManyToOne(targetEntity = Staff.class, fetch = FetchType.LAZY)
+    @ManyToOne(targetEntity = Staff.class)
     @JoinColumn(name = "staff_id", referencedColumnName = "id", nullable = false)
     private Staff staff;
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "learning_path_id")
+    @ManyToOne(targetEntity = CourseCategory.class)
+    @JoinColumn(name = "course_category_id", referencedColumnName = "id", nullable = false)
+    private CourseCategory courseCategory;
+    @OneToMany(targetEntity = LearningRecord.class, mappedBy = "learningPath",fetch = FetchType.LAZY)
     private List<LearningRecord> learningRecordList;
 
     public short getId() {
@@ -66,6 +68,14 @@ public class LearningPath {
         this.learningRecordList = learningRecordList;
     }
 
+    public CourseCategory getCourseCategory() {
+        return courseCategory;
+    }
+
+    public void setCourseCategory(CourseCategory courseCategory) {
+        this.courseCategory = courseCategory;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -75,12 +85,13 @@ public class LearningPath {
                 Objects.equals(name, that.name) &&
                 Objects.equals(description, that.description) &&
                 Objects.equals(staff, that.staff) &&
-                Objects.equals(learningRecordList, that.learningRecordList);
+                Objects.equals(learningRecordList, that.learningRecordList) &&
+                Objects.equals(courseCategory, that.courseCategory);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, name, description, staff, learningRecordList);
+        return Objects.hash(id, name, description, staff, learningRecordList, courseCategory);
     }
 }

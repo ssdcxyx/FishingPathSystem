@@ -10,4 +10,10 @@ public interface StaffDao extends BaseDao<Staff> {
     List<Staff> findStaffByUserId(short userId);
 
     List<Staff> findStaffsByEnterpriseId(short enterpriseId);
+
+    List<Staff> findStaffsByEnterpriseIdAndDepartmentId(Short enterpriseId,Short departmentId);
+
+    List<Staff> findStaffsByEnterpriseIdAndPostTypeId(Short enterpriseId,Short postTypeId);
+
+    List<Staff> findStaffsByEnterpriseIdAndPostTypeIdNotDepartmentId(Short enterpriseId,Short postTypeId,Short departmentId);
 }

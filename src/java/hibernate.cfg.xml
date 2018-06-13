@@ -19,6 +19,9 @@
         <mapping class="edu.jxufe.tiamo.fishingpathsys.domain.Announcement"/>
         <mapping class="edu.jxufe.tiamo.fishingpathsys.domain.Course"/>
         <mapping class="edu.jxufe.tiamo.fishingpathsys.domain.CourseType"/>
+        <mapping class="edu.jxufe.tiamo.fishingpathsys.domain.CourseCategory"/>
+        <mapping class="edu.jxufe.tiamo.fishingpathsys.domain.CourseChapter"/>
+        <mapping class="edu.jxufe.tiamo.fishingpathsys.domain.CourseSection"/>
         <mapping class="edu.jxufe.tiamo.fishingpathsys.domain.Department"/>
         <mapping class="edu.jxufe.tiamo.fishingpathsys.domain.Enterprise"/>
         <mapping class="edu.jxufe.tiamo.fishingpathsys.domain.EnterpriseType"/>

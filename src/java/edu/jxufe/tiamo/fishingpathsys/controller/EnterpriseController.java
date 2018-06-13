@@ -40,30 +40,35 @@ public class EnterpriseController extends BaseController {
     @ResponseBody
     @GetMapping(value = "/getAllEnterpriseTypes")
     public Object getAllEnterpriseTypes(){
+        Logger.Log.info(this.getClass().getName()+": getAllEnterpriseTypes ");
         return enterpriseService.getAllEnterpriseTypes();
     }
 
     @ResponseBody
     @GetMapping(value = "/getAllDepartments")
     public Object getAllDepartments(){
+        Logger.Log.info(this.getClass().getName()+": getAllDepartments ");
         return enterpriseService.getAllDepartment();
     }
 
     @ResponseBody
     @GetMapping(value = "/getAllPostTypes")
     public Object getAllPostTypes(){
+        Logger.Log.info(this.getClass().getName()+": getAllPostTypes ");
         return enterpriseService.getAllPostType();
     }
 
     @ResponseBody
     @PostMapping(value = "/updateEnterpriseInfo")
     public Object updateEnterpriseInfo(Short id, String name, Short enterpriseTypeId,String description,String linkMan,String telephone){
+        Logger.Log.info(this.getClass().getName()+": updateEnterpriseInfo" + id  + " "+ name);
         return enterpriseService.updateEnterpriseInfo(id, name, enterpriseTypeId, description, linkMan, telephone);
     }
 
     @ResponseBody
     @PostMapping(value = "/addStaff")
     public Object addStaff(@RequestBody String param) throws Exception{
+        Logger.Log.info(this.getClass().getName()+": addStaff" + param);
         ObjectMapper objectMapper = new ObjectMapper();
         ResponseDTO responseDTO = objectMapper.readValue(param,ResponseDTO.class);
         Map<String,DataDTO> dataDTOMap = responseDTO.getData();
@@ -84,6 +89,7 @@ public class EnterpriseController extends BaseController {
     @ResponseBody
     @PostMapping(value = "/editStaff")
     public Object editStaff(@RequestBody String param) throws Exception{
+        Logger.Log.info(this.getClass().getName()+": editStaff" + param);
         // TODO: 2018/4/18 多行编辑存在问题
         ObjectMapper objectMapper = new ObjectMapper();
         ResponseDTO responseDTO = objectMapper.readValue(param,ResponseDTO.class);
@@ -103,6 +109,7 @@ public class EnterpriseController extends BaseController {
     @ResponseBody
     @PostMapping(value = "/deleteStaff")
     public Object deleteStaff(@RequestBody String param) throws Exception{
+        Logger.Log.info(this.getClass().getName()+": deleteStaff" + param);
         ObjectMapper objectMapper = new ObjectMapper();
         DeleteResponseDao deleteResponseDao = objectMapper.readValue(param,DeleteResponseDao.class);
         Map<String,Object> dataDTOMap = deleteResponseDao.getData();
@@ -114,4 +121,17 @@ public class EnterpriseController extends BaseController {
         return param;
     }
 
+    @ResponseBody
+    @PostMapping(value="/publishAnnouncement")
+    public Object publishAnnouncement(String title,String information,Short enterpriseId,Short departmentId){
+        Logger.Log.info(this.getClass().getName()+": publishAnnouncement" + title + " " + information + " " + enterpriseId  + " "+departmentId);
+        return enterpriseService.publishAnnouncement(title, information, enterpriseId, departmentId);
+    }
+
+    @ResponseBody
+    @GetMapping(value = "/getAnnouncementsByEnterpriseId")
+    public Object getAnnouncementsByEnterpriseId(Short enterpriseId){
+        Logger.Log.info(this.getClass().getName()+": getAnnouncementsByEnterpriseId" + enterpriseId);
+        return enterpriseService.getAnnouncementsByEnterpriseId(enterpriseId);
+    }
 }

@@ -42,9 +42,9 @@
     <url-pattern>/</url-pattern>
   </servlet-mapping>
 
-  <!--自定义404静态页面-->
-  <error-page>
-    <error-code>404</error-code>
-    <location>/WEB-INF/content/views/404.jsp</location>
-  </error-page>
+  <!--&lt;!&ndash;自定义404静态页面&ndash;&gt;-->
+  <!--<error-page>-->
+    <!--<error-code>404</error-code>-->
+    <!--<location>/WEB-INF/content/views/404.jsp</location>-->
+  <!--</error-page>-->
 </web-app>

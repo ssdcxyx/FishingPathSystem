@@ -1,15 +1,16 @@
 package edu.jxufe.tiamo.fishingpathsys.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "course_type", schema = "FishingPathSystem")
+@Table(name = "course_type", schema = "FishingPathSystem", catalog = "")
 public class CourseType {
     @Id
     @Column(name = "id")
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private short id;
     @Basic
     @Column(name = "name")
@@ -18,8 +19,11 @@ public class CourseType {
     @Column(name = "description")
     private String description;
 
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "course_type_id")
+    @ManyToOne(targetEntity = CourseCategory.class)
+    @JoinColumn(name = "course_category_id", referencedColumnName = "id")
+    private CourseCategory courseCategory;
+    @JsonBackReference
+    @OneToMany(targetEntity = Course.class,mappedBy = "courseType",fetch = FetchType.LAZY)
     private List<Course> courseList;
 
     public short getId() {
@@ -46,6 +50,14 @@ public class CourseType {
         this.description = description;
     }
 
+    public CourseCategory getCourseCategory() {
+        return courseCategory;
+    }
+
+    public void setCourseCategory(CourseCategory courseCategory) {
+        this.courseCategory = courseCategory;
+    }
+
     public List<Course> getCourseList() {
         return courseList;
     }
@@ -61,13 +73,14 @@ public class CourseType {
         CourseType that = (CourseType) o;
         return id == that.id &&
                 Objects.equals(name, that.name) &&
-                Objects.equals(description, that.description)&&
-                Objects.equals(courseList,that.courseList);
+                Objects.equals(description, that.description) &&
+                Objects.equals(courseCategory, that.courseCategory) &&
+                Objects.equals(courseList, that.courseList);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, name, description,courseList);
+        return Objects.hash(id, name, description, courseCategory, courseList);
     }
 }

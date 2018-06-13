@@ -1,0 +1,44 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-9">
+        <h2>通讯录</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.jsp">首页</a>
+            </li>
+            <li class="active">
+                <strong>通讯录</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="wrapper wrapper-content animated fadeInRight">
+    <div class="row">
+        <div class="col-lg-3" ng-repeat="staff in staffs">
+            <div class="contact-box center-version">
+
+                <a href="profile.html">
+
+                    <img alt="image" class="img-circle" ng-src="{{staff.user.logoPath}}">
+
+
+                    <h3 class="m-b-xs"><strong>{{staff.name}}</strong></h3>
+
+                    <div class="font-bold">{{staff.department.name}}</div>
+                    <address class="m-t-md">
+                        <strong>{{staff.postType.name}}.</strong><br/>
+                        工号：{{staff.jobNumber}}
+                        <abbr title="Phone">Tel:</abbr>{{staff.telephone}}
+                    </address>
+
+                </a>
+                <div class="contact-box-footer">
+                    <div class="m-t-xs btn-group">
+                        <a class="btn btn-xs btn-white"><i class="fa fa-envelope"></i> 发消息 </a>
+                        <a class="btn btn-xs btn-white"><i class="fa fa-a"></i> 关注 </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

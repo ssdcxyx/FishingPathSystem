@@ -1,7 +1,11 @@
 // 设置jQuery发送Ajax的全局选项
 jQuery.ajaxSetup({
     error:function (xhr,textStatus,error) {
-        alert("服务器交互出现异常，错误信息："+textStatus);
+        SweetAlert.swal({
+            title:"网络请求异常",
+            text:"向服务器发送请求时出现异常："+textStatus,
+            type:"error"
+        })
     }
 });
 (function () {
@@ -38,6 +42,49 @@ jQuery.ajaxSetup({
             sessionTimeout: 'auth-session-timeout',
             notAuthenticated: 'auth-not-authenticated',
             notAuthorized: 'auth-not-authorized'
+        })
+        // 过滤器
+        .filter('minute',function(){
+            // 分
+            return function(input){
+                var index = input.indexOf('.');
+                if(index>=0){
+                    input = input.substring(0,index);
+                }
+                if(input.length==1){
+                    return "0"+input;
+                }else if(input.length==0){
+                    return "00";
+                } else{
+                    return input;
+                }
+            }
+        })
+        .filter('second',function(){
+            // 秒
+            return function(input){
+                if(input.length==1){
+                    return "0"+input;
+                }else if(input.length==0){
+                    return "00";
+                } else{
+                    return input;
+                }
+            }
+        })
+        .filter('chineseNumber',function(){
+            // 阿拉巴数字转中文
+            return function (input) {
+                var array=["零","一","二","三","四","五","六","七","八","九","十"];
+                var result = '';
+                if(input!=''){
+                    var atr=input.replace(/(.)(?=[^$])/g,"$1,").split(",");
+                    atr.forEach(function(e){
+                        result += array[e];
+                    });
+                }
+                return result;
+            }
         })
 
 })();

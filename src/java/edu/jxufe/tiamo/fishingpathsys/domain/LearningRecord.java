@@ -1,5 +1,7 @@
 package edu.jxufe.tiamo.fishingpathsys.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -10,11 +12,8 @@ import java.util.Objects;
 public class LearningRecord implements Serializable{
 
     @Basic
-    @Column(name = "learning_time")
-    private short learningTime;
-    @Basic
-    @Column(name = "learning_chapter")
-    private short learningChapter;
+    @Column(name = "last_learning_time")
+    private String lastLearningTime;
     @Basic
     @Column(name = "start_time")
     private String startTime;
@@ -30,28 +29,23 @@ public class LearningRecord implements Serializable{
     @JoinColumn(name = "course_id", referencedColumnName = "id", nullable = false)
     private Course course;
     @Id
-    @ManyToOne(targetEntity = Staff.class)
-    @JoinColumn(name = "staff_id", referencedColumnName = "id", nullable = false)
-    private Staff staff;
-    @Id
+    @JsonBackReference
     @ManyToOne(targetEntity = LearningPath.class)
     @JoinColumn(name = "learning_path_id", referencedColumnName = "id", nullable = false)
     private LearningPath learningPath;
+    @ManyToOne(targetEntity = CourseSection.class)
+    @JoinColumn(name = "course_section_id", referencedColumnName = "id", nullable = false)
+    private CourseSection courseSection;
+    @ManyToOne(targetEntity = CourseChapter.class)
+    @JoinColumn(name = "course_chapter_id", referencedColumnName = "id", nullable = false)
+    private CourseChapter courseChapter;
 
-    public short getLearningTime() {
-        return learningTime;
+    public String getLastLearningTime() {
+        return lastLearningTime;
     }
 
-    public void setLearningTime(short learningTime) {
-        this.learningTime = learningTime;
-    }
-
-    public short getLearningChapter() {
-        return learningChapter;
-    }
-
-    public void setLearningChapter(short learningChapter) {
-        this.learningChapter = learningChapter;
+    public void setLastLearningTime(String lastLearningTime) {
+        this.lastLearningTime = lastLearningTime;
     }
 
     public String getStartTime() {
@@ -86,14 +80,6 @@ public class LearningRecord implements Serializable{
         this.course = course;
     }
 
-    public Staff getStaff() {
-        return staff;
-    }
-
-    public void setStaff(Staff staff) {
-        this.staff = staff;
-    }
-
     public LearningPath getLearningPath() {
         return learningPath;
     }
@@ -102,25 +88,41 @@ public class LearningRecord implements Serializable{
         this.learningPath = learningPath;
     }
 
+    public CourseSection getCourseSection() {
+        return courseSection;
+    }
+
+    public void setCourseSection(CourseSection courseSection) {
+        this.courseSection = courseSection;
+    }
+
+    public CourseChapter getCourseChapter() {
+        return courseChapter;
+    }
+
+    public void setCourseChapter(CourseChapter courseChapter) {
+        this.courseChapter = courseChapter;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         LearningRecord that = (LearningRecord) o;
         return
-                learningTime == that.learningTime &&
-                learningChapter == that.learningChapter &&
+                lastLearningTime == that.lastLearningTime &&
                 Objects.equals(startTime, that.startTime) &&
                 Objects.equals(endTime, that.endTime) &&
                 Objects.equals(grade, that.grade) &&
                 Objects.equals(course, that.course) &&
-                Objects.equals(staff, that.staff) &&
-                Objects.equals(learningPath,that.learningPath);
+                Objects.equals(learningPath,that.learningPath) &&
+                Objects.equals(courseSection, that.courseSection) &&
+                Objects.equals(courseChapter, that.courseChapter);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(learningTime, learningChapter, startTime, endTime, grade, course, staff, learningPath);
+        return Objects.hash(lastLearningTime, courseSection, startTime, endTime, grade, course, learningPath, courseChapter);
     }
 }

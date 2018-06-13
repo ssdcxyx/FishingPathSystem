@@ -56,7 +56,7 @@ function AuthService($http, $cookieStore,CODE_CONSTANT){
                                     $('#telephone').get(0).setCustomValidity("手机号码已注册");
                                     $('#telephone').get(0).reportValidity();
                                 } else if (!!data) {
-                                    let res = {}
+                                    var res = {}
                                     res = {user: data, role:userRoles.enterprise}
                                     changeUser(res);
                                     success();
@@ -160,7 +160,25 @@ function EnterpriseService(){
                     success(data);
                 }
             });
-        }
+        },
+        publishAnnouncement:function (announcement,success,error) {
+            $.post('publishAnnouncement',announcement,function (data,statusText) {
+                if(data.exception){
+                    error(data.exception);
+                }else{
+                    success(data);
+                }
+            })
+        },
+        getAnnouncementsByEnterpriseId:function (enterprise_id,success,error) {
+            $.get('getAnnouncementsByEnterpriseId',{'enterpriseId':enterprise_id},function (data,statusText) {
+                if(data.exception){
+                    error(data.exception);
+                }else{
+                    success(data);
+                }
+            })
+        },
     }
 }
 
@@ -174,6 +192,92 @@ function StaffService(){
                    success(data);
                }
            })
+        },
+        getAnnouncementsByEnterpriseIdAndDepartmentId:function (enterprise_id,department_id,success,error) {
+            $.get('getAnnouncementsByEnterpriseIdAndDepartmentId',{'enterpriseId':enterprise_id,'departmentId':department_id},function (data,statusText) {
+                if(data.exception){
+                    error(data.exception);
+                }else{
+                    success(data);
+                }
+            })
+        },
+        storeLearningRecord:function (staff_id,course_id,course_section_id,success,error) {
+            $.post('storeLearningRecord',{'staffId':staff_id,'courseId':course_id,'courseSectionId':course_section_id},function (data,statusText) {
+                if(data.exception){
+                    error(data.exception);
+                }else{
+                    success(data);
+                }
+            })
+        },
+        getLearningPathByStaffId:function (staff_id,success,error) {
+            $.get('getLearningPathByStaffId',{'staffId':staff_id},function (data,statusText) {
+                if(data.exception){
+                    error(data.exception);
+                }else{
+                    success(data);
+                }
+            })
+        },
+        getAllStaffsByEnterpriseIdAndDepartmentIdAndPostTypeId:function (enterprise_id,department_id,post_type_id,success,error,) {
+            $.get('getAllStaffsByEnterpriseIdAndDepartmentIdAndPostTypeId',{'enterpriseId':enterprise_id,'departmentId':department_id,"postTypeId":post_type_id},function (data,statusText) {
+                if(data.exception){
+                    error(data.exception);
+                }else{
+                    success(data);
+                }
+            })
+        }
+    }
+}
+
+function CourseService(){
+    return {
+        getAllCourses : function (success,error) {
+            $.get('getAllCourses',function (data,statusText) {
+                if(data.exception){
+                    error(data.exception);
+                }else{
+                    success(data);
+                }
+            })
+        },
+        findCoursesByPage : function (page,success,error) {
+            $.get('findCoursesByPage',page,function (data,statusText) {
+                if(data.exception){
+                    error(data.exception);
+                }else{
+                    success(data);
+                }
+            })
+        },
+        findCoursesLength : function (success,error) {
+            $.get('findCoursesLength',function (data,statusText) {
+                if(data.exception){
+                    error(data.exception);
+                }else{
+                    success(data);
+                }
+            })
+        },
+        findCourseByCourseId : function (courseId,success,error) {
+            $.get('findCourseByCourseId',{'courseId':courseId},function (data,statusText) {
+                if(data.exception){
+                    error(data.exception);
+                }else{
+                    success(data);
+                }
+            })
+        },
+        findCourseSectionByCourseSectionId:function (courseSectionId,success,error) {
+            $.get('findCourseSectionByCourseSectionId',{'courseSectionId':courseSectionId},function (data,statusText) {
+                if(data.exception){
+                    error(data.exception);
+                }else{
+                    success(data);
+                }
+            })
         }
     }
 }
@@ -184,3 +288,4 @@ angular
     .factory('AuthService',['$http','$cookieStore','CODE_CONSTANT',AuthService])
     .factory('EnterpriseService',EnterpriseService)
     .factory('StaffService',StaffService)
+    .factory('CourseService',CourseService)

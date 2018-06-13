@@ -29,11 +29,22 @@
             p:userDao-ref="userDao"
             p:enterpriseTypeDao-ref="enterpriseTypeDao"
             p:postTypeDao-ref="postTypeDao"
-            p:departmentDao-ref="departmentDao"/>
+            p:departmentDao-ref="departmentDao"
+            p:announcementDao-ref="announcementDao"/>
 
     <bean id="staffService"
           class="edu.jxufe.tiamo.fishingpathsys.service.impl.StaffServiceImpl"
-          p:staffDao-ref="staffDao"/>
+          p:staffDao-ref="staffDao"
+            p:announcementDao-ref="announcementDao"
+            p:courseDao-ref="courseDao"
+            p:courseSectionDao-ref="courseSectionDao"
+            p:learningPathDao-ref="learningPathDao"
+            p:learningRecordDao-ref="learningRecordDao"/>
+
+    <bean id="courseService"
+          class="edu.jxufe.tiamo.fishingpathsys.service.impl.CourseServiceImpl"
+          p:courseDao-ref="courseDao"
+        p:courseSectionDao-ref="courseSectionDao"/>
 
     <!--配置Hibernate的局部事务管理器-->
     <bean id="transactionManager"

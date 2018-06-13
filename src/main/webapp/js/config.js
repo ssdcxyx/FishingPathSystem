@@ -17,7 +17,8 @@ function config($stateProvider, $urlRouterProvider, $locationProvider, $httpProv
         })
         .state('public.404', {
             url: '/404/',
-            templateUrl: 'res/404.html'
+            templateUrl: 'res/views/404.html',
+            data: { pageTitle: '渔径科技-页面无法找到', specialClass: 'gray-bg' },
         });
 
     // 访客路由
@@ -29,17 +30,31 @@ function config($stateProvider, $urlRouterProvider, $locationProvider, $httpProv
                 access: access.anon
             }
         })
+        .state('anon.index', {
+            url: "/",
+            templateUrl: "res/views/index.html",
+            data: { pageTitle: '渔径科技在线学习与管理系统', specialClass: 'landing-page' },
+            resolve: {
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            files: ['js/plugins/wow/wow.min.js']
+                        }
+                    ]);
+                }
+            }
+        })
         .state('anon.login', {
             url: "/login/",
             controller:UserLoginCtrl,
             templateUrl: "res/views/login.html",
-            data: { pageTitle: '登录', specialClass: 'gray-bg' }
+            data: { pageTitle: '登录' }
         })
         .state('anon.register', {
             url: "/register/",
             controller:EnterpriseRegisterCtrl,
             templateUrl: "res/views/enterpriseRegister.html",
-            data: { pageTitle: '注册', specialClass: 'gray-bg' }
+            data: { pageTitle: '注册' }
         });
 
     // 员工用户路由
@@ -56,15 +71,50 @@ function config($stateProvider, $urlRouterProvider, $locationProvider, $httpProv
             templateUrl: "res/views/staff/main.html",
             data: { pageTitle: '渔径-首页' }
         })
+        .state('staff.contacts', {
+            url: "/staff/contacts",
+            templateUrl: "res/views/common/contacts.html",
+            controller:StaffContactsCtrl,
+            data: { pageTitle: '渔径-通讯录' }
+        })
         .state('staff.learningPath', {
             url: "/staff/learningPath",
             templateUrl: "res/views/staff/staff_learning_path.html",
+            controller:LearningPathCtrl,
             data: { pageTitle: '渔径-学习路径' }
         })
         .state('staff.coursesLibrary', {
             url: "/staff/coursesLibrary",
             templateUrl: "res/views/staff/courses_library.html",
-            data: { pageTitle: '渔径-课程库' }
+            controller:CoursesLibraryCtrl,
+            data: { pageTitle: '渔径-课程库' },
+            resolve:{
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            files: ['js/plugins/shave/shave.js']
+                        },
+                        {
+                            files: ['plugins/raty/jquery.raty.js',"plugins/raty/jquery.raty.css"]
+                        },
+                        {
+                            files: ['plugins/pagination/jquery.twbsPagination.js']
+                        }
+                    ]);
+                }
+            }
+        })
+        .state('staff.courseDetail',{
+            url:'/staff/courseDetail/:courseId',
+            templateUrl: "res/views/staff/course_detail.html",
+            controller:CourseDetailCtrl,
+            data: { pageTitle: '渔径-课程信息' }
+        })
+        .state('staff.studyVideo',{
+            url:"/staff/studyVideo/:courseId/:courseChapterIndex/:courseSectionIndex",
+            controller:StudyVideoCtrl,
+            templateUrl:"res/views/staff/course_video.html",
+            data: { pageTitle: '渔径-课程学习' }
         })
         .state('staff.associates', {
             url: "/staff/associates",
@@ -73,36 +123,14 @@ function config($stateProvider, $urlRouterProvider, $locationProvider, $httpProv
         })
         .state('staff.announcementBoard', {
             url: "/staff/announcementBoard",
+            controller:StaffAnnouncementsCtrl,
             templateUrl: "res/views/staff/announcements_board.html",
             data: { pageTitle: '渔径-公告栏' }
         })
         .state('staff.others',{
             url:"/staff/others",
-            templateUrl:"res/views/staff/others.html",
+            templateUrl:"res/views/common/others.html",
             data: { pageTitle: '渔径-其他' }
-        })
-        .state('staff.studyVideo',{
-            url:"/staff/studyVideo",
-            templateUrl:"res/views/staff/video.html",
-            data: { pageTitle: '渔径-课程学习' },
-            resolve: {
-                loadPlugin: function ($ocLazyLoad) {
-                    return $ocLazyLoad.load([
-                        {
-                            name: 'angles',
-                            files: ['js/plugins/chartJs/angles.js', 'js/plugins/chartJs/Chart.min.js']
-                        },
-                        {
-                            name: 'angular-peity',
-                            files: ['js/plugins/peity/jquery.peity.min.js', 'js/plugins/peity/angular-peity.js']
-                        },
-                        {
-                            name: 'ui.checkbox',
-                            files: ['js/bootstrap/angular-bootstrap-checkbox.js']
-                        }
-                    ]);
-                }
-            }
         })
 
     // 企业用户路由
@@ -137,6 +165,12 @@ function config($stateProvider, $urlRouterProvider, $locationProvider, $httpProv
                 }
             }
         })
+        .state('enterprise.contacts', {
+            url: "/enterprise/contacts",
+            templateUrl: "res/views/common/contacts.html",
+            controller:EnterpriseContactsCtrl,
+            data: { pageTitle: '渔径-通讯录' }
+        })
         .state('enterprise.info',{
             url:"/enterprise/info",
             templateUrl:"res/views/enterprise/info_management.html",
@@ -151,6 +185,16 @@ function config($stateProvider, $urlRouterProvider, $locationProvider, $httpProv
                         {
                             name: 'ui.select',
                             files: ['js/plugins/ui-select/select.min.js', 'css/plugins/ui-select/select.min.css']
+                        },
+                        {
+                            serie: true,
+                            name: 'angular-ladda',
+                            files: ['js/plugins/ladda/spin.min.js', 'js/plugins/ladda/ladda.min.js', 'css/plugins/ladda/ladda-themeless.min.css','js/plugins/ladda/angular-ladda.min.js']
+                        },
+                        {
+                            serie: true,
+                            name: 'angular-ladda',
+                            files: ['js/plugins/ladda/spin.min.js', 'js/plugins/ladda/ladda.min.js', 'css/plugins/ladda/ladda-themeless.min.css','js/plugins/ladda/angular-ladda.min.js']
                         }
                     ]);
                 }
@@ -159,6 +203,7 @@ function config($stateProvider, $urlRouterProvider, $locationProvider, $httpProv
         .state('enterprise.staffs', {
             url: "/enterprise/staffs/",
             templateUrl: "res/views/enterprise/staffs_management.html",
+            controller:StaffsManagementCtrl,
             data: { pageTitle: '渔径 - 员工管理' },
             resolve:{
                 loadPlugin: function ($ocLazyLoad) {
@@ -194,6 +239,7 @@ function config($stateProvider, $urlRouterProvider, $locationProvider, $httpProv
         .state('enterprise.studyStatistics',{
             url:"/enterprise/announcements",
             templateUrl:"res/views/enterprise/study_statistics.html",
+            controller:StudyStatisticsCtrl,
             data: { pageTitle: '渔径-学习统计' }
         })
         .state('enterprise.courses',{
@@ -206,8 +252,14 @@ function config($stateProvider, $urlRouterProvider, $locationProvider, $httpProv
             templateUrl:"res/views/enterprise/associates.html",
             data: { pageTitle: '渔径-同事圈' }
         })
-        .state('enterprise.announcement',{
-            url:'/enterprise/announcement',
+        .state('enterprise.announcementBoard', {
+            url: "/enterprise/announcementBoard",
+            controller:EnterpriseAnnouncementsCtrl,
+            templateUrl: "res/views/enterprise/announcements_board.html",
+            data: { pageTitle: '渔径-公告栏' }
+        })
+        .state('enterprise.announcementManagement',{
+            url:'/enterprise/announcementManagement',
             templateUrl:"res/views/enterprise/announcements_management.html",
             controller:AnnouncementManagementCtrl,
             data: { pageTitle: '渔径-公告管理' },
@@ -220,6 +272,11 @@ function config($stateProvider, $urlRouterProvider, $locationProvider, $httpProv
                         {
                             name: 'ui.select',
                             files: ['js/plugins/ui-select/select.min.js', 'css/plugins/ui-select/select.min.css']
+                        },
+                        {
+                            serie: true,
+                            name: 'angular-ladda',
+                            files: ['js/plugins/ladda/spin.min.js', 'js/plugins/ladda/ladda.min.js', 'css/plugins/ladda/ladda-themeless.min.css','js/plugins/ladda/angular-ladda.min.js']
                         }
                     ]);
                 }
@@ -227,7 +284,7 @@ function config($stateProvider, $urlRouterProvider, $locationProvider, $httpProv
         })
         .state('enterprise.others',{
             url:"/enterprise/others",
-            templateUrl:"res/views/enterprise/others.html",
+            templateUrl:"res/views/common/others.html",
             data: { pageTitle: '渔径-其他' }
         })
 
@@ -253,11 +310,12 @@ function config($stateProvider, $urlRouterProvider, $locationProvider, $httpProv
         });
 
 
+
     // 指定默认地址
     $urlRouterProvider.otherwise(function($injector) {
         // 防止无限循环
         var $state = $injector.get('$state');
-        $state.go('anon.login');
+        $state.go('public.404');
     });
 
     $ocLazyLoadProvider.config({
@@ -302,7 +360,19 @@ function config($stateProvider, $urlRouterProvider, $locationProvider, $httpProv
     });
 }
 
-function run($rootScope, $state, AuthService) {
+// 初始化
+function run($rootScope, $state, AuthService,SweetAlert) {
+
+    // 设置jQuery发送Ajax的全局选项
+    jQuery.ajaxSetup({
+        error:function (xhr,textStatus,error) {
+            SweetAlert.swal({
+                title:"网络请求异常",
+                text:"向服务器发送请求时出现异常："+textStatus,
+                type:"error"
+            })
+        }
+    });
 
     $rootScope.$state = $state;
 
@@ -327,10 +397,18 @@ function run($rootScope, $state, AuthService) {
                     $state.go('admin.main');
                 } else {
                     $rootScope.error = null;
-                    $state.go('anon.login');
+                    $state.go('anon.index');
                 }
+            }else{
+                event.preventDefault();
+                SweetAlert.swal({
+                    title:"权限不足",
+                    text:"你没有访问该页面的权限！",
+                    type:"error"
+                })
             }
         }
+
     });
 
 }
@@ -339,5 +417,5 @@ angular
     .module('fishing-path')
     .config(['$stateProvider', '$urlRouterProvider', '$locationProvider', '$httpProvider','$ocLazyLoadProvider','IdleProvider',
         config])
-    .run(['$rootScope', '$state', 'AuthService',
+    .run(['$rootScope', '$state', 'AuthService','SweetAlert',
         run]);

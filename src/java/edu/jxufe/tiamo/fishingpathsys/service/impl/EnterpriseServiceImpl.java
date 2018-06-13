@@ -1,7 +1,10 @@
 package edu.jxufe.tiamo.fishingpathsys.service.impl;
 
+import com.sun.tools.javac.comp.Enter;
 import edu.jxufe.tiamo.fishingpathsys.dao.*;
 import edu.jxufe.tiamo.fishingpathsys.domain.*;
+import edu.jxufe.tiamo.fishingpathsys.domain.StaffDepartmentDTO.DepartmentDTO;
+import edu.jxufe.tiamo.fishingpathsys.domain.StaffDepartmentDTO.EnterpriseDTO;
 import edu.jxufe.tiamo.fishingpathsys.exception.CustomException;
 import edu.jxufe.tiamo.fishingpathsys.service.EnterpriseService;
 import edu.jxufe.tiamo.util.Code;
@@ -9,6 +12,9 @@ import edu.jxufe.tiamo.util.ListUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Transactional
@@ -21,6 +27,7 @@ public class EnterpriseServiceImpl implements EnterpriseService{
     private PostTypeDao postTypeDao;
     private DepartmentDao departmentDao;
     private StaffDao staffDao;
+    private AnnouncementDao announcementDao;
 
     public void setEnterpriseDao(EnterpriseDao enterpriseDao) {
         this.enterpriseDao = enterpriseDao;
@@ -46,6 +53,12 @@ public class EnterpriseServiceImpl implements EnterpriseService{
         this.staffDao = staffDao;
     }
 
+    public void setAnnouncementDao(AnnouncementDao announcementDao) {
+        this.announcementDao = announcementDao;
+    }
+
+
+
     @Override
     public Enterprise enterpriseRegister(String telephone, String password) {
         try{
@@ -56,6 +69,7 @@ public class EnterpriseServiceImpl implements EnterpriseService{
             user.setAccount(telephone);
             user.setPassword(password);
             user.setRole(Code.role.ENTERPRISE.getIndex());
+            user.setLogoPath("/img/user_logo/3.png");
             enterprise.setUser(user);
             enterprise.setId((Short) enterpriseDao.save(enterprise));
             return enterprise;
@@ -95,7 +109,11 @@ public class EnterpriseServiceImpl implements EnterpriseService{
     @Override
     public List<Department> getAllDepartment() {
         try{
-            return departmentDao.findAll(Department.class);
+            List<Department> departments = departmentDao.findAll(Department.class);
+            Department department_all = new Department();
+            department_all.setName("所有部门");
+            departments.add(0,department_all);
+            return departments;
         }catch (Exception ex){
             ex.printStackTrace();
             throw new CustomException("获取所有部门种类时出现异常。请通知管理员！");
@@ -155,6 +173,11 @@ public class EnterpriseServiceImpl implements EnterpriseService{
             User user = staff.getUser();
             user.setAccount(account);
             user.setPassword(password);
+            if(sex.equals('男')){
+                user.setLogoPath("/img/user_logo/1.png");
+            }else{
+                user.setLogoPath("/img/user_logo/4.png");
+            }
             userDao.save(user);
             staff.setUser(user);
             Enterprise enterprise = enterpriseDao.get(Enterprise.class,enterpriseId);
@@ -177,6 +200,80 @@ public class EnterpriseServiceImpl implements EnterpriseService{
         }catch (Exception ex){
             ex.printStackTrace();
             throw new CustomException("删除员工账号时出现异常，请通知管理员！");
+        }
+    }
+
+    @Override
+    public Announcement publishAnnouncement(String title, String information, short enterpriseId, short departmentId) {
+        try{
+            Department department = null;
+            if(departmentId!=0){
+                department = departmentDao.get(Department.class,departmentId);
+            }else{
+                department = null;
+            }
+            Enterprise enterprise = enterpriseDao.get(Enterprise.class,enterpriseId);
+            Announcement announcement = new Announcement();
+            announcement.setTitle(title);
+            announcement.setInformation(information);
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            announcement.setTime(simpleDateFormat.format(new Date()));
+            announcement.setEnterprise(enterprise);
+            announcement.setDepartment(department);
+            short announcementId = (Short)announcementDao.save(announcement);
+            return announcementDao.get(Announcement.class,announcementId);
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new CustomException("发布公告时出现异常，请通知管理员！");
+        }
+    }
+
+    @Override
+    public List<Announcement> getAnnouncementsByEnterpriseId(Short enterpriseId) {
+        try{
+            List<Announcement> announcements = new ArrayList<>();
+            announcements.addAll(announcementDao.getAnnouncementsByEnterpriseId(enterpriseId));
+            announcements.addAll(announcementDao.getAnnouncementsForAdmin());
+            return announcements;
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new CustomException("获取公告信息时出现异常，请通知管理员！");
+        }
+    }
+
+    @Override
+    public EnterpriseDTO getEnterpriseDTOByEnterpriseId(Short enterpriseId) {
+        try{
+            Enterprise enterprise = enterpriseDao.get(Enterprise.class,enterpriseId);
+            List<Staff> staffList = staffDao.findStaffsByEnterpriseId(enterpriseId);
+            List<DepartmentDTO> departmentDTOList = new ArrayList<>();
+            DepartmentDTO departmentDTO = new DepartmentDTO();
+            for (Staff staff : staffList) {
+                departmentDTO.setDepartment(staff.getDepartment());
+                for (DepartmentDTO dto : departmentDTOList) {
+                    if(departmentDTO.getDepartment().getId()==dto.getDepartment().getId()){
+                        if(departmentDTOList.indexOf(dto)==departmentDTOList.size()){
+                            if(departmentDTO.getStaffList()==null){
+                                List<Staff> staffs = new ArrayList<>();
+                                staffs.add(staff);
+                                departmentDTO.setStaffList(new ArrayList<>());
+                            }else{
+                                departmentDTO.getStaffList().add(staff);
+                            }
+                            departmentDTOList.add(departmentDTO);
+                        }
+                        break;
+                    }
+                }
+
+            }
+            EnterpriseDTO enterpriseDTO = new EnterpriseDTO();
+            enterpriseDTO.setEnterprise(enterprise);
+            enterpriseDTO.setDepartmentList(departmentDTOList);
+            return enterpriseDTO;
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new CustomException("获取企业员工信息失败，请通知管理员！");
         }
     }
 }

@@ -4,7 +4,7 @@
             <li class="nav-header">
 
                 <div class="profile-element" uib-dropdown>
-                    <img alt="image" class="img-circle" src="img/profile.png"/>
+                    <img alt="image" class="img-circle img-responsive" style="width: 48px;height: 48px;" ng-src="{{currentUser.user.user.logoPath}}"/>
                     <a uib-dropdown-toggle href>
                             <span class="clear">
                                 <span class="block m-t-xs">
@@ -18,9 +18,8 @@
                             </span>
                     </a>
                     <ul uib-dropdown-menu="" class="animated fadeInRight m-t-xs">
-                        <li><a ui-sref="enterprise.info">个人信息</a></li>
-                        <li><a>通讯录</a></li>
-                        <li><a>消息</a></li>
+                        <li><a ng-href="#">个人信息</a></li>
+                        <li><a ui-sref="staff.contacts">通讯录</a></li>
                         <li class="divider"></li>
                         <li><a ng-click="logout();">注销登录</a></li>
                     </ul>

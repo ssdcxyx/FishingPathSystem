@@ -45,9 +45,6 @@ public class Staff {
     @OneToMany(targetEntity = LearningPath.class, mappedBy = "staff",fetch = FetchType.LAZY)
     private List<LearningPath> learningPathList;
     @JsonBackReference
-    @OneToMany(targetEntity = LearningRecord.class, mappedBy = "staff",fetch = FetchType.LAZY)
-    private List<LearningRecord> learningRecordList;
-    @JsonBackReference
     @OneToMany(targetEntity = Interest.class, mappedBy = "staff",fetch = FetchType.LAZY)
     private List<Interest> interestList;
 
@@ -141,13 +138,6 @@ public class Staff {
         this.learningPathList = learningPathList;
     }
 
-    public List<LearningRecord> getLearningRecordList() {
-        return learningRecordList;
-    }
-
-    public void setLearningRecordList(List<LearningRecord> learningRecordList) {
-        this.learningRecordList = learningRecordList;
-    }
 
     public List<Interest> getInterestList() {
         return interestList;
@@ -172,13 +162,12 @@ public class Staff {
                 Objects.equals(postType, staff.postType) &&
                 Objects.equals(department, staff.department) &&
                 Objects.equals(learningPathList, staff.learningPathList) &&
-                Objects.equals(learningRecordList, staff.learningRecordList) &&
                 Objects.equals(interestList, staff.interestList);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, jobNumber, name, telephone, sex, user,enterprise, postType, department,learningPathList,learningRecordList,interestList);
+        return Objects.hash(id, jobNumber, name, telephone, sex, user,enterprise, postType, department,learningPathList,interestList);
     }
 }

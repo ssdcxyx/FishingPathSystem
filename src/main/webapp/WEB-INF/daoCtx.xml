@@ -47,8 +47,17 @@
     <bean id="courseDao" parent="daoTemplate"
           class="edu.jxufe.tiamo.fishingpathsys.dao.impl.CourseDaoHibernate"/>
 
+    <bean id="courseChapterDao" parent="daoTemplate"
+          class="edu.jxufe.tiamo.fishingpathsys.dao.impl.CourseChapterDaoHibernate"/>
+
+    <bean id="courseSectionDao" parent="daoTemplate"
+          class="edu.jxufe.tiamo.fishingpathsys.dao.impl.CourseSectionDaoHibernate"/>
+
     <bean id="courseTypeDao" parent="daoTemplate"
           class="edu.jxufe.tiamo.fishingpathsys.dao.impl.CourseTypeDaoHibernate"/>
+
+    <bean id="courseCategoryDao" parent="daoTemplate"
+          class="edu.jxufe.tiamo.fishingpathsys.dao.impl.CourseSectionDaoHibernate"/>
 
     <bean id="departmentDao" parent="daoTemplate"
           class="edu.jxufe.tiamo.fishingpathsys.dao.impl.DepartmentDaoHibernate"/>

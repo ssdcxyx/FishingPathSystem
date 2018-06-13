@@ -10,7 +10,6 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "announcement",schema = "FishingPathSystem")
-@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "@id")
 public class Announcement {
     @Id
     @Column(name = "id")
@@ -18,18 +17,23 @@ public class Announcement {
     private short id;
     @Basic
     @Column(name = "title")
-    private short title;
+    private String title;
     @Basic
     @Column(name = "information")
     private String information;
+    @Basic
+    @Column(name = "time")
+    private String time;
 
     @ManyToOne(targetEntity = Enterprise.class)
     @JoinColumn(name = "enterprise_id",referencedColumnName = "id")
-    @JsonManagedReference
     private Enterprise enterprise;
     @ManyToOne(targetEntity = Admin.class)
     @JoinColumn(name = "admin_id",referencedColumnName = "id")
     private Admin admin;
+    @ManyToOne(targetEntity = Department.class)
+    @JoinColumn(name = "department_id",referencedColumnName = "id")
+    private Department department;
 
     public short getId() {
         return id;
@@ -39,15 +43,13 @@ public class Announcement {
         this.id = id;
     }
 
-
-    public short getTitle() {
+    public String getTitle() {
         return title;
     }
 
-    public void setTitle(short title) {
+    public void setTitle(String title) {
         this.title = title;
     }
-
 
     public String getInformation() {
         return information;
@@ -55,6 +57,14 @@ public class Announcement {
 
     public void setInformation(String information) {
         this.information = information;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public Enterprise getEnterprise() {
@@ -73,6 +83,14 @@ public class Announcement {
         this.admin = admin;
     }
 
+    public Department getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -81,13 +99,15 @@ public class Announcement {
         return id == that.id &&
                 title == that.title &&
                 Objects.equals(information, that.information)&&
+                Objects.equals(time, that.time)&&
                 Objects.equals(enterprise,that.enterprise)&&
-                Objects.equals(admin,that.admin);
+                Objects.equals(admin,that.admin)&&
+                Objects.equals(department,that.department);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, title, information,enterprise,admin);
+        return Objects.hash(id, title,information,time,enterprise,admin,department);
     }
 }

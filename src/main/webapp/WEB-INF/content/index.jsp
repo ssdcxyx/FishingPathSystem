@@ -38,7 +38,7 @@
 
 <!-- ControllerAs syntax -->
 <!-- Main controller with serveral data used in Inspinia theme on diferent view -->
-<body ng-controller="ApplicationController as appCtrl">
+<body ng-controller="ApplicationController as appCtrl" class="{{$state.current.data.specialClass}}" landing-scrollspy id="page-top">
 
 <!-- Main view  -->
 <div ui-view></div>
@@ -78,6 +78,10 @@
 <script src="${pageContext.request.contextPath}/js/plugins/pace/pace.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/plugins/sweetalert/sweetalert.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/plugins/sweetalert/angular-sweetalert.min.js"></script>
+
+<%--tipso--%>
+<link href="${pageContext.request.contextPath}/plugins/tipso/tipso.min.css" rel="stylesheet">
+<script src="${pageContext.request.contextPath}/plugins/tipso/tipso.min.js"></script>
 
 <!-- Anglar App Script -->
 <script src="${pageContext.request.contextPath}/js/app.js"></script>

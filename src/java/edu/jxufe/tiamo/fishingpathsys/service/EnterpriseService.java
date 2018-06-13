@@ -1,6 +1,7 @@
 package edu.jxufe.tiamo.fishingpathsys.service;
 
 import edu.jxufe.tiamo.fishingpathsys.domain.*;
+import edu.jxufe.tiamo.fishingpathsys.domain.StaffDepartmentDTO.EnterpriseDTO;
 
 import java.util.List;
 
@@ -29,4 +30,13 @@ public interface EnterpriseService {
 
     // 删除员工账号
     Staff deleteStaff(short id);
+
+    // 发布公告
+    Announcement publishAnnouncement(String title,String information,short enterpriseId,short departmentId);
+
+    // 根据企业id获取公告
+    List<Announcement> getAnnouncementsByEnterpriseId(Short enterpriseId);
+
+    // 根据企业id获取企业信息
+    EnterpriseDTO getEnterpriseDTOByEnterpriseId(Short enterpriseId);
 }

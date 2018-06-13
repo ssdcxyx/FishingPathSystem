@@ -1,5 +1,8 @@
 package edu.jxufe.tiamo.fishingpathsys.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.List;
 import java.util.Objects;
@@ -21,6 +24,7 @@ public class Admin {
     @OneToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id",referencedColumnName = "id",unique = true)
     private User user;
+    @JsonBackReference
     @OneToMany(targetEntity = Announcement.class,mappedBy = "admin",fetch = FetchType.LAZY)
     private List<Announcement> announcementList;
 

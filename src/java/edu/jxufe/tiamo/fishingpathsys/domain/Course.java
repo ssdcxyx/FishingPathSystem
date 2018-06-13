@@ -1,16 +1,22 @@
 package edu.jxufe.tiamo.fishingpathsys.domain;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Objects;
 
 @Entity
-@Table(name = "course",schema = "FishingPathSystem")
+@Table(name = "course", schema = "FishingPathSystem", catalog = "")
 public class Course {
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private short id;
+    @Basic
+    @Column(name = "course_logo_path")
+    private String courseLogoPath;
     @Basic
     @Column(name = "name")
     private String name;
@@ -28,17 +34,31 @@ public class Course {
     private int learningNumber;
     @Basic
     @Column(name = "duration")
-    private short duration;
+    private int duration;
+    @Basic
+    @Column(name = "section_number")
+    private short sectionNumber;
     @Basic
     @Column(name = "chapter_number")
     private short chapterNumber;
+    @Basic
+    @Column(name = "total_grade")
+    private BigDecimal totalGrade;
+    @Basic
+    @Column(name = "practical_grade")
+    private BigDecimal practicalGrade;
+    @Basic
+    @Column(name = "concise_grade")
+    private BigDecimal conciseGrade;
+    @Basic
+    @Column(name = "clear_grade")
+    private BigDecimal clearGrade;
 
     @ManyToOne(targetEntity = CourseType.class)
-    @JoinColumn(name = "course_type_id", referencedColumnName = "id",nullable = false)
+    @JoinColumn(name = "course_type_id",referencedColumnName = "id")
     private CourseType courseType;
-    @OneToMany(fetch = FetchType.LAZY)
-    @JoinColumn(name = "course_id")
-    private List<LearningRecord> learningRecordList;
+    @OneToMany(targetEntity = CourseChapter.class,mappedBy = "course", fetch = FetchType.LAZY)
+    private List<CourseChapter> courseChapterList;
 
     public short getId() {
         return id;
@@ -46,6 +66,14 @@ public class Course {
 
     public void setId(short id) {
         this.id = id;
+    }
+
+    public String getCourseLogoPath() {
+        return courseLogoPath;
+    }
+
+    public void setCourseLogoPath(String courseLogoPath) {
+        this.courseLogoPath = courseLogoPath;
     }
 
     public String getName() {
@@ -88,12 +116,20 @@ public class Course {
         this.learningNumber = learningNumber;
     }
 
-    public short getDuration() {
+    public int getDuration() {
         return duration;
     }
 
-    public void setDuration(short duration) {
+    public void setDuration(int duration) {
         this.duration = duration;
+    }
+
+    public short getSectionNumber() {
+        return sectionNumber;
+    }
+
+    public void setSectionNumber(short sectionNumber) {
+        this.sectionNumber = sectionNumber;
     }
 
     public short getChapterNumber() {
@@ -104,6 +140,38 @@ public class Course {
         this.chapterNumber = chapterNumber;
     }
 
+    public BigDecimal getTotalGrade() {
+        return totalGrade;
+    }
+
+    public void setTotalGrade(BigDecimal totalGrade) {
+        this.totalGrade = totalGrade;
+    }
+
+    public BigDecimal getPracticalGrade() {
+        return practicalGrade;
+    }
+
+    public void setPracticalGrade(BigDecimal practicalGrade) {
+        this.practicalGrade = practicalGrade;
+    }
+
+    public BigDecimal getConciseGrade() {
+        return conciseGrade;
+    }
+
+    public void setConciseGrade(BigDecimal conciseGrade) {
+        this.conciseGrade = conciseGrade;
+    }
+
+    public BigDecimal getClearGrade() {
+        return clearGrade;
+    }
+
+    public void setClearGrade(BigDecimal clearGrade) {
+        this.clearGrade = clearGrade;
+    }
+
     public CourseType getCourseType() {
         return courseType;
     }
@@ -112,12 +180,12 @@ public class Course {
         this.courseType = courseType;
     }
 
-    public List<LearningRecord> getLearningRecordList() {
-        return learningRecordList;
+    public List<CourseChapter> getCourseChapterList() {
+        return courseChapterList;
     }
 
-    public void setLearningRecordList(List<LearningRecord> learningRecordList) {
-        this.learningRecordList = learningRecordList;
+    public void setCourseChapterList(List<CourseChapter> courseChapterList) {
+        this.courseChapterList = courseChapterList;
     }
 
     @Override
@@ -129,18 +197,23 @@ public class Course {
                 rank == course.rank &&
                 learningNumber == course.learningNumber &&
                 duration == course.duration &&
+                sectionNumber == course.sectionNumber &&
                 chapterNumber == course.chapterNumber &&
+                Objects.equals(courseLogoPath,course.courseLogoPath)&&
                 Objects.equals(name, course.name) &&
                 Objects.equals(author, course.author) &&
                 Objects.equals(description, course.description) &&
+                Objects.equals(totalGrade, course.totalGrade) &&
+                Objects.equals(practicalGrade, course.practicalGrade) &&
+                Objects.equals(conciseGrade, course.conciseGrade) &&
+                Objects.equals(clearGrade, course.clearGrade) &&
                 Objects.equals(courseType,course.courseType) &&
-                Objects.equals(learningRecordList,course.learningRecordList);
-
+                Objects.equals(courseChapterList, course.courseChapterList);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, name, rank, author, description, learningNumber, duration, chapterNumber, courseType, learningRecordList);
+        return Objects.hash(id, courseLogoPath, name, rank, author, description, learningNumber, duration, sectionNumber, chapterNumber, totalGrade, practicalGrade, conciseGrade, clearGrade, courseType, courseChapterList);
     }
 }

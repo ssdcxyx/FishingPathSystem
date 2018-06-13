@@ -39,7 +39,7 @@ public class UserController extends BaseController {
     }
 
     @ResponseBody
-    @PostMapping(value = "userLogin")
+    @PostMapping(value = "/userLogin")
     public Object userLogin(String telephone,String password){
         Logger.Log.info(this.getClass().getName()+": userLogin "+telephone+" "+password);
         return userService.userLogin(telephone,password);

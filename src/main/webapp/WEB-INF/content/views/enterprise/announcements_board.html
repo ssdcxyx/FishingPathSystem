@@ -1,0 +1,35 @@
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-9">
+        <h2>公告栏</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.jsp">首页</a>
+            </li>
+            <li class="active">
+                <strong>公告栏</strong>
+            </li>
+        </ol>
+    </div>
+    <div class="col-lg-3">
+        <div class="title-action">
+            <a href="#/enterprise/announcementManagement" class="btn btn-primary">发布公告</a>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <div class="wrapper wrapper-content animated fadeInUp">
+            <ul class="notes">
+                <li ng-repeat="announcement in announcements">
+                    <div>
+                        <small>{{announcement.time}}</small>
+                        <h4>{{announcement.title}}</h4>
+                        <p>{{announcement.information}}</p>
+                        <a ng-if="announcement.admin" href=""><i class="fa fa-user-o"></i>&nbsp;{{announcement.admin.name}}</a>
+                        <a ng-if="announcement.enterprise" href=""><i class="fa fa-user-o"></i>&nbsp;{{announcement.enterprise.name}}</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

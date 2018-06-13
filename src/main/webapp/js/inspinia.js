@@ -1,14 +1,21 @@
+/**
+ * INSPINIA - Responsive Admin Theme
+ * 2.7.1
+ *
+ * Custom scripts
+ */
 
 $(document).ready(function () {
 
-
     // Full height of sidebar
     function fix_height() {
-        var heightWithoutNavbar = $("body > #wrapper").height() - 61;
+        var heightWithoutNavbar = $("#wrapper").height() - 61;
         $(".sidebar-panel").css("min-height", heightWithoutNavbar + "px");
 
         var navbarHeight = $('nav.navbar-default').height();
         var wrapperHeight = $('#page-wrapper').height();
+
+        //$(".sidebar-panel").css("min-height", wrapperHeigh - 61 + "px");
 
         if(navbarHeight > wrapperHeight){
             $('#page-wrapper').css("min-height", navbarHeight + "px");
@@ -20,7 +27,7 @@ $(document).ready(function () {
 
         if ($('body').hasClass('fixed-nav')) {
             if (navbarHeight > wrapperHeight) {
-                $('#page-wrapper').css("min-height", navbarHeight  + "px");
+                $('#page-wrapper').css("min-height", navbarHeight + "px");
             } else {
                 $('#page-wrapper').css("min-height", $(window).height() - 60 + "px");
             }
@@ -28,9 +35,10 @@ $(document).ready(function () {
 
     }
 
+
     $(window).bind("load resize scroll", function() {
         if(!$("body").hasClass('body-small')) {
-                fix_height();
+            fix_height();
         }
     });
 
@@ -43,10 +51,10 @@ $(document).ready(function () {
         }
     });
 
+
     setTimeout(function(){
         fix_height();
-    });
-
+    })
 });
 
 // Minimalize menu when screen is less than 768px
