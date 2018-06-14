@@ -179,6 +179,15 @@ function EnterpriseService(){
                 }
             })
         },
+        getEnterpriseDTOByEnterpriseId:function (enterprise_id,success,error) {
+            $.get('getEnterpriseDTOByEnterpriseId',{'enterpriseId':enterprise_id},function (data,statusText) {
+                if(data.exception){
+                    error(data.exception);
+                }else{
+                    success(data);
+                }
+            })
+        },
     }
 }
 

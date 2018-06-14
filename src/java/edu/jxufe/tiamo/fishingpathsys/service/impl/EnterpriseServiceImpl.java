@@ -247,25 +247,31 @@ public class EnterpriseServiceImpl implements EnterpriseService{
             Enterprise enterprise = enterpriseDao.get(Enterprise.class,enterpriseId);
             List<Staff> staffList = staffDao.findStaffsByEnterpriseId(enterpriseId);
             List<DepartmentDTO> departmentDTOList = new ArrayList<>();
-            DepartmentDTO departmentDTO = new DepartmentDTO();
+
             for (Staff staff : staffList) {
+                if(staffList.indexOf(staff)==0){
+                    DepartmentDTO departmentDTO = new DepartmentDTO();
+                    departmentDTO.setDepartment(staff.getDepartment());
+                    departmentDTO.setStaffList(new ArrayList<>());
+                    departmentDTO.getStaffList().add(staff);
+                    departmentDTOList.add(departmentDTO);
+                    continue;
+                }
+                DepartmentDTO departmentDTO = new DepartmentDTO();
                 departmentDTO.setDepartment(staff.getDepartment());
-                for (DepartmentDTO dto : departmentDTOList) {
-                    if(departmentDTO.getDepartment().getId()==dto.getDepartment().getId()){
-                        if(departmentDTOList.indexOf(dto)==departmentDTOList.size()){
-                            if(departmentDTO.getStaffList()==null){
-                                List<Staff> staffs = new ArrayList<>();
-                                staffs.add(staff);
-                                departmentDTO.setStaffList(new ArrayList<>());
-                            }else{
-                                departmentDTO.getStaffList().add(staff);
-                            }
-                            departmentDTOList.add(departmentDTO);
+                for (int i = 0; i < departmentDTOList.size(); i++) {
+                    if(departmentDTO.getDepartment().getId()==departmentDTOList.get(i).getDepartment().getId()){
+                        if(i==departmentDTOList.size()-1){
+                            departmentDTOList.get(i).getStaffList().add(staff);
                         }
+                    }else{
+                        List<Staff> staffs = new ArrayList<>();
+                        staffs.add(staff);
+                        departmentDTO.setStaffList(staffs);
+                        departmentDTOList.add(departmentDTO);
                         break;
                     }
                 }
-
             }
             EnterpriseDTO enterpriseDTO = new EnterpriseDTO();
             enterpriseDTO.setEnterprise(enterprise);

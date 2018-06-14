@@ -134,4 +134,11 @@ public class EnterpriseController extends BaseController {
         Logger.Log.info(this.getClass().getName()+": getAnnouncementsByEnterpriseId" + enterpriseId);
         return enterpriseService.getAnnouncementsByEnterpriseId(enterpriseId);
     }
+
+    @ResponseBody
+    @GetMapping(value = "/getEnterpriseDTOByEnterpriseId")
+    public Object getEnterpriseDTOByEnterpriseId(Short enterpriseId){
+        Logger.Log.info(this.getClass().getName()+": getEnterpriseDTOByEnterpriseId" + enterpriseId);
+        return enterpriseService.getEnterpriseDTOByEnterpriseId(enterpriseId);
+    }
 }

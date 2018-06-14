@@ -398,24 +398,14 @@ function StaffsManagementCtrl($scope,SweetAlert,EnterpriseService,StaffService){
 
 function StudyStatisticsCtrl($scope,SweetAlert,EnterpriseService,StaffService){
     $scope.enterprise = $scope.currentUser.user;
-    StaffService.getStaffsByEnterpriseId(
-        {
-            'enterpriseId':$scope.enterprise.id
-        },
+    EnterpriseService.getEnterpriseDTOByEnterpriseId(
+        $scope.enterprise.id,
         function (data) {
-            $scope.staffs = data;
-            $scope.departments = new Array();
-            $scope.departmentNames = new Array();
-            $scope.staffs.forEach(function (item) {
-                if($scope.departmentNames.indexOf(item.department.name)<0){
-                    $scope.departmentNames.push(item.department.name);
-                    $scope.departments.push(item.department);
-                }
-            })
+            $scope.enterpriseDTO = data;
             $scope.$apply();
         },function(err){
             SweetAlert.swal({
-                title:"获取员工信息失败",
+                title:"获取课程信息失败",
                 text:"与服务器交互出现异常："+err + "！",
                 type:"error"
             })

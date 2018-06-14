@@ -19,8 +19,5 @@ public interface StaffService {
     List<LearningPath> getLearningPathByStaffId(Short staffId);
 
     // 根据企业id、部门id、职位id获取员工信息
-    List<Staff> getAllStaffsByEnterpriseIdAndDepartmentIdAndPostTypeId(Short enterpriseId,Short departmentId,Short postTypeId);
-
-    // 根据企业id获取员工信息并根据部门分类
-    List<Department> findStaffsByEnterpriseIdClassifyByDepartment(Short enterpriseId);
+    List<Staff> getAllStaffsByEnterpriseIdAndDepartmentIdAndPostTypeId(Short enterpriseId,Short departmentId,Short postTypeId);;
 }
