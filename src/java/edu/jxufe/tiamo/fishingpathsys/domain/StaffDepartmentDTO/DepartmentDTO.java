@@ -9,7 +9,7 @@ public class DepartmentDTO {
 
     private Department department;
 
-    private List<Staff> staffList;
+    private List<StaffDTO> staffDTOList;
 
     public DepartmentDTO() {
     }
@@ -22,11 +22,11 @@ public class DepartmentDTO {
         this.department = department;
     }
 
-    public List<Staff> getStaffList() {
-        return staffList;
+    public List<StaffDTO> getStaffDTOList() {
+        return staffDTOList;
     }
 
-    public void setStaffList(List<Staff> staffList) {
-        this.staffList = staffList;
+    public void setStaffDTOList(List<StaffDTO> staffDTOList) {
+        this.staffDTOList = staffDTOList;
     }
 }

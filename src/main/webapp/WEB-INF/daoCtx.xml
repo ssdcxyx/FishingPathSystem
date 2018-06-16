@@ -89,6 +89,13 @@
     <bean id="userDao" parent="daoTemplate"
           class="edu.jxufe.tiamo.fishingpathsys.dao.impl.UserDaoHibernate"/>
 
+    <bean id="dynamicStateDao" parent="daoTemplate"
+          class="edu.jxufe.tiamo.fishingpathsys.dao.impl.DynamicStateDaoHibernate"/>
 
+    <bean id="dynamicStateCommentDao" parent="daoTemplate"
+          class="edu.jxufe.tiamo.fishingpathsys.dao.impl.DynamicStateCommentDaoHibernate"/>
+
+    <bean id="dynamicStateLikeDao" parent="daoTemplate"
+          class="edu.jxufe.tiamo.fishingpathsys.dao.impl.DynamicStateLikeDaoHibernate"/>
 
 </beans>

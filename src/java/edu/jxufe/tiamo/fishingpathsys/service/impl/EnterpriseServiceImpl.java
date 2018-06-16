@@ -3,8 +3,10 @@ package edu.jxufe.tiamo.fishingpathsys.service.impl;
 import com.sun.tools.javac.comp.Enter;
 import edu.jxufe.tiamo.fishingpathsys.dao.*;
 import edu.jxufe.tiamo.fishingpathsys.domain.*;
+import edu.jxufe.tiamo.fishingpathsys.domain.CourseLearningRecordDTO.CourseDTO;
 import edu.jxufe.tiamo.fishingpathsys.domain.StaffDepartmentDTO.DepartmentDTO;
 import edu.jxufe.tiamo.fishingpathsys.domain.StaffDepartmentDTO.EnterpriseDTO;
+import edu.jxufe.tiamo.fishingpathsys.domain.StaffDepartmentDTO.StaffDTO;
 import edu.jxufe.tiamo.fishingpathsys.exception.CustomException;
 import edu.jxufe.tiamo.fishingpathsys.service.EnterpriseService;
 import edu.jxufe.tiamo.util.Code;
@@ -57,17 +59,15 @@ public class EnterpriseServiceImpl implements EnterpriseService{
         this.announcementDao = announcementDao;
     }
 
-
-
     @Override
     public Enterprise enterpriseRegister(String telephone, String password) {
         try{
             Enterprise enterprise = new Enterprise();
-            enterprise.setTelephone(telephone);
-            enterprise.setName("yj"+telephone);
             User user = new User();
             user.setAccount(telephone);
             user.setPassword(password);
+            user.setTelephone(telephone);
+            user.setName("yj"+telephone);
             user.setRole(Code.role.ENTERPRISE.getIndex());
             user.setLogoPath("/img/user_logo/3.png");
             enterprise.setUser(user);
@@ -93,11 +93,11 @@ public class EnterpriseServiceImpl implements EnterpriseService{
     public Enterprise updateEnterpriseInfo(Short id, String name, Short enterpriseTypeId, String description, String linkMan, String telephone) {
         try{
             Enterprise enterprise = enterpriseDao.get(Enterprise.class,id);
-            enterprise.setName(name);
+            enterprise.getUser().setName(name);
             enterprise.setEnterpriseType(enterpriseTypeDao.get(EnterpriseType.class,enterpriseTypeId));
-            enterprise.setDescription(description);
+            enterprise.getUser().setDescription(description);
             enterprise.setLinkMan(linkMan);
-            enterprise.setTelephone(telephone);
+            enterprise.getUser().setTelephone(telephone);
             enterpriseDao.update(enterprise);
             return new ListUtil<Enterprise>().getFirst(enterpriseDao.findEnterpriseByUserId(enterprise.getUser().getId()));
         }catch (Exception ex){
@@ -135,9 +135,6 @@ public class EnterpriseServiceImpl implements EnterpriseService{
         try{
             Staff staff = new Staff();
             staff.setJobNumber(jobNumber);
-            staff.setName(name);
-            staff.setSex(sex);
-            staff.setTelephone(telephone );
             Department department = departmentDao.get(Department.class,departmentId);
             staff.setDepartment(department);
             PostType postType = postTypeDao.get(PostType.class,postTypeId);
@@ -145,7 +142,15 @@ public class EnterpriseServiceImpl implements EnterpriseService{
             User user = new User();
             user.setAccount(account);
             user.setPassword(password);
+            user.setName(name);
+            user.setSex(sex);
+            user.setTelephone(telephone );
             user.setRole(Code.role.STAFF.getIndex());
+            if(sex.equals('男')){
+                user.setLogoPath("/img/user_logo/1.png");
+            }else{
+                user.setLogoPath("/img/user_logo/4.png");
+            }
             userDao.save(user);
             staff.setUser(user);
             Enterprise enterprise = enterpriseDao.get(Enterprise.class,enterpriseId);
@@ -163,9 +168,6 @@ public class EnterpriseServiceImpl implements EnterpriseService{
         try{
             Staff staff = staffDao.get(Staff.class,id);
             staff.setJobNumber(jobNumber);
-            staff.setName(name);
-            staff.setSex(sex);
-            staff.setTelephone(telephone );
             Department department = departmentDao.get(Department.class,departmentId);
             staff.setDepartment(department);
             PostType postType = postTypeDao.get(PostType.class,postTypeId);
@@ -173,6 +175,9 @@ public class EnterpriseServiceImpl implements EnterpriseService{
             User user = staff.getUser();
             user.setAccount(account);
             user.setPassword(password);
+            user.setName(name);
+            user.setSex(sex);
+            user.setTelephone(telephone );
             if(sex.equals('男')){
                 user.setLogoPath("/img/user_logo/1.png");
             }else{
@@ -206,7 +211,7 @@ public class EnterpriseServiceImpl implements EnterpriseService{
     @Override
     public Announcement publishAnnouncement(String title, String information, short enterpriseId, short departmentId) {
         try{
-            Department department = null;
+            Department department;
             if(departmentId!=0){
                 department = departmentDao.get(Department.class,departmentId);
             }else{
@@ -247,39 +252,70 @@ public class EnterpriseServiceImpl implements EnterpriseService{
             Enterprise enterprise = enterpriseDao.get(Enterprise.class,enterpriseId);
             List<Staff> staffList = staffDao.findStaffsByEnterpriseId(enterpriseId);
             List<DepartmentDTO> departmentDTOList = new ArrayList<>();
-
+            DepartmentDTO departmentDTO;
             for (Staff staff : staffList) {
                 if(staffList.indexOf(staff)==0){
-                    DepartmentDTO departmentDTO = new DepartmentDTO();
+                    departmentDTO = new DepartmentDTO();
                     departmentDTO.setDepartment(staff.getDepartment());
-                    departmentDTO.setStaffList(new ArrayList<>());
-                    departmentDTO.getStaffList().add(staff);
+                    departmentDTO.setStaffDTOList(new ArrayList<>());
+                    StaffDTO staffDTO = new StaffDTO();
+                    staffDTO.setStaff(staff);
+                    staffDTO.setLearningPathList(staff.getLearningPathList());
+                    departmentDTO.getStaffDTOList().add(staffDTO);
                     departmentDTOList.add(departmentDTO);
                     continue;
                 }
-                DepartmentDTO departmentDTO = new DepartmentDTO();
-                departmentDTO.setDepartment(staff.getDepartment());
                 for (int i = 0; i < departmentDTOList.size(); i++) {
-                    if(departmentDTO.getDepartment().getId()==departmentDTOList.get(i).getDepartment().getId()){
-                        if(i==departmentDTOList.size()-1){
-                            departmentDTOList.get(i).getStaffList().add(staff);
-                        }
+                    if(staff.getDepartment().getId()==departmentDTOList.get(i).getDepartment().getId()){
+                        StaffDTO staffDTO = new StaffDTO();
+                        staffDTO.setStaff(staff);
+                        staffDTO.setLearningPathList(staff.getLearningPathList());
+                        departmentDTOList.get(i).getStaffDTOList().add(staffDTO);
                     }else{
-                        List<Staff> staffs = new ArrayList<>();
-                        staffs.add(staff);
-                        departmentDTO.setStaffList(staffs);
-                        departmentDTOList.add(departmentDTO);
-                        break;
+                        if(i==departmentDTOList.size()-1){
+                            departmentDTO = new DepartmentDTO();
+                            departmentDTO.setDepartment(staff.getDepartment());
+                            List<StaffDTO> staffDTOList = new ArrayList<>();
+                            StaffDTO staffDTO = new StaffDTO();
+                            staffDTO.setStaff(staff);
+                            staffDTO.setLearningPathList(staff.getLearningPathList());
+                            staffDTOList.add(staffDTO);
+                            departmentDTO.setStaffDTOList(staffDTOList);
+                            departmentDTOList.add(departmentDTO);
+                            break;
+                        }
                     }
                 }
             }
             EnterpriseDTO enterpriseDTO = new EnterpriseDTO();
             enterpriseDTO.setEnterprise(enterprise);
-            enterpriseDTO.setDepartmentList(departmentDTOList);
+            enterpriseDTO.setDepartmentDTOList(departmentDTOList);
             return enterpriseDTO;
         }catch (Exception ex){
             ex.printStackTrace();
             throw new CustomException("获取企业员工信息失败，请通知管理员！");
+        }
+    }
+
+    @Override
+    public Enterprise getEnterpriseByEnterpriseId(Short enterpriseId) {
+        try{
+            return enterpriseDao.get(Enterprise.class,enterpriseId);
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new CustomException("获取企业信息失败，请通知管理员！");
+        }
+    }
+
+    @Override
+    public Enterprise updateBusinessLicensePath(Short enterpriseId,String businessLicensePath) {
+        try{
+            Enterprise enterprise = enterpriseDao.get(Enterprise.class,enterpriseId);
+            enterprise.setBusinessLicensePath(businessLicensePath);
+            return enterpriseDao.get(Enterprise.class,enterpriseDao.save(enterprise));
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new CustomException("获取企业信息失败，请通知管理员！");
         }
     }
 }

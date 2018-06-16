@@ -1,13 +1,7 @@
 package edu.jxufe.tiamo.fishingpathsys.service.impl;
 
-import edu.jxufe.tiamo.fishingpathsys.dao.AdminDao;
-import edu.jxufe.tiamo.fishingpathsys.dao.EnterpriseDao;
-import edu.jxufe.tiamo.fishingpathsys.dao.StaffDao;
-import edu.jxufe.tiamo.fishingpathsys.dao.UserDao;
-import edu.jxufe.tiamo.fishingpathsys.domain.Admin;
-import edu.jxufe.tiamo.fishingpathsys.domain.Enterprise;
-import edu.jxufe.tiamo.fishingpathsys.domain.Staff;
-import edu.jxufe.tiamo.fishingpathsys.domain.User;
+import edu.jxufe.tiamo.fishingpathsys.dao.*;
+import edu.jxufe.tiamo.fishingpathsys.domain.*;
 import edu.jxufe.tiamo.fishingpathsys.exception.CustomException;
 import edu.jxufe.tiamo.fishingpathsys.service.UserService;
 import edu.jxufe.tiamo.util.Code;
@@ -16,7 +10,8 @@ import edu.jxufe.tiamo.util.OtherAPIRequestUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 @Transactional
 @Service
@@ -26,6 +21,7 @@ public class UserServiceImpl implements UserService {
     private EnterpriseDao enterpriseDao;
     private StaffDao staffDao;
     private AdminDao adminDao;
+    private DynamicStateDao dynamicStateDao;
 
     // 为业务逻辑组件依赖注入DAO组件所需要的setter方法
     public void setUserDao(UserDao userDao) {
@@ -42,6 +38,10 @@ public class UserServiceImpl implements UserService {
 
     public void setAdminDao(AdminDao adminDao) {
         this.adminDao = adminDao;
+    }
+
+    public void setDynamicStateDao(DynamicStateDao dynamicStateDao) {
+        this.dynamicStateDao = dynamicStateDao;
     }
 
     /**
@@ -102,7 +102,53 @@ public class UserServiceImpl implements UserService {
             return null;
         }catch (Exception ex){
             ex.printStackTrace();
-            throw new CustomException("用户登录时出现问题，请通知管理员！");
+            throw new CustomException("用户登录时出现异常，请通知管理员！");
         }
+    }
+
+    @Override
+    public List<DynamicState> getAllDynamicStatesByEnterpriseId(Short enterpriseId) {
+        try{
+            List<DynamicState> dynamicStates = new ArrayList<>();
+            List<Admin> adminList = adminDao.findAll(Admin.class);
+            for (Admin admin : adminList) {
+                dynamicStates.addAll(dynamicStateDao.getDynamicStatesByUserId(admin.getUser().getId()));
+            }
+            Enterprise enterprise = enterpriseDao.get(Enterprise.class,enterpriseId);
+            dynamicStates.addAll(dynamicStateDao.getDynamicStatesByUserId(enterprise.getUser().getId()));
+            List<Staff> staffList = staffDao.findStaffsByEnterpriseId(enterpriseId);
+            for (Staff staff : staffList) {
+                dynamicStates.addAll(dynamicStateDao.getDynamicStatesByUserId(staff.getUser().getId()));
+            }
+            ListSort(dynamicStates);
+            return dynamicStates;
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new CustomException("获取动态时出现异常，请联系管理员！");
+        }
+    }
+
+    // 根据时间排序
+    private static void ListSort(List<DynamicState> list) {
+        Collections.sort(list, new Comparator<DynamicState>() {
+            @Override
+            public int compare(DynamicState o1, DynamicState o2) {
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                try {
+                    Date dt1 = format.parse(o1.getTime());
+                    Date dt2 = format.parse(o2.getTime());
+                    if (dt1.getTime() > dt2.getTime()) {
+                        return -1;
+                    } else if (dt1.getTime() < dt2.getTime()) {
+                        return 0;
+                    } else {
+                        return 0;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                return 0;
+            }
+        });
     }
 }

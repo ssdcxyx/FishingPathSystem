@@ -26,6 +26,7 @@
 
     <!-- Sweet Alert -->
     <link href="${pageContext.request.contextPath}/css/plugins/sweetalert/sweetalert.css" rel="stylesheet">
+    <link href="${pageContext.request.contextPath}/plugins/toastr/css/toastr.min.css" rel="stylesheet">
 
     <!-- Main Inspinia CSS files -->
     <link href="${pageContext.request.contextPath}/css/animate.css" rel="stylesheet">
@@ -66,6 +67,7 @@
 
 <!-- Main Angular scripts-->
 <script src="${pageContext.request.contextPath}/js/angular/angular.min.js"></script>
+<script src="${pageContext.request.contextPath}/js/angular/angular-animate.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/angular/angular-sanitize.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/angular/angular-cookies.js"></script>
 <script src="${pageContext.request.contextPath}/js/plugins/oclazyload/dist/ocLazyLoad.min.js"></script>
@@ -78,6 +80,8 @@
 <script src="${pageContext.request.contextPath}/js/plugins/pace/pace.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/plugins/sweetalert/sweetalert.min.js"></script>
 <script src="${pageContext.request.contextPath}/js/plugins/sweetalert/angular-sweetalert.min.js"></script>
+
+<script src="${pageContext.request.contextPath}/plugins/toastr/js/toastr.min.js"></script>
 
 <%--tipso--%>
 <link href="${pageContext.request.contextPath}/plugins/tipso/tipso.min.css" rel="stylesheet">

@@ -82,7 +82,7 @@
                                             <h3 class="font-bold no-margins"><strong>第{{(courseChapter.serialNumber+"")|chineseNumber}}章&nbsp;</strong>{{courseChapter.name}}</h3>
                                             <small style="margin-left: 10px;margin-top: 10px;">{{courseChapter.description}}</small>
                                             <ul class="todo-list m-t">
-                                                <li ng-repeat="courseSection in course.courseChapterList[outerIndex1].courseSectionList" ng-init="outerIndex2 = $index" ui-sref="staff.studyVideo({courseId:{{course.id}},courseChapterIndex:{{outerIndex1}},courseSectionIndex:{{outerIndex2}}})">
+                                                <li ng-repeat="courseSection in course.courseChapterList[outerIndex1].courseSectionList" ng-init="outerIndex2 = $index" ui-sref="staff.studyVideo({courseId:{{course.id}},courseChapterIndex:{{outerIndex1}},courseSectionIndex:{{outerIndex2}},flag:'1'})">
                                                     <span class="m-l-xs"><i class="fa fa-play-circle fa-lg"></i>&nbsp;&nbsp;&nbsp;{{courseChapter.serialNumber}}.{{courseSection.serialNumber}}&nbsp;&nbsp;{{courseSection.name}}</span>
                                                     <small class="label label-primary"><i class="fa fa-clock-o"></i>&nbsp;{{(courseSection.duration/60%60 + "")|minute}}:{{(courseSection.duration%60+"")|second}}</small>
                                                 </li>
@@ -91,7 +91,134 @@
                                     </div>
                                 </uib-tab>
                                 <uib-tab heading="讨论区">
+                                    <div class="social-feed-separated">
 
+                                        <div class="social-avatar">
+                                            <a href="">
+                                                <img alt="image" src="img/staff/1.png">
+                                            </a>
+                                        </div>
+
+                                        <div class="social-feed-box">
+
+                                            <div class="pull-right social-action" uib-dropdown>
+                                                <button class="btn-white" uib-dropdown-toggle>
+                                                    <i class="fa fa-angle-down"></i>
+                                                </button>
+                                                <ul class="m-t-xs" uib-dropdown-menu>
+                                                    <li><a href="#">不看他</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="social-avatar">
+                                                <a href="#">
+                                                    李四
+                                                </a>
+                                                <small class="text-muted">2018-06-15 16:00:40</small>
+                                            </div>
+                                            <div class="social-body">
+                                                <p>
+                                                    这个课程挺不错的，大家一起交流一下！
+                                                </p>
+                                                <img src="img/courses/1.jpg" class="img-responsive">
+                                                <div class="btn-group">
+                                                    <button class="btn btn-white btn-xs"><i class="fa fa-thumbs-up"></i> 点赞</button>
+                                                    <button class="btn btn-white btn-xs"><i class="fa fa-comments"></i> 评论</button>
+                                                    <button class="btn btn-white btn-xs"><i class="fa fa-share"></i> 分享</button>
+                                                </div>
+                                            </div>
+                                            <div class="social-footer">
+                                                <div class="social-comment">
+                                                    <a href="" class="pull-left">
+                                                        <img alt="image" src="img/staff/2.png">
+                                                    </a>
+                                                    <div class="media-body">
+                                                        <a href="#">
+                                                            张三
+                                                        </a>
+                                                        嗯，不错！
+                                                        <br/>
+                                                        <small class="text-muted">2018-06-15 16:07:23</small>
+                                                    </div>
+                                                </div>
+
+                                                <div class="social-comment">
+                                                    <a href="" class="pull-left">
+                                                        <img alt="image" src="img/staff/3.png">
+                                                    </a>
+                                                    <div class="media-body">
+                                                        <a href="#">
+                                                            王五
+                                                        </a>
+                                                        我挺喜欢这个课程的！
+                                                        <br/>
+                                                        <small class="text-muted">2018-06-15 19:03:11</small>
+                                                    </div>
+
+                                                    <div class="social-comment">
+                                                        <a href="" class="pull-left">
+                                                            <img alt="image" src="img/staff/4.png">
+                                                        </a>
+                                                        <div class="media-body">
+                                                            <a href="#">
+                                                                赵六
+                                                            </a>
+                                                            大家有什么心得啊。
+                                                            <br/>
+                                                            <small class="text-muted">2018-06-15 20:10:14</small>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="social-comment">
+                                                        <a href="" class="pull-left">
+                                                            <img alt="image" src="img/staff/1.png">
+                                                        </a>
+                                                        <div class="media-body">
+                                                            <textarea class="form-control" placeholder="来说点什么吧！"></textarea>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+
+                                                <div class="social-comment">
+                                                    <a href="" class="pull-left">
+                                                        <img alt="image" src="img/staff/2.png">
+                                                    </a>
+                                                    <div class="media-body">
+                                                        <a href="#">
+                                                            钱一
+                                                        </a>
+                                                        你们都很厉害啊！
+                                                        <br/>
+                                                        <small class="text-muted">2018-06-15 19.03.09</small>
+                                                    </div>
+                                                </div>
+
+                                                <div class="social-comment">
+                                                    <a href="" class="pull-left">
+                                                        <img alt="image" src="img/staff/3.png">
+                                                    </a>
+                                                    <div class="media-body">
+                                                        <a href="#">
+                                                            刘二
+                                                        </a>
+                                                        嗯，我赞同！
+                                                        <br/>
+                                                        <small class="text-muted">2018-06-15 19.20.30</small>
+                                                    </div>
+                                                </div>
+
+                                                <div class="social-comment">
+                                                    <a href="" class="pull-left">
+                                                        <img alt="image" src="img/staff/4.png">
+                                                    </a>
+                                                    <div class="media-body">
+                                                        <textarea class="form-control" placeholder="来说点什么吧..."></textarea>
+                                                    </div>
+                                                </div>
+
+                                            </div>
+                                        </div>
+                                    </div>
                                 </uib-tab>
                             </uib-tabset>
                         </div>

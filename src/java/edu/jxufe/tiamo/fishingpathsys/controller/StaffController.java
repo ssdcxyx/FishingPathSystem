@@ -52,4 +52,11 @@ public class StaffController extends BaseController {
         Logger.Log.info(this.getClass().getName()+": getAllStaffsByEnterpriseIdAndDepartmentId" + enterpriseId + " " + departmentId +" " +postTypeId);
         return staffService.getAllStaffsByEnterpriseIdAndDepartmentIdAndPostTypeId(enterpriseId,departmentId,postTypeId);
     }
+
+    @ResponseBody
+    @GetMapping(value = "/getAllStaffsByEnterpriseIdAndDepartmentId")
+    public Object getAllStaffsByEnterpriseIdAndDepartmentId(Short enterpriseId,Short departmentId){
+        Logger.Log.info(this.getClass().getName()+": getAllStaffsByEnterpriseIdAndDepartmentId" + enterpriseId + " " + departmentId);
+        return staffService.getAllStaffsByEnterpriseIdAndDepartmentId(enterpriseId,departmentId);
+    }
 }

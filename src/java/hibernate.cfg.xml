@@ -32,5 +32,8 @@
         <mapping class="edu.jxufe.tiamo.fishingpathsys.domain.PostType"/>
         <mapping class="edu.jxufe.tiamo.fishingpathsys.domain.Staff"/>
         <mapping class="edu.jxufe.tiamo.fishingpathsys.domain.User"/>
+        <mapping class="edu.jxufe.tiamo.fishingpathsys.domain.DynamicState"/>
+        <mapping class="edu.jxufe.tiamo.fishingpathsys.domain.DynamicStateComment"/>
+        <mapping class="edu.jxufe.tiamo.fishingpathsys.domain.DynamicStateLike"/>
     </session-factory>
 </hibernate-configuration>

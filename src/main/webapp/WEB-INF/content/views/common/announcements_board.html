@@ -10,6 +10,9 @@
             </li>
         </ol>
     </div>
+    <div ng-if="enterprise" class="col-lg-3">
+        <a ui-sref="enterprise.announcementManagement" class="btn btn-primary" style="margin: 15%">发布公告</a>
+    </div>
 </div>
 <div class="row">
     <div class="col-lg-12">
@@ -20,8 +23,8 @@
                         <small>{{announcement.time}}</small>
                         <h4>{{announcement.title}}</h4>
                         <p>{{announcement.information}}</p>
-                        <a ng-if="announcement.admin" href=""><i class="fa fa-user-o"></i>&nbsp;{{announcement.admin.name}}</a>
-                        <a ng-if="announcement.enterprise" href=""><i class="fa fa-user-o"></i>&nbsp;{{announcement.enterprise.name}}</a>
+                        <a ng-if="announcement.admin" href=""><i class="fa fa-user-o"></i>&nbsp;{{announcement.admin.user.name}}</a>
+                        <a ng-if="announcement.enterprise" href=""><i class="fa fa-user-o"></i>&nbsp;{{announcement.enterprise.user.name}}</a>
                     </div>
                 </li>
             </ul>

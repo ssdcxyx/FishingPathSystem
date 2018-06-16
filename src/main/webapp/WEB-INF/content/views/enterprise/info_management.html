@@ -1,3 +1,4 @@
+<toaster-container></toaster-container>
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
         <h2>企业信息</h2>
@@ -24,7 +25,7 @@
                 <div class="ibox-content">
                     <form role="form" class="form-horizontal" ng-submit="updateEnterpriseInfo();">
                         <div class="form-group"><label class="col-sm-2 control-label">企业名称</label>
-                            <div class="col-sm-10"><input type="text" id="name" name="name" class="form-control" ng-model="enterprise.name" required></div>
+                            <div class="col-sm-10"><input type="text" id="name" name="name" class="form-control" ng-model="enterprise.user.name" required></div>
                         </div>
                         <div class="hr-line-dashed"></div>
                         <div class="form-group">
@@ -41,7 +42,7 @@
                         <div class="hr-line-dashed"></div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label">企业描述</label>
-                            <div class="col-sm-10"><textarea type="text" id="description" name="description" class="form-control" ng-model="enterprise.description"/></div>
+                            <div class="col-sm-10"><textarea type="text" id="description" name="description" class="form-control" ng-model="enterprise.user.description"/></div>
                         </div>
                         <div class="hr-line-dashed"></div>
                         <div class="form-group">
@@ -51,21 +52,21 @@
                         <div class="hr-line-dashed"></div>
                         <div class="form-group">
                             <label class="col-sm-2 control-label" >联系人手机号码</label>
-                            <div class="col-sm-10"><input type="text" id="telephone" name="telephone" class="form-control" ng-model="enterprise.telephone" required></div>
+                            <div class="col-sm-10"><input type="text" id="telephone" name="telephone" class="form-control" ng-model="enterprise.user.telephone" required></div>
                         </div>
                         <div class="hr-line-dashed"></div>
-                        <label class="col-sm-2 control-label">企业营业执照</label>
-                        <div class="fileinput fileinput-new input-group col-sm-10" data-provides="fileinput">
-                            <div class="form-control" data-trigger="fileinput">
-                                <i class="glyphicon glyphicon-file fileinput-exists"></i>
-                                <span class="fileinput-filename"></span>
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">企业营业执照</label>
+                            <!--dom结构部分-->
+                            <div id="uploader-demo" class="col-sm-10">
+                                <!--用来存放item-->
+                                <div id="fileList" class="uploader-list">
+                                    <div class="file-item thumbnail" style="height: 310px;">
+                                        <img id="businessLicensePath" ng-src="{{enterprise.businessLicensePath}}" style="width: 210px;height: 297px;border: #1ab394 1px solid;">
+                                    </div>
+                                </div>
+                                <div id="filePicker" style="text-align: center">选择图片</div>
                             </div>
-                            <span class="input-group-addon btn btn-default btn-file">
-                                    <span class="fileinput-new">选择</span>
-                                    <span class="fileinput-exists">改变</span>
-                                    <input type="file"/>
-                                </span>
-                            <a href="#" class="input-group-addon btn btn-default fileinput-exists" data-dismiss="fileinput">移除</a>
                         </div>
                         <div class="hr-line-dashed"></div>
                         <div class="form-group">

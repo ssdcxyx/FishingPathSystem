@@ -4,39 +4,31 @@
             <li class="nav-header">
 
                 <div class="profile-element" uib-dropdown>
-                    <img alt="image" class="img-circle" style="width: 48px;height: 48px;" ng-src="{{currentUser.user.user.logoPath}}"/>
+                    <img alt="image" class="img-circle img-responsive" style="width: 48px;height: 48px;" ng-src="{{currentUser.user.user.logoPath}}"/>
                     <a uib-dropdown-toggle href>
                             <span class="clear">
                                 <span class="block m-t-xs">
-                                    <strong class="font-bold" ng-if="currentUser">{{currentUser.user.staffInfo.name}}</strong>
+                                    <strong class="font-bold" ng-if="currentUser.user.user.name">{{currentUser.user.user.name}}</strong>
                              </span>
                                 <span class="text-muted text-xs block" ng-switch="currentUser.role.title">
-                                    <div ng-switch-when="staff">员工<b class="caret"></b></div>
+                                    <div ng-switch-when="staff">员工用户<b class="caret"></b></div>
+                                    <div ng-switch-when="enterprise">企业用户<b class="caret"></b></div>
                                     <div ng-switch-when="admin">管理员<b class="caret"></b></div>
                                 </span>
                             </span>
                     </a>
                     <ul uib-dropdown-menu="" class="animated fadeInRight m-t-xs">
-                        <li><a>我的渔径</a></li>
-                        <li><a>通讯录</a></li>
-                        <li><a>消息</a></li>
+                        <li><a ui-sref="enterprise.info">企业信息</a></li>
+                        <li><a ui-sref="enterprise.contacts">通讯录</a></li>
                         <li class="divider"></li>
                         <li><a ng-click="logout();">注销登录</a></li>
                     </ul>
                 </div>
                 <div class="logo-element">
-                    <img alt="image" src="../../../../../img/logo_small.png"/>
+                    <img alt="image" src="/img/logo_small.png"/>
                 </div>
 
             </li>
-
-            <li ui-sref-active="active">
-                <a ui-sref="admin.main"><i class="fa fa-laptop"></i> <span class="nav-label">Main page</span> </a>
-            </li>
-            <li ui-sref-active="active">
-                <a ui-sref="admin.minor"><i class="fa fa-desktop"></i> <span class="nav-label">Minor page</span></a>
-            </li>
-        </ul>
 
     </div>
 </nav>

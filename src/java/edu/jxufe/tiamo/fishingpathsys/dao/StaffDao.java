@@ -16,4 +16,6 @@ public interface StaffDao extends BaseDao<Staff> {
     List<Staff> findStaffsByEnterpriseIdAndPostTypeId(Short enterpriseId,Short postTypeId);
 
     List<Staff> findStaffsByEnterpriseIdAndPostTypeIdNotDepartmentId(Short enterpriseId,Short postTypeId,Short departmentId);
+
+    List<Staff> findStaffsByEnterpriseIdAndDepartmentID(Short enterpriseId,Short departmentId);
 }

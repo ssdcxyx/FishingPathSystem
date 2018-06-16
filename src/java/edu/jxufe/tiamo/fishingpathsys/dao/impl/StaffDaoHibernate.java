@@ -43,4 +43,11 @@ public class StaffDaoHibernate extends BaseDaoHibernate<Staff> implements StaffD
         List<Staff> staffList = find(hql,enterpriseId,postTypeId,departmentId);
         return staffList;
     }
+
+    @Override
+    public List<Staff> findStaffsByEnterpriseIdAndDepartmentID(Short enterpriseId, Short departmentId) {
+        String hql = "FROM "+Staff.class.getSimpleName()+" where enterprise_id=?0 and department_id!=?1";
+        List<Staff> staffList = find(hql,enterpriseId,departmentId);
+        return staffList;
+    }
 }

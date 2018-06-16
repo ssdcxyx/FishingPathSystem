@@ -1,6 +1,7 @@
 package edu.jxufe.tiamo.fishingpathsys.service;
 
 import edu.jxufe.tiamo.fishingpathsys.domain.Course;
+import edu.jxufe.tiamo.fishingpathsys.domain.CourseLearningRecordDTO.CourseDTO;
 import edu.jxufe.tiamo.fishingpathsys.domain.CourseSection;
 
 import java.util.List;
@@ -21,4 +22,10 @@ public interface CourseService {
 
     // 根据课程节id获得课程节信息
     CourseSection findCourseSectionByCourseSectionId(Short courseSectionId);
+
+    // 获取全部课程学习信息
+    List<CourseDTO> getAllCourseDTOs();
+
+    // 分页获得课程学习信息
+    List<CourseDTO> findCourseDTOsByPage(int pageNo, int pageSize);
 }

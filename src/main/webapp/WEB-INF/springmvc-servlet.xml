@@ -20,8 +20,6 @@
 
     <mvc:annotation-driven/>
 
-
-
     <mvc:resources location="/css/" mapping="/css/**"></mvc:resources>
     <mvc:resources location="/font-awesome/" mapping="/font-awesome/**"></mvc:resources>
     <mvc:resources location="/fonts/" mapping="/fonts/**"></mvc:resources>

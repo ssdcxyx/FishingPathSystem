@@ -11,6 +11,7 @@ import java.util.Objects;
 public class CourseSection {
     @Id
     @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private short id;
     @Basic
     @Column(name = "serial_number")

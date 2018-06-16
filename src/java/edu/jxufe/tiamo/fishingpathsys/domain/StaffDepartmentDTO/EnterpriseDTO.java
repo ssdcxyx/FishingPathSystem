@@ -9,7 +9,7 @@ public class EnterpriseDTO {
 
     private Enterprise enterprise;
 
-    private List<DepartmentDTO> departmentList;
+    private List<DepartmentDTO> departmentDTOList;
 
     public EnterpriseDTO() {
     }
@@ -22,13 +22,11 @@ public class EnterpriseDTO {
         this.enterprise = enterprise;
     }
 
-    public List<DepartmentDTO> getDepartmentList() {
-        return departmentList;
+    public List<DepartmentDTO> getDepartmentDTOList() {
+        return departmentDTOList;
     }
 
-    public void setDepartmentList(List<DepartmentDTO> departmentList) {
-        this.departmentList = departmentList;
+    public void setDepartmentDTOList(List<DepartmentDTO> departmentDTOList) {
+        this.departmentDTOList = departmentDTOList;
     }
-
-
 }

@@ -59,6 +59,9 @@ public class Course {
     private CourseType courseType;
     @OneToMany(targetEntity = CourseChapter.class,mappedBy = "course", fetch = FetchType.LAZY)
     private List<CourseChapter> courseChapterList;
+    @JsonBackReference
+    @OneToMany(targetEntity = LearningRecord.class,mappedBy = "course",fetch = FetchType.LAZY)
+    private List<LearningRecord> learningRecordList;
 
     public short getId() {
         return id;
@@ -188,6 +191,14 @@ public class Course {
         this.courseChapterList = courseChapterList;
     }
 
+    public List<LearningRecord> getLearningRecordList() {
+        return learningRecordList;
+    }
+
+    public void setLearningRecordList(List<LearningRecord> learningRecordList) {
+        this.learningRecordList = learningRecordList;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -208,12 +219,13 @@ public class Course {
                 Objects.equals(conciseGrade, course.conciseGrade) &&
                 Objects.equals(clearGrade, course.clearGrade) &&
                 Objects.equals(courseType,course.courseType) &&
-                Objects.equals(courseChapterList, course.courseChapterList);
+                Objects.equals(courseChapterList, course.courseChapterList) &&
+                Objects.equals(learningRecordList, course.learningRecordList);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, courseLogoPath, name, rank, author, description, learningNumber, duration, sectionNumber, chapterNumber, totalGrade, practicalGrade, conciseGrade, clearGrade, courseType, courseChapterList);
+        return Objects.hash(id, courseLogoPath, name, rank, author, description, learningNumber, duration, sectionNumber, chapterNumber, totalGrade, practicalGrade, conciseGrade, clearGrade, courseType, courseChapterList, learningRecordList);
     }
 }

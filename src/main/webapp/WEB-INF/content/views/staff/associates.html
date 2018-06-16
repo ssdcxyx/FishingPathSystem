@@ -1,3 +1,4 @@
+<toaster-container></toaster-container>
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
         <h2>同事圈</h2>
@@ -14,18 +15,154 @@
 
     </div>
 </div>
-<div class="wrapper wrapper-content animated fadeInRight" ng-controller="StaffsManagementCtrl">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="ibox float-e-margins">
-                <div class="ibox-title">
-                    <h5>同事圈</h5>
-                </div>
-                <div class="ibox-content">
-                    <img class="img-responsive center-block" src="img/jjkfz.gif">
-                    <h3 style="text-align: center">程序员正在加紧开发中，敬请期待！</h3>
+<div class="wrapper wrapper-content animated fadeInRight">
+
+    <div class="row m-b-lg m-t-lg">
+        <div class="col-md-6">
+            <div class="profile-image">
+                <img ng-src="{{staff.user.logoPath}}" class="img-circle circle-border m-b-md" alt="profile">
+            </div>
+            <div class="profile-info">
+                <div class="">
+                    <div>
+                        <h2 class="no-margins">
+                            {{staff.user.name}}
+                        </h2>
+                        <h4>{{staff.postType.name}}</h4>
+                        <small>{{staff.user.description}}</small>
+                    </div>
                 </div>
             </div>
         </div>
+        <div class="col-md-6">
+            <table class="table small m-b-xs">
+                <tbody>
+                <tr>
+                    <td>
+                        <strong>管理</strong> 部门
+                    </td>
+                    <td>
+                        <strong>4</strong> 员工
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>4</strong> 课程方向
+                    </td>
+                    <td>
+                        <strong>3</strong> 课程类型
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <strong>16</strong> 学习课程
+                    </td>
+                    <td>
+                        <strong>132</strong> 课程量（时）
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
+    <div class="row">
+        <div class="col-lg-3">
+
+            <div class="ibox-title"><h3>联系人</h3></div>
+            <div class="ibox">
+                <div class="ibox-content">
+                    <div class="user-friends">
+                        <a href="#"><img ng-repeat="staff1 in staffs" alt="image" class="img-circle" ng-src="{{staff1.user.logoPath}}"></a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-lg-9">
+
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="ibox float-e-margins">
+                        <div class="ibox-content no-padding">
+
+                            <div id="summernote" summernote class="summernote">
+                            </div>
+                        </div>
+                        <button class="btn btn-primary" style="float: right;margin: 10px;" ng-click="publishState()">发表</button>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="ibox-title"><h3>同事动态</h3></div>
+            <div ng-repeat="dynamicState in dynamicStates" class="social-feed-box">
+
+                <div class="pull-right social-action" uib-dropdown>
+                    <button class="btn-white" uib-dropdown-toggle>
+                        <i class="fa fa-angle-down"></i>
+                    </button>
+                    <ul class="m-t-xs" uib-dropdown-menu>
+                        <li><a href="#">屏蔽</a></li>
+                    </ul>
+                </div>
+                <div class="social-avatar">
+                    <a href="" class="pull-left">
+                        <img alt="image" ng-src="{{dynamicState.user.logoPath}}">
+                    </a>
+                    <div class="media-body">
+                        <a href="#">
+                            {{dynamicState.user.name}}
+                        </a>
+                        <small class="text-muted">{{dynamicState.time}}</small>
+                    </div>
+                </div>
+                <div class="social-body">
+                    <div class="dynamic_state_content" ng-bind-html="dynamicState.content | trustHtml"></div>
+                    <a href="#" ng-if="dynamicState.dynamicStateLikeList.length>0" class="small" style="clear:both">
+                        <br/>
+                        <i class="fa fa-thumbs-up" style="float:left;"></i>&nbsp;
+                        <small style="float:left;" ng-repeat="dynamicStateLike in dynamicState.dynamicStateLikeList|limitTo:5" ng-if="$index != dynamicState.dynamicStateLikeList.length - 1">{{dynamicStateLike.user.name}}、</small>
+                        <small style="float:left;" ng-if="dynamicState.dynamicStateLikeList[dynamicState.dynamicStateLikeList.length-1]">{{dynamicState.dynamicStateLikeList[dynamicState.dynamicStateLikeList.length-1].user.name}}</small>
+                        <small style="float:left;">等{{dynamicState.dynamicStateLikeList.length}}个人觉得很赞</small></a>
+                    <br/>
+                    <div class="btn-group">
+                        <button ng-if="isLike(dynamicState);" ng-click="publishLike(dynamicState.id,$index)" class="btn btn-primary btn-xs"><i class="fa fa-thumbs-up"></i> 点赞 </button>
+                        <button ng-if="!isLike(dynamicState);" ng-click="publishLike(dynamicState.id,$index)" class="btn btn-white btn-xs"><i class="fa fa-thumbs-up"></i> 点赞 </button>
+                        <button class="btn btn-white btn-xs"><i class="fa fa-comments"></i> 评论</button>
+                        <button ng-click="" class="btn btn-white btn-xs"><i class="fa fa-share"></i> 分享 </button>
+                    </div>
+                </div>
+                <div  class="social-footer">
+                    <div ng-repeat="dynamicStateComment in dynamicState.dynamicStateCommentList" class="social-comment">
+                        <a href="" class="pull-left">
+                            <img alt="image" ng-src="{{dynamicStateComment.user.logoPath}}">
+                        </a>
+                        <div class="media-body">
+                            <a href="#">
+                                {{dynamicStateComment.user.name}}
+                            </a>
+                            <br/>
+                            {{dynamicStateComment.content}}<br/>
+                            <small class="text-muted">{{dynamicStateComment.time}}</small>
+                        </div>
+                    </div>
+
+                    <div class="social-comment">
+                        <a href="" class="pull-left">
+                            <img alt="image" ng-src="{{staff.user.logoPath}}">
+                        </a>
+                        <div class="media-body">
+                            <textarea id="comment" class="form-control" placeholder="说点什么吧..." required></textarea>
+                            <button class="btn btn-primary" style="float: right;margin: 10px;" ng-click="publishComment(dynamicState.id,$index)">评论</button>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
 </div>
+<script type="text/javascript">

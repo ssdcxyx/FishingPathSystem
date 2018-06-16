@@ -1,6 +1,7 @@
 package edu.jxufe.tiamo.fishingpathsys.service;
 
 import edu.jxufe.tiamo.fishingpathsys.domain.*;
+import edu.jxufe.tiamo.fishingpathsys.domain.CourseLearningRecordDTO.CourseDTO;
 import edu.jxufe.tiamo.fishingpathsys.domain.StaffDepartmentDTO.EnterpriseDTO;
 
 import java.util.List;
@@ -37,6 +38,13 @@ public interface EnterpriseService {
     // 根据企业id获取公告
     List<Announcement> getAnnouncementsByEnterpriseId(Short enterpriseId);
 
-    // 根据企业id获取企业信息
+    // 根据企业id获取DTO企业信息
     EnterpriseDTO getEnterpriseDTOByEnterpriseId(Short enterpriseId);
+
+    // 根据企业id获取企业信息
+    Enterprise getEnterpriseByEnterpriseId(Short enterpriseId);
+
+    // 更新营业执照
+    Enterprise updateBusinessLicensePath(Short enterpriseId,String businessLicensePath);
+
 }

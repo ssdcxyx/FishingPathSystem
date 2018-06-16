@@ -17,17 +17,11 @@ public class Enterprise {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private short id;
     @Basic
-    @Column(name = "name")
-    private String name;
-    @Basic
-    @Column(name = "description")
-    private String description;
-    @Basic
     @Column(name = "link_man")
     private String linkMan;
     @Basic
-    @Column(name = "telephone")
-    private String telephone;
+    @Column(name = "business_license_path")
+    private String businessLicensePath;
 
     @OneToOne(targetEntity = User.class,cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id",referencedColumnName = "id",unique = true)
@@ -39,44 +33,14 @@ public class Enterprise {
     @JoinColumn(name = "enterprise_type_id", referencedColumnName = "id")
     private EnterpriseType enterpriseType;
 
+
+
     public short getId() {
         return id;
     }
 
     public void setId(short id) {
         this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getLinkMan() {
-        return linkMan;
-    }
-
-    public void setLinkMan(String linkMan) {
-        this.linkMan = linkMan;
-    }
-
-    public String getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
     }
 
     public User getUser() {
@@ -103,24 +67,38 @@ public class Enterprise {
         this.enterpriseType = enterpriseType;
     }
 
+    public String getLinkMan() {
+        return linkMan;
+    }
+
+    public void setLinkMan(String linkMan) {
+        this.linkMan = linkMan;
+    }
+
+    public String getBusinessLicensePath() {
+        return businessLicensePath;
+    }
+
+    public void setBusinessLicensePath(String businessLicensePath) {
+        this.businessLicensePath = businessLicensePath;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Enterprise that = (Enterprise) o;
         return id == that.id &&
-                Objects.equals(name, that.name) &&
-                Objects.equals(description, that.description) &&
-                Objects.equals(linkMan, that.linkMan) &&
-                Objects.equals(telephone, that.telephone)&&
                 Objects.equals(user,that.user) &&
                 Objects.equals(announcementList,that.announcementList) &&
-                Objects.equals(enterpriseType, that.enterpriseType);
+                Objects.equals(enterpriseType, that.enterpriseType) &&
+                Objects.equals(linkMan, that.linkMan) &&
+                Objects.equals(businessLicensePath, that.businessLicensePath);
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, name, description, linkMan, telephone, user, announcementList, enterpriseType);
+        return Objects.hash(id, linkMan, user, announcementList, enterpriseType, businessLicensePath);
     }
 }

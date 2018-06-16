@@ -188,6 +188,24 @@ function EnterpriseService(){
                 }
             })
         },
+        getEnterpriseByEnterpriseId:function (enterprise_id,success,error) {
+            $.get('getEnterpriseByEnterpriseId',{'enterpriseId':enterprise_id},function (data,statusText) {
+                if(data.exception){
+                    error(data.exception);
+                }else{
+                    success(data);
+                }
+            })
+        },
+        getAllCourseDTOs:function (success,error) {
+            $.get('getAllCourseDTOs',function (data,statusText) {
+                if(data.exception){
+                    error(data.exception);
+                }else{
+                    success(data);
+                }
+            })
+        },
     }
 }
 
@@ -231,6 +249,15 @@ function StaffService(){
         },
         getAllStaffsByEnterpriseIdAndDepartmentIdAndPostTypeId:function (enterprise_id,department_id,post_type_id,success,error,) {
             $.get('getAllStaffsByEnterpriseIdAndDepartmentIdAndPostTypeId',{'enterpriseId':enterprise_id,'departmentId':department_id,"postTypeId":post_type_id},function (data,statusText) {
+                if(data.exception){
+                    error(data.exception);
+                }else{
+                    success(data);
+                }
+            })
+        },
+        getAllStaffsByEnterpriseIdAndDepartmentId:function (enterprise_id,department_id,success,error,) {
+            $.get('getAllStaffsByEnterpriseIdAndDepartmentId',{'enterpriseId':enterprise_id,'departmentId':department_id},function (data,statusText) {
                 if(data.exception){
                     error(data.exception);
                 }else{
@@ -287,7 +314,57 @@ function CourseService(){
                     success(data);
                 }
             })
-        }
+        },
+        findCourseDTOsByPage:function (page,success,error) {
+            $.get('findCourseDTOsByPage',page,function (data,statusText) {
+                if(data.exception){
+                    error(data.exception);
+                }else{
+                    success(data);
+                }
+            })
+        },
+    }
+}
+
+function AssociatesService(){
+    return{
+        getAllDynamicStatesByEnterpriseId:function (enterprise_id,success,error) {
+            $.get('getAllDynamicStatesByEnterpriseId',{"enterpriseId":enterprise_id},function (data,statusText) {
+                if(data.exception){
+                    error(data.exception);
+                }else{
+                    success(data);
+                }
+            })
+        },
+        publishDynamicState:function (user_id,content,success,error) {
+            $.post('publishDynamicState',{"userId":user_id,"content":content},function (data,statusText) {
+                if(data.exception){
+                    error(data.exception);
+                }else{
+                    success(data);
+                }
+            })
+        },
+        publishDynamicStateComment:function (user_id,content,dynamic_state_id,success,error) {
+            $.post('publishDynamicStateComment',{"userId":user_id,"content":content,'dynamicStateId':dynamic_state_id},function (data,statusText) {
+                if(data.exception){
+                    error(data.exception);
+                }else{
+                    success(data);
+                }
+            })
+        },
+        publishDynamicStateLike:function (user_id,dynamic_state_id,success,error) {
+            $.post('publishDynamicStateLike',{"userId":user_id,'dynamicStateId':dynamic_state_id},function (data,statusText) {
+                if(data.exception){
+                    error(data.exception);
+                }else{
+                    success(data);
+                }
+            })
+        },
     }
 }
 
@@ -298,3 +375,4 @@ angular
     .factory('EnterpriseService',EnterpriseService)
     .factory('StaffService',StaffService)
     .factory('CourseService',CourseService)
+    .factory('AssociatesService',AssociatesService)

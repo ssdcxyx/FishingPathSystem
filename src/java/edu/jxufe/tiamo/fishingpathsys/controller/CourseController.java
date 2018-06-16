@@ -50,4 +50,18 @@ public class CourseController extends BaseController {
         Logger.Log.info(this.getClass().getName()+": findCourseSectionByCourseSectionId " + courseSectionId);
         return courseService.findCourseSectionByCourseSectionId(courseSectionId);
     }
+
+    @ResponseBody
+    @GetMapping(value = "/getAllCourseDTOs")
+    public Object getAllCourseDTOs(){
+        Logger.Log.info(this.getClass().getName()+": getAllCourseDTOs ");
+        return courseService.getAllCourseDTOs();
+    }
+
+    @ResponseBody
+    @GetMapping(value = "/findCourseDTOsByPage")
+    public Object findCourseDTOsByPage(Integer pageNo,Integer pageSize){
+        Logger.Log.info(this.getClass().getName()+": findCourseDTOsByPage "+pageNo+" "+pageSize);
+        return courseService.findCourseDTOsByPage(pageNo, pageSize);
+    }
 }

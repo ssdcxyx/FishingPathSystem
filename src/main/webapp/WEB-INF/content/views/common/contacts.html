@@ -16,18 +16,18 @@
         <div class="col-lg-3" ng-repeat="staff in staffs">
             <div class="contact-box center-version">
 
-                <a href="profile.html">
+                <a href="#">
 
                     <img alt="image" class="img-circle" ng-src="{{staff.user.logoPath}}">
 
 
-                    <h3 class="m-b-xs"><strong>{{staff.name}}</strong></h3>
+                    <h3 class="m-b-xs"><strong>{{staff.user.name}}</strong></h3>
 
                     <div class="font-bold">{{staff.department.name}}</div>
                     <address class="m-t-md">
                         <strong>{{staff.postType.name}}.</strong><br/>
                         工号：{{staff.jobNumber}}
-                        <abbr title="Phone">Tel:</abbr>{{staff.telephone}}
+                        <abbr title="Phone">Tel:</abbr>{{staff.user.telephone}}
                     </address>
 
                 </a>

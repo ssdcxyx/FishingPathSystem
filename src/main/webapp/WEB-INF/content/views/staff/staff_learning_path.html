@@ -45,7 +45,7 @@
                                                 <p>课程方向：{{learningRecord.course.courseType.courseCategory.name}}</p>
                                                 <p>讲师：{{learningRecord.course.author}}</p>
                                                 <p>进度：{{learningRecord.courseSection.id - learningRecord.course.courseChapterList[0].courseSectionList[0].id + 1}}/{{learningRecord.course.sectionNumber}}</p>
-                                                <a ui-sref="staff.studyVideo({courseId:{{learningRecord.course.id}},courseChapterIndex:{{learningRecord.courseChapter.id}},courseSectionIndex:{{learningRecord.courseSection.id}}})" class="btn btn-sm btn-primary"> 继续学习</a>
+                                                <a ui-sref="staff.studyVideo({courseId:{{learningRecord.course.id}},courseChapterIndex:{{learningRecord.courseChapter.id}},courseSectionIndex:{{learningRecord.courseSection.id}},flag:'0'})" class="btn btn-sm btn-primary"> 继续学习</a>
                                                 <span class="vertical-date">
                                                 开始时间：{{learningRecord.startTime}} <br/>
                                             <small>上次：{{learningRecord.lastLearningTime}}</small>

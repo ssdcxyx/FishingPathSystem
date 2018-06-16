@@ -1,6 +1,7 @@
 package edu.jxufe.tiamo.fishingpathsys.controller;
 
 
+import com.sun.corba.se.spi.ior.ObjectKey;
 import edu.jxufe.tiamo.fishingpathsys.controller.BaseController;
 import edu.jxufe.tiamo.fishingpathsys.domain.User;
 import edu.jxufe.tiamo.fishingpathsys.service.UserService;
@@ -43,5 +44,12 @@ public class UserController extends BaseController {
     public Object userLogin(String telephone,String password){
         Logger.Log.info(this.getClass().getName()+": userLogin "+telephone+" "+password);
         return userService.userLogin(telephone,password);
+    }
+
+    @ResponseBody
+    @GetMapping(value = "/getAllDynamicStatesByEnterpriseId")
+    public Object getAllDynamicStatesByEnterpriseId(Short enterpriseId){
+        Logger.Log.info(this.getClass().getName()+": getAllDynamicStatesByEnterpriseId "+enterpriseId);
+        return userService.getAllDynamicStatesByEnterpriseId(enterpriseId);
     }
 }

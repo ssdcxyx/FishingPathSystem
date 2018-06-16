@@ -90,9 +90,9 @@ public class StaffServiceImpl implements StaffService {
             List<LearningRecord> learningRecordList = learningRecordDao.getLearningRecordByCourseIdAndLearningPathId(courseId,learningPath.getId());
             LearningRecord learningRecord = new ListUtil<LearningRecord>().getFirst(learningRecordList);
             if(learningRecord!=null){
-                if(learningRecord.getCourseChapter().getId()<courseSectionId){
-                    learningRecord.setCourseSection(courseSectionDao.get(CourseSection.class,courseSectionId));
-                }
+                CourseSection courseSection = courseSectionDao.get(CourseSection.class,courseSectionId);
+                learningRecord.setCourseSection(courseSection);
+                learningRecord.setCourseChapter(courseSection.getCourseChapter());
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 learningRecord.setLastLearningTime(simpleDateFormat.format(new Date()));
                 learningRecordDao.update(learningRecord);
@@ -100,7 +100,9 @@ public class StaffServiceImpl implements StaffService {
                 learningRecord = new LearningRecord();
                 learningRecord.setCourse(course);
                 learningRecord.setLearningPath(learningPath);
-                learningRecord.setCourseSection(courseSectionDao.get(CourseSection.class,courseSectionId));
+                CourseSection courseSection = courseSectionDao.get(CourseSection.class,courseSectionId);
+                learningRecord.setCourseSection(courseSection);
+                learningRecord.setCourseChapter(courseSection.getCourseChapter());
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
                 learningRecord.setStartTime(simpleDateFormat.format(new Date()));
                 learningRecord.setLastLearningTime(simpleDateFormat.format(new Date()));
@@ -156,5 +158,13 @@ public class StaffServiceImpl implements StaffService {
         }
     }
 
-
+    @Override
+    public List<Staff> getAllStaffsByEnterpriseIdAndDepartmentId(Short enterpriseId, Short departmentId) {
+        try{
+            return staffDao.findStaffsByEnterpriseIdAndDepartmentId(enterpriseId,departmentId);
+        }catch (Exception ex){
+            ex.printStackTrace();
+            throw new CustomException("获取员工信息时时出现异常，请通知管理员！");
+        }
+    }
 }

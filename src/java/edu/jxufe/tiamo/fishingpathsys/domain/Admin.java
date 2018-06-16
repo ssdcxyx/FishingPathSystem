@@ -14,12 +14,6 @@ public class Admin {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private short id;
-    @Basic
-    @Column(name = "name")
-    private String name;
-    @Basic
-    @Column(name = "contact")
-    private String contact;
 
     @OneToOne(targetEntity = User.class)
     @JoinColumn(name = "user_id",referencedColumnName = "id",unique = true)
@@ -35,23 +29,6 @@ public class Admin {
 
     public void setId(short id) {
         this.id = id;
-    }
-
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getContact() {
-        return contact;
-    }
-
-    public void setContact(String contact) {
-        this.contact = contact;
     }
 
     public User getUser() {
@@ -76,8 +53,6 @@ public class Admin {
         if (o == null || getClass() != o.getClass()) return false;
         Admin admin = (Admin) o;
         return id == admin.id &&
-                Objects.equals(name, admin.name) &&
-                Objects.equals(contact, admin.contact)&&
                 Objects.equals(user,admin.user) &&
                 Objects.equals(announcementList,admin.announcementList);
     }
@@ -85,6 +60,6 @@ public class Admin {
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, name, contact,user,announcementList);
+        return Objects.hash(id,user,announcementList);
     }
 }

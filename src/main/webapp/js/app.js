@@ -17,7 +17,9 @@ jQuery.ajaxSetup({
         'pascalprecht.translate',       // Angular Translate
         'ngIdle',                       // Idle timer
         'oitozero.ngSweetAlert',
-        'ngSanitize'
+        'ngSanitize',
+        'toaster',
+        'ngAnimate'
     ])
         // 常量
         .constant('REG_CONSTANT',{
@@ -86,6 +88,12 @@ jQuery.ajaxSetup({
                 return result;
             }
         })
+        // 转化为html
+        .filter('trustHtml', function ($sce) {
+            return function (input) {
+                return $sce.trustAsHtml(input);
+            }
+        });
 
 })();
 

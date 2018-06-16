@@ -19,15 +19,6 @@ public class Staff {
     @Basic
     @Column(name = "job_number")
     private String jobNumber;
-    @Basic
-    @Column(name = "name")
-    private String name;
-    @Basic
-    @Column(name = "telephone")
-    private String telephone;
-    @Basic
-    @Column(name = "sex")
-    private String sex;
 
     @ManyToOne(targetEntity = Enterprise.class)
     @JoinColumn(name = "enterprise_id",referencedColumnName = "id",nullable = false)
@@ -51,13 +42,6 @@ public class Staff {
     public Staff() {
     }
 
-    public Staff(String jobNumber, String name, String telephone, String sex) {
-        this.jobNumber = jobNumber;
-        this.name = name;
-        this.telephone = telephone;
-        this.sex = sex;
-    }
-
     public short getId() {
         return id;
     }
@@ -74,29 +58,6 @@ public class Staff {
         this.jobNumber = jobNumber;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getTelephone() {
-        return telephone;
-    }
-
-    public void setTelephone(String telephone) {
-        this.telephone = telephone;
-    }
-
-    public String getSex() {
-        return sex;
-    }
-
-    public void setSex(String sex) {
-        this.sex = sex;
-    }
 
     public User getUser() {
         return user;
@@ -153,10 +114,6 @@ public class Staff {
         if (o == null || getClass() != o.getClass()) return false;
         Staff staff = (Staff) o;
         return id == staff.id &&
-                sex == staff.sex &&
-                Objects.equals(jobNumber, staff.jobNumber) &&
-                Objects.equals(name, staff.name) &&
-                Objects.equals(telephone, staff.telephone) &&
                 Objects.equals(user, staff.user) &&
                 Objects.equals(enterprise, staff.enterprise) &&
                 Objects.equals(postType, staff.postType) &&
@@ -168,6 +125,6 @@ public class Staff {
     @Override
     public int hashCode() {
 
-        return Objects.hash(id, jobNumber, name, telephone, sex, user,enterprise, postType, department,learningPathList,interestList);
+        return Objects.hash(id, jobNumber, user,enterprise, postType, department,learningPathList,interestList);
     }
 }

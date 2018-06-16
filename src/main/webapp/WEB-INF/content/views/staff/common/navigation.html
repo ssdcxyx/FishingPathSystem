@@ -8,7 +8,7 @@
                     <a uib-dropdown-toggle href>
                             <span class="clear">
                                 <span class="block m-t-xs">
-                                    <strong class="font-bold" ng-if="currentUser.user.name">{{currentUser.user.name}}</strong>
+                                    <strong class="font-bold" ng-if="currentUser.user.user.name">{{currentUser.user.user.name}}</strong>
                              </span>
                                 <span class="text-muted text-xs block" ng-switch="currentUser.role.title">
                                     <div ng-switch-when="staff">员工用户<b class="caret"></b></div>
@@ -18,7 +18,7 @@
                             </span>
                     </a>
                     <ul uib-dropdown-menu="" class="animated fadeInRight m-t-xs">
-                        <li><a ng-href="#">个人信息</a></li>
+                        <li><a ng-href="">个人信息</a></li>
                         <li><a ui-sref="staff.contacts">通讯录</a></li>
                         <li class="divider"></li>
                         <li><a ng-click="logout();">注销登录</a></li>

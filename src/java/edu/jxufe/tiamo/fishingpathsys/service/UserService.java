@@ -1,8 +1,11 @@
 package edu.jxufe.tiamo.fishingpathsys.service;
 
+import edu.jxufe.tiamo.fishingpathsys.domain.DynamicState;
 import edu.jxufe.tiamo.fishingpathsys.domain.Enterprise;
 import edu.jxufe.tiamo.fishingpathsys.domain.User;
 import edu.jxufe.tiamo.util.Code;
+
+import java.util.List;
 
 public interface UserService {
 
@@ -17,4 +20,7 @@ public interface UserService {
 
     // 用户登录
     Object userLogin(String telephone,String password);
+
+    // 根据企业id获取所有企业成员的动态
+    List<DynamicState> getAllDynamicStatesByEnterpriseId(Short enterpriseId);
 }

@@ -145,9 +145,26 @@ function EnterpriseContactsCtrl($scope,SweetAlert,StaffService) {
     )
 }
 
-function EnterpriseUserInfoCtrl($scope,SweetAlert,EnterpriseService,AuthService){
+function EnterpriseUserInfoCtrl($scope,SweetAlert,toaster,EnterpriseService,AuthService){
 
     $scope.enterprise = $scope.currentUser.user;
+    EnterpriseService.getEnterpriseByEnterpriseId(
+        $scope.currentUser.user.id,
+        function (data) {
+            $scope.enterprise = data;
+            let res = {};
+            res = {user:data,role:$scope.userRoles.enterprise};
+            AuthService.changeUser(res)
+            $scope.$apply();
+        },
+        function (err) {
+            SweetAlert.swal({
+                title:"获取信息失败",
+                text:"与服务器交互出现异常："+err + "！",
+                type:"error"
+            })
+        }
+    );
     $scope.enterprise_type = {};
     $scope.enterpriseTypes = [];
     EnterpriseService.getAllEnterpriseTypes(
@@ -170,18 +187,20 @@ function EnterpriseUserInfoCtrl($scope,SweetAlert,EnterpriseService,AuthService)
         $scope.loading = true;
         EnterpriseService.updateEnterpriseInfo({
                 "id":$scope.enterprise.id,
-                "name":$scope.enterprise.name,
+                "name":$scope.enterprise.user.name,
                 "enterpriseTypeId":$scope.enterprise_type.id,
-                "description":$scope.enterprise.description,
+                "description":$scope.enterprise.user.description,
                 "linkMan":$scope.enterprise.linkMan,
-                "telephone":$scope.enterprise.telephone
+                "telephone":$scope.enterprise.user.telephone
             },
             function (data) {
                 $scope.loading = false;
                 let res = {};
                 res = {user:data,role:$scope.userRoles.enterprise};
                 AuthService.changeUser(res)
-                SweetAlert.swal("更新成功！", "企业信息获得更新！", "success");
+                uploader.upload();
+                toaster.success({ body:"企业信息已成功更新！"});
+                $scope.$apply();
             },function (err) {
                 $scope.loading = false;
                 SweetAlert.swal(
@@ -191,6 +210,99 @@ function EnterpriseUserInfoCtrl($scope,SweetAlert,EnterpriseService,AuthService)
                 )
             })
     }
+    // 图片上传
+    var $list = $('#fileList');
+    // 优化retina, 在retina下这个值是2
+    var ratio = window.devicePixelRatio || 1;
+    // 缩略图大小
+    // var thumbnailWidth = 100 * ratio;
+    // var thumbnailHeight = 100 * ratio;
+    // 初始化Web Uploader
+    var uploader = WebUploader.create({
+        // 自动上传。
+        auto: false,
+        // swf文件路径
+        swf:'plugins/webuploader/js/Uploader.swf',
+        // 文件接收服务端。
+        server: '/uploadBusinessLicense?enterpriseId='+$scope.enterprise.id,
+        //threads:'5',        //同时运行5个线程传输
+        //fileNumLimit:'10',  //文件总数量只能选择10个
+
+        // 选择文件的按钮。可选。
+        pick: {id:'#filePicker',  //选择文件的按钮
+            multiple:true},   //允许可以同时选择多个图片
+        // 图片质量，只有type为`image/jpeg`的时候才有效。
+        quality: 90,
+
+        //限制传输文件类型，accept可以不写
+        accept: {
+            title: 'Images',//描述
+            extensions: 'gif,jpg,jpeg,bmp,png,zip',//类型
+            mimeTypes: 'image/*'//mime类型
+        }
+    });
+
+
+    // 当有文件添加进来的时候，创建img显示缩略图使用
+    uploader.on( 'fileQueued', function( file ) {
+        var $img = $('#businessLicensePath');
+
+        // 创建缩略图
+        // 如果为非图片文件，可以不用调用此方法。
+        // thumbnailWidth x thumbnailHeight 为 100 x 100
+        uploader.makeThumb( file, function( error, src ) {
+            if ( error ) {
+                $img.replaceWith('<span>不能预览</span>');
+                return;
+            }
+            $img.attr( 'src', src );
+        }, 210, 297 );
+    });
+
+    // 文件上传过程中创建进度条实时显示。    uploadProgress事件：上传过程中触发，携带上传进度。 file文件对象 percentage传输进度 Nuber类型
+    uploader.on( 'uploadProgress', function( file, percentage ) {
+        var $img = $('#businessLicensePath');
+        var $percent = $img.find('.progress span');
+
+        // 避免重复创建
+        if ( !$percent.length ) {
+            $percent = $('<p class="progress"><span></span></p>')
+                .appendTo( $img )
+                .find('span');
+        }
+
+        $percent.css( 'width', percentage * 100 + '%' );
+    });
+
+    // 文件上传成功时候触发，给item添加成功class, 用样式标记上传成功。 file：文件对象，    response：服务器返回数据
+    uploader.on( 'uploadSuccess', function( file,response) {
+        $scope.enterprise.businessLicensePath = "http://localhost:8080/img/enterprise/" + $scope.enterprise.id + "."+ file.ext;
+        let res = {};
+        res = {user:$scope.enterprise,role:$scope.userRoles.enterprise};
+        AuthService.changeUser(res)
+        $scope.$apply();
+        $('#businessLicensePath').addClass('upload-state-done');
+        //console.info(response);
+        $("#upInfo").html("<font color='red'>"+response._raw+"</font>");
+    });
+
+    // 文件上传失败                                file:文件对象 ， code：出错代码
+    uploader.on( 'uploadError', function(file,code) {
+        var $img = $('#businessLicensePath');
+        var $error = $img.find('div.error');
+
+        // 避免重复创建
+        if ( !$error.length ) {
+            $error = $('<div class="error"></div>').appendTo( $img );
+        }
+
+        $error.text('上传失败!');
+    });
+
+    // 不管成功或者失败，文件上传完成时触发。 file： 文件对象
+    uploader.on( 'uploadComplete', function( file ) {
+        $('#businessLicensePath').find('.progress').remove();
+    });
 }
 
 function StaffsManagementCtrl($scope,SweetAlert,EnterpriseService,StaffService){
@@ -215,11 +327,11 @@ function StaffsManagementCtrl($scope,SweetAlert,EnterpriseService,StaffService){
                         fields: [
                             { label: '企业', name:'enterprise.id',
                                 type:'select',
-                                options:[{'label':$scope.currentUser.user.name,'value':$scope.currentUser.user.id}]
+                                options:[{'label':$scope.currentUser.user.user.name,'value':$scope.currentUser.user.id}]
                             },
                             { label: '工号：', name: 'jobNumber'},
-                            { label: '姓名：',  name: 'name'},
-                            { label: '性别：', name: 'sex', type:"radio",
+                            { label: '姓名：',  name: 'user.name'},
+                            { label: '性别：', name: 'user.sex', type:"radio",
                                 options:[
                                     {label:'男',value:'男'},
                                     {label:'女',value:'女'}
@@ -231,7 +343,7 @@ function StaffsManagementCtrl($scope,SweetAlert,EnterpriseService,StaffService){
                             { label: '职位', name:'postType.id',
                                 type:'select',
                                 options: $scope.postTypesOptions},
-                            { label: '联系方式：', name:'telephone'},
+                            { label: '联系方式：', name:'user.telephone'},
                             { label: '账号：', name:'user.account'},
                             { label: '密码：', name:'user.password'}
                         ],
@@ -348,11 +460,11 @@ function StaffsManagementCtrl($scope,SweetAlert,EnterpriseService,StaffService){
                         },
                         columns: [
                             { data: "jobNumber" },
-                            { data: "name" },
-                            { data: "sex" },
+                            { data: "user.name" },
+                            { data: "user.sex" },
                             { data : 'department.name'},
                             { data : 'postType.name'},
-                            { data : 'telephone'},
+                            { data : 'user.telephone'},
                             { data : 'user.account'},
                             { data : 'user.password'}
                         ],
@@ -402,6 +514,12 @@ function StudyStatisticsCtrl($scope,SweetAlert,EnterpriseService,StaffService){
         $scope.enterprise.id,
         function (data) {
             $scope.enterpriseDTO = data;
+            $scope.staffCount = 0;
+            for (let i = 0; i < $scope.enterpriseDTO.departmentDTOList.length; i++) {
+                $scope.staffCount += $scope.enterpriseDTO.departmentDTOList[i].staffDTOList.length;
+            }
+            $scope.tab = $scope.enterpriseDTO.departmentDTOList[0].department.id;
+            $scope.client = $scope.enterpriseDTO.departmentDTOList[0].staffDTOList[0].staff.id;
             $scope.$apply();
         },function(err){
             SweetAlert.swal({
@@ -411,6 +529,186 @@ function StudyStatisticsCtrl($scope,SweetAlert,EnterpriseService,StaffService){
             })
         }
     )
+    $scope.tabChange = function (department_id,index) {
+        $scope.tab = department_id;
+        $scope.tabIndex = index;
+    }
+    $scope.clientChange = function (staff_id,index) {
+        $scope.client = staff_id;
+        $scope.clientIndex = index;
+    }
+}
+
+function findCoursesDTOByPage($scope,SweetAlert,CourseService,coursesLength,pageNo,pageSize) {
+    CourseService.findCourseDTOsByPage(
+        {pageNo:pageNo,pageSize:pageSize},
+        function (data) {
+            $scope.courseDTOs=data;
+            $('#pagination').twbsPagination({
+                totalPages: coursesLength/10 + 1,
+                visiblePages: 10,
+                onPageClick: function (event, page) {
+                    findCoursesDTOByPage($scope,SweetAlert,CourseService,coursesLength,page,pageSize);
+                }
+            });
+            $scope.$apply();
+        },
+        function (err) {
+            SweetAlert.swal({
+                title:"获取课程信息失败",
+                text:"与服务器交互出现异常："+err + "！",
+                type:"error"
+            })
+        }
+    )
+}
+
+function CoursesManagementCtrl($scope,SweetAlert,CourseService) {
+    CourseService.findCoursesLength(function (data) {
+        $scope.coursesLenth = data;
+        findCoursesDTOByPage($scope,SweetAlert,CourseService,$scope.coursesLenth,1,10);
+    },function(err){
+        SweetAlert.swal({
+            title:"获取课程信息失败",
+            text:"与服务器交互出现异常："+err + "！",
+            type:"error"
+        })
+    });
+}
+
+function getNewDynamicState($scope,SweetAlert,AssociatesService,enterprise_id) {
+    AssociatesService.getAllDynamicStatesByEnterpriseId(
+        enterprise_id,
+        function (data) {
+            $scope.dynamicStates = data;
+            $('.dynamic_state_content').html()
+            $scope.$apply();
+        },function(err){
+            SweetAlert.swal({
+                title:"获取动态信息失败",
+                text:"与服务器交互出现异常："+err + "！",
+                type:"error"
+            })
+        }
+    )
+}
+
+function EnterpriseAssociatesCtrl($scope,SweetAlert,toaster,AssociatesService,StaffService) {
+    $scope.enterprise = $scope.currentUser.user;
+    getNewDynamicState($scope,SweetAlert,AssociatesService,$scope.enterprise.id);
+    StaffService.getStaffsByEnterpriseId(
+        {
+            'enterpriseId':$scope.enterprise.id,
+        },
+        function (data) {
+            $scope.staffs = data;
+            $scope.$apply();
+        },function(err){
+            SweetAlert.swal({
+                title:"获取信息失败",
+                text:"与服务器交互出现异常："+err + "！",
+                type:"error"
+            })
+        }
+    );
+    $scope.publishComment = function (dynamicStatId,index) {
+        if($('#comment').val().replace(/(^s*)|(s*$)/g, "").length==0){
+            SweetAlert.swal({
+                title:"错误",
+                text:"请您填写评论后再发表！",
+                type:"error"
+            })
+        }else{
+            AssociatesService.publishDynamicStateComment(
+                $scope.enterprise.user.id,
+                $('#comment').val(),
+                dynamicStatId,
+                function (data) {
+                    if($scope.dynamicStates[index].dynamicStateCommentList==null){
+                        $scope.dynamicStates[index].dynamicStateCommentList = new Array();
+                    }
+                    $scope.dynamicStates[index].dynamicStateCommentList.push(data);
+                    $('#comment').val(""),
+                    $scope.$apply();
+                },function(err){
+                    SweetAlert.swal({
+                        title:"获取信息失败",
+                        text:"与服务器交互出现异常："+err + "！",
+                        type:"error"
+                    })
+                }
+            )
+        }
+    };
+    $scope.publishLike = function (dynamicStatId,index) {
+        AssociatesService.publishDynamicStateLike(
+            $scope.enterprise.user.id,
+            dynamicStatId,
+            function (data) {
+                if(data!=""){
+                    if($scope.dynamicStates[index].dynamicStateLikeList==null){
+                        $scope.dynamicStates[index].dynamicStateLikeList = new Array();
+                    }
+                    $scope.dynamicStates[index].dynamicStateLikeList.push(data);
+                }else{
+                    for(var i=0; i<$scope.dynamicStates[index].dynamicStateLikeList.length; i++) {
+                        if($scope.dynamicStates[index].dynamicStateLikeList[i].user.id == $scope.enterprise.user.id) {
+                            $scope.dynamicStates[index].dynamicStateLikeList.splice(i, 1);
+                            break;
+                        }
+                    }
+                }
+                $scope.$apply();
+            },function(err){
+                SweetAlert.swal({
+                    title:"获取信息失败",
+                    text:"与服务器交互出现异常："+err + "！",
+                    type:"error"
+                })
+            }
+        )
+    };
+    $scope.publishState = function () {
+        if($('#summernote').summernote('code')=='<p><br></p>'||$('#summernote').summernote('code')==''){
+            SweetAlert.swal({
+                title:"错误",
+                text:"请您填写动态后再发表！",
+                type:"error"
+            })
+        }else{
+            AssociatesService.publishDynamicState(
+                $scope.enterprise.user.id,
+                $('#summernote').summernote('code'),
+                function (data) {
+                    $scope.dynamicStates.unshift(data);
+                    $('#summernote').summernote('code',"<p><br></p>");
+                    toaster.success({ body:"动态已成功发表！"});
+                    $scope.$apply();
+                },function(err){
+                    SweetAlert.swal({
+                        title:"获取信息失败",
+                        text:"与服务器交互出现异常："+err + "！",
+                        type:"error"
+                    })
+                }
+            )
+        }
+    };
+    $scope.isLike = function (dynamicState) {
+        if(dynamicState.dynamicStateLikeList!=null&&dynamicState.dynamicStateLikeList.length>0){
+            for (let i = 0; i < dynamicState.dynamicStateLikeList.length; i++) {
+                if($scope.enterprise.user.id == dynamicState.dynamicStateLikeList[i].user.id){
+                    return true;
+                }
+            }
+        }
+        return false;
+
+    };
+    $('#summernote').summernote({
+        lang: 'zh-CN',
+        placeholder: '最近你进步了嘛，和大家一起分享一下吧！',
+    });
 }
 
 function EnterpriseAnnouncementsCtrl($scope,SweetAlert,EnterpriseService){
@@ -473,6 +771,7 @@ function AnnouncementManagementCtrl($scope,SweetAlert,EnterpriseService){
             }
         )
     }
+
 }
 
 function StaffMainCtrl(){
@@ -565,8 +864,22 @@ function StudyVideoCtrl($scope,$stateParams,SweetAlert,CourseService,StaffServic
         $scope.courseId,
         function (data) {
             $scope.course = data;
-            $scope.courseChapter = $scope.course.courseChapterList[$stateParams.courseChapterIndex];
-            $scope.courseSection = $scope.courseChapter.courseSectionList[$stateParams.courseSectionIndex];
+            if($stateParams.flag==0){
+                for (let i = 0; i < $scope.course.courseChapterList.length; i++) {
+                    if($scope.course.courseChapterList[i].id == $stateParams.courseChapterIndex){
+                        $scope.courseChapter = $scope.course.courseChapterList[i];
+                    }
+                }
+                for (let i = 0; i < $scope.courseChapter.courseSectionList.length; i++) {
+                    if($scope.courseChapter.courseSectionList[i].id == $stateParams.courseSectionIndex){
+                        $scope.courseSection = $scope.courseChapter.courseSectionList[i];
+                    }
+                }
+            }else if($stateParams.flag==1){
+                $scope.courseChapter = $scope.course.courseChapterList[$stateParams.courseChapterIndex];
+                $scope.courseSection = $scope.courseChapter.courseSectionList[$stateParams.courseSectionIndex];
+            }
+
             $scope.$apply();
             StaffService.storeLearningRecord(
                 $scope.currentUser.user.id,
@@ -616,6 +929,125 @@ function LearningPathCtrl($scope,SweetAlert,StaffService){
 }
 
 
+
+function StaffAssociatesCtrl($scope,SweetAlert,toaster,AssociatesService,StaffService) {
+    $scope.staff = $scope.currentUser.user;
+    getNewDynamicState($scope,SweetAlert,AssociatesService,$scope.staff.enterprise.id);
+    StaffService.getAllStaffsByEnterpriseIdAndDepartmentIdAndPostTypeId(
+        $scope.staff.enterprise.id,
+        $scope.staff.department.id,
+        $scope.staff.postType.id,
+        function (data) {
+            $scope.staffs = data;
+            $scope.$apply();
+        },function(err){
+            SweetAlert.swal({
+                title:"获取信息失败",
+                text:"与服务器交互出现异常："+err + "！",
+                type:"error"
+            })
+        }
+    );
+    $scope.publishComment = function (dynamicStatId,index) {
+        if($('#comment').val().replace(/(^s*)|(s*$)/g, "").length==0){
+            SweetAlert.swal({
+                title:"错误",
+                text:"请您填写评论后再发表！",
+                type:"error"
+            })
+        }else{
+            AssociatesService.publishDynamicStateComment(
+                $scope.staff.user.id,
+                $('#comment').val(),
+                dynamicStatId,
+                function (data) {
+                    if($scope.dynamicStates[index].dynamicStateCommentList==null){
+                        $scope.dynamicStates[index].dynamicStateCommentList = new Array();
+                    }
+                    $scope.dynamicStates[index].dynamicStateCommentList.push(data);
+                    $('#comment').val(""),
+                        $scope.$apply();
+                },function(err){
+                    SweetAlert.swal({
+                        title:"获取信息失败",
+                        text:"与服务器交互出现异常："+err + "！",
+                        type:"error"
+                    })
+                }
+            )
+        }
+    };
+    $scope.publishLike = function (dynamicStatId,index) {
+        AssociatesService.publishDynamicStateLike(
+            $scope.staff.user.id,
+            dynamicStatId,
+            function (data) {
+                if(data!=""){
+                    if($scope.dynamicStates[index].dynamicStateLikeList==null){
+                        $scope.dynamicStates[index].dynamicStateLikeList = new Array();
+                    }
+                    $scope.dynamicStates[index].dynamicStateLikeList.push(data);
+                }else{
+                    for(var i=0; i<$scope.dynamicStates[index].dynamicStateLikeList.length; i++) {
+                        if($scope.dynamicStates[index].dynamicStateLikeList[i].user.id == $scope.staff.user.id) {
+                            $scope.dynamicStates[index].dynamicStateLikeList.splice(i, 1);
+                            break;
+                        }
+                    }
+                }
+                $scope.$apply();
+            },function(err){
+                SweetAlert.swal({
+                    title:"获取信息失败",
+                    text:"与服务器交互出现异常："+err + "！",
+                    type:"error"
+                })
+            }
+        )
+    };
+    $scope.publishState = function () {
+        if($('#summernote').summernote('code')=='<p><br></p>'||($('#summernote').summernote('code')=='')){
+            SweetAlert.swal({
+                title:"错误",
+                text:"请您填写动态后再发表！",
+                type:"error"
+            })
+        }else{
+            AssociatesService.publishDynamicState(
+                $scope.staff.user.id,
+                $('#summernote').summernote('code'),
+                function (data) {
+                    $scope.dynamicStates.unshift(data);
+                    $('#summernote').summernote('code',"<p><br></p>");
+                    toaster.success({ body:"动态已成功发表！"});
+                    $scope.$apply();
+                },function(err){
+                    SweetAlert.swal({
+                        title:"获取信息失败",
+                        text:"与服务器交互出现异常："+err + "！",
+                        type:"error"
+                    })
+                }
+            )
+        }
+    };
+    $scope.isLike = function (dynamicState) {
+        if(dynamicState.dynamicStateLikeList!=null&&dynamicState.dynamicStateLikeList.length>0){
+            for (let i = 0; i < dynamicState.dynamicStateLikeList.length; i++) {
+                if($scope.staff.user.id == dynamicState.dynamicStateLikeList[i].user.id){
+                    return true;
+                }
+            }
+        }
+        return false;
+    };
+    $('#summernote').summernote({
+        lang: 'zh-CN',
+        placeholder: '最近你进步了嘛，和大家一起分享一下吧！',
+    });
+}
+
+
 function StaffAnnouncementsCtrl($scope,SweetAlert,StaffService){
     $scope.staff = $scope.currentUser.user;
     StaffService.getAnnouncementsByEnterpriseIdAndDepartmentId(
@@ -646,9 +1078,11 @@ angular
     // 企业控制器
     .controller('EnterpriseMainCtrl', EnterpriseMainCtrl)
     .controller('EnterpriseContactsCtrl',['$scope','SweetAlert','StaffService',EnterpriseContactsCtrl])
-    .controller('EnterpriseUserInfoCtrl',['$scope','SweetAlert','EnterpriseService','AuthService',EnterpriseUserInfoCtrl])
+    .controller('EnterpriseUserInfoCtrl',['$scope','SweetAlert','toaster','EnterpriseService','AuthService',EnterpriseUserInfoCtrl])
     .controller('StaffsManagementCtrl',['$scope','SweetAlert','EnterpriseService','StaffService',StaffsManagementCtrl])
     .controller('StudyStatisticsCtrl',['$scope','SweetAlert','EnterpriseService','StaffService',StudyStatisticsCtrl])
+    .controller('CoursesManagementCtrl',['$scope','SweetAlert','CourseService',CoursesManagementCtrl])
+    .controller('EnterpriseAssociatesCtrl',['$scope','SweetAlert','toaster','AssociatesService','StaffService',EnterpriseAssociatesCtrl])
     .controller('EnterpriseAnnouncementsCtrl'['$scope','SweetAlert','EnterpriseService',EnterpriseAnnouncementsCtrl])
     .controller('AnnouncementManagementCtrl',['$scope','SweetAlert','EnterpriseService',AnnouncementManagementCtrl])
     // 员工控制器
@@ -658,4 +1092,5 @@ angular
     .controller('CourseDetailCtrl',['$scope','$stateParams','SweetAlert','CourseService',CourseDetailCtrl])
     .controller('StudyVideoCtrl',['$scope','$stateParams','SweetAlert','CourseService','StaffService',StudyVideoCtrl])
     .controller('LearningPathCtrl',['$scope','SweetAlert','StaffService',LearningPathCtrl])
+    .controller('StaffAssociatesCtrl',['$scope','SweetAlert','toaster','AssociatesService','StaffService',StaffAssociatesCtrl])
     .controller('StaffAnnouncementsCtrl',['$scope','SweetAlert','StaffService',StaffAnnouncementsCtrl])

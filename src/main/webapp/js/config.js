@@ -111,7 +111,7 @@ function config($stateProvider, $urlRouterProvider, $locationProvider, $httpProv
             data: { pageTitle: '渔径-课程信息' }
         })
         .state('staff.studyVideo',{
-            url:"/staff/studyVideo/:courseId/:courseChapterIndex/:courseSectionIndex",
+            url:"/staff/studyVideo/:courseId/:courseChapterIndex/:courseSectionIndex/:flag",
             controller:StudyVideoCtrl,
             templateUrl:"res/views/staff/course_video.html",
             data: { pageTitle: '渔径-课程学习' }
@@ -119,12 +119,24 @@ function config($stateProvider, $urlRouterProvider, $locationProvider, $httpProv
         .state('staff.associates', {
             url: "/staff/associates",
             templateUrl: "res/views/staff/associates.html",
-            data: { pageTitle: '渔径-同事圈' }
+            controller:StaffAssociatesCtrl,
+            data: { pageTitle: '渔径-同事圈' },
+            resolve: {
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            name: 'summernote',
+                            files: ['plugins/summernote/css/summernote.css','plugins/summernote/js/summernote.js','plugins/summernote/js/angular-summernote.js','plugins/summernote/js/summernote-zh-CN.js']
+                        },
+
+                    ]);
+                }
+            }
         })
         .state('staff.announcementBoard', {
             url: "/staff/announcementBoard",
             controller:StaffAnnouncementsCtrl,
-            templateUrl: "res/views/staff/announcements_board.html",
+            templateUrl: "res/views/common/announcements_board.html",
             data: { pageTitle: '渔径-公告栏' }
         })
         .state('staff.others',{
@@ -192,9 +204,7 @@ function config($stateProvider, $urlRouterProvider, $locationProvider, $httpProv
                             files: ['js/plugins/ladda/spin.min.js', 'js/plugins/ladda/ladda.min.js', 'css/plugins/ladda/ladda-themeless.min.css','js/plugins/ladda/angular-ladda.min.js']
                         },
                         {
-                            serie: true,
-                            name: 'angular-ladda',
-                            files: ['js/plugins/ladda/spin.min.js', 'js/plugins/ladda/ladda.min.js', 'css/plugins/ladda/ladda-themeless.min.css','js/plugins/ladda/angular-ladda.min.js']
+                            files: ['plugins/webuploader/css/webuploader.css','plugins/webuploader/js/webuploader.js']
                         }
                     ]);
                 }
@@ -245,17 +255,44 @@ function config($stateProvider, $urlRouterProvider, $locationProvider, $httpProv
         .state('enterprise.courses',{
             url:"/enterprise/courses",
             templateUrl:"res/views/enterprise/courses_management.html",
-            data: { pageTitle: '渔径-课程管理' }
+            controller:CoursesManagementCtrl,
+            data: { pageTitle: '渔径-课程管理' },
+            resolve:{
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            files: ['js/plugins/shave/shave.js']
+                        },
+                        {
+                            files: ['plugins/raty/jquery.raty.js',"plugins/raty/jquery.raty.css"]
+                        },
+                        {
+                            files: ['plugins/pagination/jquery.twbsPagination.js']
+                        }
+                    ]);
+                }
+            }
         })
         .state('enterprise.associates',{
             url:"/enterprise/associates",
             templateUrl:"res/views/enterprise/associates.html",
-            data: { pageTitle: '渔径-同事圈' }
+            controller:EnterpriseAssociatesCtrl,
+            data: { pageTitle: '渔径-同事圈' },
+            resolve: {
+                loadPlugin: function ($ocLazyLoad) {
+                    return $ocLazyLoad.load([
+                        {
+                            name: 'summernote',
+                            files: ['plugins/summernote/css/summernote.css','plugins/summernote/js/summernote.js','plugins/summernote/js/angular-summernote.js','plugins/summernote/js/summernote-zh-CN.js']
+                        },
+                    ]);
+                }
+            }
         })
         .state('enterprise.announcementBoard', {
             url: "/enterprise/announcementBoard",
             controller:EnterpriseAnnouncementsCtrl,
-            templateUrl: "res/views/enterprise/announcements_board.html",
+            templateUrl: "res/views/common/announcements_board.html",
             data: { pageTitle: '渔径-公告栏' }
         })
         .state('enterprise.announcementManagement',{
