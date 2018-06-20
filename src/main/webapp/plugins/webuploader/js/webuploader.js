@@ -182,7 +182,7 @@
      * As you know, Web Uploader的每个文件都是用过[AMD](https://github.com/amdjs/amdjs-api/wiki/AMD)规范中的`define`组织起来的, 每个Module都会有个module id.
      * 默认module id为该文件的路径，而此路径将会转化成名字空间存放在WebUploader中。如：
      *
-     * * module `base`：WebUploader.Base
+     * * module `base`：WebUploader.base
      * * module `file`: WebUploader.File
      * * module `lib/dnd`: WebUploader.Lib.Dnd
      * * module `runtime/html5/dnd`: WebUploader.Runtime.Html5.Dnd
@@ -307,9 +307,9 @@
             /**
              * 实现类与类之间的继承。
              * @method inherits
-             * @grammar Base.inherits( super ) => child
-             * @grammar Base.inherits( super, protos ) => child
-             * @grammar Base.inherits( super, protos, statics ) => child
+             * @grammar base.inherits( super ) => child
+             * @grammar base.inherits( super, protos ) => child
+             * @grammar base.inherits( super, protos, statics ) => child
              * @param  {Class} super 父类
              * @param  {Object | Function} [protos] 子类或者对象。如果对象中包含constructor，子类将是用此属性值。
              * @param  {Function} [protos.constructor] 子类构造器，不指定的话将创建个临时的直接执行父类构造器的方法。
@@ -323,7 +323,7 @@
              *     console.log( 'hello' );
              * };
              *
-             * var Manager = Base.inherits( Person, {
+             * var Manager = base.inherits( Person, {
              *     world: function() {
              *         console.log( 'World' );
              *     }
@@ -377,7 +377,7 @@
     
             /**
              * 返回一个新的方法，此方法将已指定的`context`来执行。
-             * @grammar Base.bindFn( fn, context ) => Function
+             * @grammar base.bindFn( fn, context ) => Function
              * @method bindFn
              * @example
              * var doSomething = function() {
@@ -386,7 +386,7 @@
              *     obj = {
              *         name: 'Object Name'
              *     },
-             *     aliasFn = Base.bind( doSomething, obj );
+             *     aliasFn = base.bind( doSomething, obj );
              *
              *  aliasFn();    // => Object Name
              *
@@ -394,8 +394,8 @@
             bindFn: bindFn,
     
             /**
-             * 引用Console.log如果存在的话，否则引用一个[空函数noop](#WebUploader:Base.noop)。
-             * @grammar Base.log( args... ) => undefined
+             * 引用Console.log如果存在的话，否则引用一个[空函数noop](#WebUploader:base.noop)。
+             * @grammar base.log( args... ) => undefined
              * @method log
              */
             log: (function() {
@@ -426,11 +426,11 @@
             /**
              * 被[uncurrythis](http://www.2ality.com/2011/11/uncurrying-this.html)的数组slice方法。
              * 将用来将非数组对象转化成数组对象。
-             * @grammar Base.slice( target, start[, end] ) => Array
+             * @grammar base.slice( target, start[, end] ) => Array
              * @method slice
              * @example
              * function doSomthing() {
-             *     var args = Base.slice( arguments, 1 );
+             *     var args = base.slice( arguments, 1 );
              *     console.log( args );
              * }
              *
@@ -441,8 +441,8 @@
             /**
              * 生成唯一的ID
              * @method guid
-             * @grammar Base.guid() => String
-             * @grammar Base.guid( prefx ) => String
+             * @grammar base.guid() => String
+             * @grammar base.guid( prefx ) => String
              */
             guid: (function() {
                 var counter = 0;
@@ -462,19 +462,19 @@
             /**
              * 格式化文件大小, 输出成带单位的字符串
              * @method formatSize
-             * @grammar Base.formatSize( size ) => String
-             * @grammar Base.formatSize( size, pointLength ) => String
-             * @grammar Base.formatSize( size, pointLength, units ) => String
+             * @grammar base.formatSize( size ) => String
+             * @grammar base.formatSize( size, pointLength ) => String
+             * @grammar base.formatSize( size, pointLength, units ) => String
              * @param {Number} size 文件大小
              * @param {Number} [pointLength=2] 精确到的小数点数。
              * @param {Array} [units=[ 'B', 'K', 'M', 'G', 'TB' ]] 单位数组。从字节，到千字节，一直往上指定。如果单位数组里面只指定了到了K(千字节)，同时文件大小大于M, 此方法的输出将还是显示成多少K.
              * @example
-             * console.log( Base.formatSize( 100 ) );    // => 100B
-             * console.log( Base.formatSize( 1024 ) );    // => 1.00K
-             * console.log( Base.formatSize( 1024, 0 ) );    // => 1K
-             * console.log( Base.formatSize( 1024 * 1024 ) );    // => 1.00M
-             * console.log( Base.formatSize( 1024 * 1024 * 1024 ) );    // => 1.00G
-             * console.log( Base.formatSize( 1024 * 1024 * 1024, 0, ['B', 'KB', 'MB'] ) );    // => 1024MB
+             * console.log( base.formatSize( 100 ) );    // => 100B
+             * console.log( base.formatSize( 1024 ) );    // => 1.00K
+             * console.log( base.formatSize( 1024, 0 ) );    // => 1K
+             * console.log( base.formatSize( 1024 * 1024 ) );    // => 1.00M
+             * console.log( base.formatSize( 1024 * 1024 * 1024 ) );    // => 1.00G
+             * console.log( base.formatSize( 1024 * 1024 * 1024, 0, ['B', 'KB', 'MB'] ) );    // => 1024MB
              */
             formatSize: function( size, pointLength, units ) {
                 var unit;
@@ -894,7 +894,7 @@
          * @method create
          * @class Base
          * @static
-         * @grammar Base.create( opts ) => Uploader
+         * @grammar base.create( opts ) => Uploader
          */
         Base.create = Uploader.create = function( opts ) {
             return new Uploader( opts );
@@ -5411,7 +5411,7 @@
         //         i,
         //         b;
         //     if (!length || offset + length > dataView.byteLength) {
-        //         Base.log('Invalid Exif data: Invalid thumbnail data.');
+        //         base.log('Invalid Exif data: Invalid thumbnail data.');
         //         return;
         //     }
         //     hexData = [];
@@ -7623,7 +7623,7 @@
                     clients[ uid ].trigger( type.toLowerCase(), evt, obj );
                 }
     
-                // Base.log( evt, obj );
+                // base.log( evt, obj );
             }
     
             // flash的接受器。

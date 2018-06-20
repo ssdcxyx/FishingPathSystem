@@ -48,7 +48,7 @@
                                                 <td>状态</td>
                                             </th>
                                             <tr ng-repeat="staffDTO in departmentDTO.staffDTOList">
-                                                <td class="client-avatar"><img alt="image" ng-src="{{staffDTO.staff.user.logoPath}}"> </td>
+                                                <td class="client-avatar"><img ooltip-placement="bottom" uib-tooltip="{{staffDTO.staff.user.name}}" title="{{staffDTO.staff.user.name}}" alt="{{staffDTO.staff.user.name}}" ng-src="{{staffDTO.staff.user.logoPath}}"> </td>
                                                 <td><a ng-click="clientChange(staffDTO.staff.id,$index)" class="client-link">{{staffDTO.staff.user.name}}</a></td>
                                                 <td> {{staffDTO.staff.department.name}} </td>
                                                 <td> {{staffDTO.staff.postType.name}} </td>

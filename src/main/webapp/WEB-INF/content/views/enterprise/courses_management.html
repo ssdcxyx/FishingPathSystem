@@ -56,7 +56,7 @@
                                 </td>
                                 <td class="project-people">
                                     <a href="">
-                                        <img ng-repeat="learningRecordDTO in courseDTO.learningRecordDTOList | limitTo:5" alt="image" class="img-circle" ng-src="{{courseDTO.learningRecordDTOList[$index].learningPath.staff.user.logoPath}}">
+                                        <img ng-repeat="learningRecordDTO in courseDTO.learningRecordDTOList | limitTo:5" tooltip-placement="bottom" uib-tooltip="{{courseDTO.learningRecordDTOList[$index].learningPath.staff.user.name}}"  title="{{courseDTO.learningRecordDTOList[$index].learningPath.staff.user.name}}" class="img-circle" ng-src="{{courseDTO.learningRecordDTOList[$index].learningPath.staff.user.logoPath}}">
                                     </a>
                                 </td>
                                 <td class="project-actions">

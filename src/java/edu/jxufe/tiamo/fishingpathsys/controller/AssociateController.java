@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 
 @Controller
-public class AssociateController {
+public class AssociateController extends BaseController{
 
     @Resource
     private AssociateService associateService;

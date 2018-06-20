@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 指定Spring配置文件的Schema信息 -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx.xsd">
+
+    <!--定义数据源Bean,使用C3P0数据源实现
+        并通过依赖注入设置数据库的驱动、URL、用户名、密码
+        最大连接数、最小连接数、初始化连接数、最大空闲时间-->
+    <!--mysql连接时解除时区限制，不使用ssl的方式连接-->
+    <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource"
+          destroy-method="close"
+          p:driverClass="com.mysql.cj.jdbc.Driver"
+          p:jdbcUrl="jdbc:mysql://localhost:3306/FishingPathSystem?useUnicode=true&amp;serverTimezone=UTC&amp;useSSL=false&amp;characterEncoding=utf-8"
+          p:user="ordinary_admin"
+          p:password="tiamo19971014"
+          p:maxPoolSize="200"
+          p:minPoolSize="2"
+          p:initialPoolSize="2"
+          p:maxIdleTime="200"/>
+
+    <!--定义Hibernate的SessionFactory-->
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate5.LocalSessionFactoryBean"
+          p:dataSource-ref="dataSource"
+          p:configLocation="classpath:hibernate.cfg.xml"/>
+
+    <bean id="daoTemplate" class="edu.jxufe.tiamo.common.dao.impl.BaseDaoHibernate" >
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="adminDao" parent="daoTemplate"
+          class="edu.jxufe.tiamo.fishingpathsys.dao.impl.AdminDaoHibernate"/>
+
+    <bean id="announcementDao" parent="daoTemplate"
+          class="edu.jxufe.tiamo.fishingpathsys.dao.impl.AnnouncementDaoHibernate"/>
+
+    <bean id="courseDao" parent="daoTemplate"
+          class="edu.jxufe.tiamo.fishingpathsys.dao.impl.CourseDaoHibernate"/>
+
+    <bean id="courseChapterDao" parent="daoTemplate"
+          class="edu.jxufe.tiamo.fishingpathsys.dao.impl.CourseChapterDaoHibernate"/>
+
+    <bean id="courseSectionDao" parent="daoTemplate"
+          class="edu.jxufe.tiamo.fishingpathsys.dao.impl.CourseSectionDaoHibernate"/>
+
+    <bean id="courseTypeDao" parent="daoTemplate"
+          class="edu.jxufe.tiamo.fishingpathsys.dao.impl.CourseTypeDaoHibernate"/>
+
+    <bean id="courseCategoryDao" parent="daoTemplate"
+          class="edu.jxufe.tiamo.fishingpathsys.dao.impl.CourseSectionDaoHibernate"/>
+
+    <bean id="departmentDao" parent="daoTemplate"
+          class="edu.jxufe.tiamo.fishingpathsys.dao.impl.DepartmentDaoHibernate"/>
+
+    <bean id="enterpriseDao" parent="daoTemplate"
+          class="edu.jxufe.tiamo.fishingpathsys.dao.impl.EnterpriseDaoHibernate"/>
+
+    <bean id="enterpriseTypeDao" parent="daoTemplate"
+          class="edu.jxufe.tiamo.fishingpathsys.dao.impl.EnterpriseTypeDaoHibernate"/>
+
+    <bean id="interestDao" parent="daoTemplate"
+          class="edu.jxufe.tiamo.fishingpathsys.dao.impl.InterestDaoHibernate"/>
+
+    <bean id="interestTypeDao" parent="daoTemplate"
+          class="edu.jxufe.tiamo.fishingpathsys.dao.impl.InterestTypeDaoHibernate"/>
+
+    <bean id="learningPathDao" parent="daoTemplate"
+          class="edu.jxufe.tiamo.fishingpathsys.dao.impl.LearningPathDaoHibernate"/>
+
+    <bean id="learningRecordDao" parent="daoTemplate"
+          class="edu.jxufe.tiamo.fishingpathsys.dao.impl.LearningRecordDaoHibernate"/>
+
+    <bean id="postTypeDao" parent="daoTemplate"
+          class="edu.jxufe.tiamo.fishingpathsys.dao.impl.PostTypeDaoHibernate"/>
+
+    <bean id="staffDao" parent="daoTemplate"
+          class="edu.jxufe.tiamo.fishingpathsys.dao.impl.StaffDaoHibernate"/>
+
+    <bean id="userDao" parent="daoTemplate"
+          class="edu.jxufe.tiamo.fishingpathsys.dao.impl.UserDaoHibernate"/>
+
+    <bean id="dynamicStateDao" parent="daoTemplate"
+          class="edu.jxufe.tiamo.fishingpathsys.dao.impl.DynamicStateDaoHibernate"/>
+
+    <bean id="dynamicStateCommentDao" parent="daoTemplate"
+          class="edu.jxufe.tiamo.fishingpathsys.dao.impl.DynamicStateCommentDaoHibernate"/>
+
+    <bean id="dynamicStateLikeDao" parent="daoTemplate"
+          class="edu.jxufe.tiamo.fishingpathsys.dao.impl.DynamicStateLikeDaoHibernate"/>
+
+</beans>

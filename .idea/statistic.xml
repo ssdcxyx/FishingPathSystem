@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Statistic">
+    <option name="excludedDirectories">
+      <list>
+        <option value="$PROJECT_DIR$/src/main/webapp/js/angular" />
+        <option value="$PROJECT_DIR$/src/main/webapp/js/angular-translate" />
+        <option value="$PROJECT_DIR$/src/main/webapp/js/bootstrap" />
+        <option value="$PROJECT_DIR$/src/main/webapp/js/jquery" />
+        <option value="$PROJECT_DIR$/src/main/webapp/js/plugins" />
+        <option value="$PROJECT_DIR$/src/main/webapp/js/ui-router" />
+        <option value="$PROJECT_DIR$/src/main/webapp/plugins" />
+      </list>
+    </option>
+  </component>
+</project>

@@ -5,6 +5,7 @@ import edu.jxufe.tiamo.fishingpathsys.domain.*;
 import edu.jxufe.tiamo.fishingpathsys.exception.CustomException;
 import edu.jxufe.tiamo.fishingpathsys.service.StaffService;
 import edu.jxufe.tiamo.util.ListUtil;
+import edu.jxufe.tiamo.util.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -53,6 +54,7 @@ public class StaffServiceImpl implements StaffService {
         try{
             return staffDao.findStaffsByEnterpriseId(enterpriseId);
         }catch (Exception ex){
+            Logger.Log.error("getAllStaffsByEnterpriseId:"+ex);
             ex.printStackTrace();
             throw new CustomException("获取员工信息时出现异常，请通知管理员！");
         }
@@ -66,6 +68,7 @@ public class StaffServiceImpl implements StaffService {
             announcements.addAll(announcementDao.getAnnouncementsForAdmin());
             return announcements;
         }catch (Exception ex){
+            Logger.Log.error("getAnnouncementsByEnterpriseIdAndDepartmentId:"+ex);
             ex.printStackTrace();
             throw new CustomException("获取公告信息时出现异常，请通知管理员！");
         }
@@ -110,6 +113,7 @@ public class StaffServiceImpl implements StaffService {
             }
             return learningRecord;
         }catch (Exception ex){
+            Logger.Log.error("storeLearningRecord:"+ex);
             ex.printStackTrace();
             throw new CustomException("存储员工学习记录时出现异常，请通知管理员！");
         }
@@ -122,6 +126,7 @@ public class StaffServiceImpl implements StaffService {
             learningPaths.addAll(learningPathDao.getLearningPathsByStaffId(staffId));
             return learningPaths;
         }catch (Exception ex){
+            Logger.Log.error("getLearningPathByStaffId:"+ex);
             ex.printStackTrace();
             throw new CustomException("获取员工学习记录时出现异常，请通知管理员！");
         }
@@ -153,6 +158,7 @@ public class StaffServiceImpl implements StaffService {
             }
             return staffList;
         }catch (Exception ex){
+            Logger.Log.error("getAllStaffsByEnterpriseIdAndDepartmentIdAndPostTypeId:"+ex);
             ex.printStackTrace();
             throw new CustomException("获取员工信息时时出现异常，请通知管理员！");
         }
@@ -163,6 +169,7 @@ public class StaffServiceImpl implements StaffService {
         try{
             return staffDao.findStaffsByEnterpriseIdAndDepartmentId(enterpriseId,departmentId);
         }catch (Exception ex){
+            Logger.Log.error("getAllStaffsByEnterpriseIdAndDepartmentId:"+ex);
             ex.printStackTrace();
             throw new CustomException("获取员工信息时时出现异常，请通知管理员！");
         }

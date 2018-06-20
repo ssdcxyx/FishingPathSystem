@@ -6,6 +6,7 @@ import edu.jxufe.tiamo.fishingpathsys.exception.CustomException;
 import edu.jxufe.tiamo.fishingpathsys.service.UserService;
 import edu.jxufe.tiamo.util.Code;
 import edu.jxufe.tiamo.util.ListUtil;
+import edu.jxufe.tiamo.util.Logger;
 import edu.jxufe.tiamo.util.OtherAPIRequestUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,6 +54,7 @@ public class UserServiceImpl implements UserService {
         try{
             return OtherAPIRequestUtil.sendPhoneVerificationCodeUseJiGuang(telephone);
         }catch (Exception ex){
+            Logger.Log.error("getAllStaffsByEnterpriseIdAndDepartmentId:"+ex);
             ex.printStackTrace();
             throw new CustomException("发送手机验证码时出现异常，请通知管理员！");
         }
@@ -69,6 +71,7 @@ public class UserServiceImpl implements UserService {
         try{
             return OtherAPIRequestUtil.verifySendValidSMSCode(msgId,validStr);
         }catch (Exception ex){
+            Logger.Log.error("verifyVerificationCode:"+ex);
             ex.printStackTrace();
             throw new CustomException("验证手机验证码时出现异常，请通知管理员！");
         }
@@ -80,6 +83,7 @@ public class UserServiceImpl implements UserService {
         try{
             return new ListUtil<User>().getFirst(userDao.findUserByTelephone(telephone));
         }catch (Exception ex){
+            Logger.Log.error("getUserByTelephone:"+ex);
             ex.printStackTrace();
             throw new CustomException("根据手机号查找用户时出现异常，请通知管理员！");
         }
@@ -101,6 +105,7 @@ public class UserServiceImpl implements UserService {
             }
             return null;
         }catch (Exception ex){
+            Logger.Log.error("userLogin:"+ex);
             ex.printStackTrace();
             throw new CustomException("用户登录时出现异常，请通知管理员！");
         }
@@ -123,6 +128,7 @@ public class UserServiceImpl implements UserService {
             ListSort(dynamicStates);
             return dynamicStates;
         }catch (Exception ex){
+            Logger.Log.error("getAllDynamicStatesByEnterpriseId:"+ex);
             ex.printStackTrace();
             throw new CustomException("获取动态时出现异常，请联系管理员！");
         }

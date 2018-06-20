@@ -7,6 +7,7 @@ import edu.jxufe.tiamo.fishingpathsys.domain.User;
 import edu.jxufe.tiamo.fishingpathsys.service.UserService;
 import edu.jxufe.tiamo.util.Code;
 import edu.jxufe.tiamo.util.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,13 +20,13 @@ import java.util.Map;
 @Controller
 public class UserController extends BaseController {
 
-    @Resource
+    @Autowired
     private UserService userService;
 
     @ResponseBody
     @GetMapping(value = "/sendVerificationCode")
     public String sendVerificationCode(String telephone){
-        Logger.Log.info(this.getClass().getName()+": verifyVerificationCode "+telephone);
+        Logger.Log.info(this.getClass().getName()+": sendVerificationCode "+telephone);
         if(userService.getUserByTelephone(telephone)!=null){
             return Code.isExist;
         }

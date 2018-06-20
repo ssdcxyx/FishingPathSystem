@@ -11,6 +11,7 @@ import edu.jxufe.tiamo.fishingpathsys.exception.CustomException;
 import edu.jxufe.tiamo.fishingpathsys.service.EnterpriseService;
 import edu.jxufe.tiamo.util.Code;
 import edu.jxufe.tiamo.util.ListUtil;
+import edu.jxufe.tiamo.util.Logger;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -74,6 +75,7 @@ public class EnterpriseServiceImpl implements EnterpriseService{
             enterprise.setId((Short) enterpriseDao.save(enterprise));
             return enterprise;
         }catch (Exception ex){
+            Logger.Log.error("enterpriseRegister:"+ex);
             ex.printStackTrace();
             throw new CustomException("企业用户注册时出现异常，请通知管理员！");
         }
@@ -84,6 +86,7 @@ public class EnterpriseServiceImpl implements EnterpriseService{
         try{
             return enterpriseTypeDao.findAll(EnterpriseType.class);
         }catch (Exception ex){
+            Logger.Log.error("getAllEnterpriseTypes:"+ex);
             ex.printStackTrace();
             throw new CustomException("获取所有企业类型时出现问题，请通知管理员！");
         }
@@ -101,6 +104,7 @@ public class EnterpriseServiceImpl implements EnterpriseService{
             enterpriseDao.update(enterprise);
             return new ListUtil<Enterprise>().getFirst(enterpriseDao.findEnterpriseByUserId(enterprise.getUser().getId()));
         }catch (Exception ex){
+            Logger.Log.error("updateEnterpriseInfo:"+ex);
             ex.printStackTrace();
             throw new CustomException("更新用户信息时出现异常。请通知管理员！");
         }
@@ -115,6 +119,7 @@ public class EnterpriseServiceImpl implements EnterpriseService{
             departments.add(0,department_all);
             return departments;
         }catch (Exception ex){
+            Logger.Log.error("getAllDepartment:"+ex);
             ex.printStackTrace();
             throw new CustomException("获取所有部门种类时出现异常。请通知管理员！");
         }
@@ -125,6 +130,7 @@ public class EnterpriseServiceImpl implements EnterpriseService{
         try{
             return postTypeDao.findAll(PostType.class);
         }catch (Exception ex){
+            Logger.Log.error("getAllPostType:"+ex);
             ex.printStackTrace();
             throw new CustomException("获取所有职位种类时出现异常。请通知管理员！");
         }
@@ -158,6 +164,7 @@ public class EnterpriseServiceImpl implements EnterpriseService{
             staffDao.save(staff);
             return staff;
         }catch (Exception ex){
+            Logger.Log.error("addStaff:"+ex);
             ex.printStackTrace();
             throw new CustomException("添加员工账号时出现异常，请通知管理员！");
         }
@@ -190,6 +197,7 @@ public class EnterpriseServiceImpl implements EnterpriseService{
             staffDao.update(staff);
             return staff;
         }catch (Exception ex){
+            Logger.Log.error("updateStaff:"+ex);
             ex.printStackTrace();
             throw new CustomException("更新员工账号时出现异常，请通知管理员！");
         }
@@ -203,6 +211,7 @@ public class EnterpriseServiceImpl implements EnterpriseService{
             staffDao.delete(staff);
             return staff;
         }catch (Exception ex){
+            Logger.Log.error("deleteStaff:"+ex);
             ex.printStackTrace();
             throw new CustomException("删除员工账号时出现异常，请通知管理员！");
         }
@@ -228,6 +237,7 @@ public class EnterpriseServiceImpl implements EnterpriseService{
             short announcementId = (Short)announcementDao.save(announcement);
             return announcementDao.get(Announcement.class,announcementId);
         }catch (Exception ex){
+            Logger.Log.error("publishAnnouncement:"+ex);
             ex.printStackTrace();
             throw new CustomException("发布公告时出现异常，请通知管理员！");
         }
@@ -241,6 +251,7 @@ public class EnterpriseServiceImpl implements EnterpriseService{
             announcements.addAll(announcementDao.getAnnouncementsForAdmin());
             return announcements;
         }catch (Exception ex){
+            Logger.Log.error("getAnnouncementsByEnterpriseId:"+ex);
             ex.printStackTrace();
             throw new CustomException("获取公告信息时出现异常，请通知管理员！");
         }
@@ -292,6 +303,7 @@ public class EnterpriseServiceImpl implements EnterpriseService{
             enterpriseDTO.setDepartmentDTOList(departmentDTOList);
             return enterpriseDTO;
         }catch (Exception ex){
+            Logger.Log.error("getEnterpriseDTOByEnterpriseId:"+ex);
             ex.printStackTrace();
             throw new CustomException("获取企业员工信息失败，请通知管理员！");
         }
@@ -302,6 +314,7 @@ public class EnterpriseServiceImpl implements EnterpriseService{
         try{
             return enterpriseDao.get(Enterprise.class,enterpriseId);
         }catch (Exception ex){
+            Logger.Log.error("getEnterpriseByEnterpriseId:"+ex);
             ex.printStackTrace();
             throw new CustomException("获取企业信息失败，请通知管理员！");
         }
@@ -314,6 +327,7 @@ public class EnterpriseServiceImpl implements EnterpriseService{
             enterprise.setBusinessLicensePath(businessLicensePath);
             return enterpriseDao.get(Enterprise.class,enterpriseDao.save(enterprise));
         }catch (Exception ex){
+            Logger.Log.error("updateBusinessLicensePath:"+ex);
             ex.printStackTrace();
             throw new CustomException("获取企业信息失败，请通知管理员！");
         }

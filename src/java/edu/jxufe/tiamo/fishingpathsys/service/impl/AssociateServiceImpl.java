@@ -10,6 +10,7 @@ import edu.jxufe.tiamo.fishingpathsys.domain.DynamicStateLike;
 import edu.jxufe.tiamo.fishingpathsys.domain.User;
 import edu.jxufe.tiamo.fishingpathsys.exception.CustomException;
 import edu.jxufe.tiamo.fishingpathsys.service.AssociateService;
+import edu.jxufe.tiamo.util.Logger;
 import edu.jxufe.tiamo.util.OtherAPIRequestUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,14 +23,10 @@ import java.util.List;
 @Service
 public class AssociateServiceImpl implements AssociateService {
 
-    private DynamicStateCommentDao dynamicStateCommentDao;
     private UserDao userDao;
     private DynamicStateDao dynamicStateDao;
+    private DynamicStateCommentDao dynamicStateCommentDao;
     private DynamicStateLikeDao dynamicStateLikeDao;
-
-    public void setDynamicStateCommentDao(DynamicStateCommentDao dynamicStateCommentDao) {
-        this.dynamicStateCommentDao = dynamicStateCommentDao;
-    }
 
     public void setUserDao(UserDao userDao) {
         this.userDao = userDao;
@@ -37,6 +34,10 @@ public class AssociateServiceImpl implements AssociateService {
 
     public void setDynamicStateDao(DynamicStateDao dynamicStateDao) {
         this.dynamicStateDao = dynamicStateDao;
+    }
+
+    public void setDynamicStateCommentDao(DynamicStateCommentDao dynamicStateCommentDao) {
+        this.dynamicStateCommentDao = dynamicStateCommentDao;
     }
 
     public void setDynamicStateLikeDao(DynamicStateLikeDao dynamicStateLikeDao) {
@@ -53,6 +54,7 @@ public class AssociateServiceImpl implements AssociateService {
             dynamicState.setContent(content);
             return dynamicStateDao.get(DynamicState.class,dynamicStateDao.save(dynamicState));
         }catch (Exception ex){
+            Logger.Log.error("publishDynamicState:"+ex);
             ex.printStackTrace();
             throw new CustomException("发表动态时出现异常，请通知管理员！");
         }
@@ -69,6 +71,7 @@ public class AssociateServiceImpl implements AssociateService {
             dynamicStateComment.setContent(content);
             return dynamicStateCommentDao.get(DynamicStateComment.class,dynamicStateCommentDao.save(dynamicStateComment));
         }catch (Exception ex){
+            Logger.Log.error("publishDynamicStateComment:"+ex);
             ex.printStackTrace();
             throw new CustomException("发表评论时出现异常，请通知管理员！");
         }
@@ -91,6 +94,7 @@ public class AssociateServiceImpl implements AssociateService {
                 return dynamicStateLikeDao.get(DynamicStateLike.class,dynamicStateLikeDao.save(dynamicStateLike));
             }
         }catch (Exception ex){
+            Logger.Log.error("publishDynamicStateLike:"+ex);
             ex.printStackTrace();
             throw new CustomException("点赞时出现异常，请通知管理员！");
         }

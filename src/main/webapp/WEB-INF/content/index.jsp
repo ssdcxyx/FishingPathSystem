@@ -87,6 +87,8 @@
 <link href="${pageContext.request.contextPath}/plugins/tipso/tipso.min.css" rel="stylesheet">
 <script src="${pageContext.request.contextPath}/plugins/tipso/tipso.min.js"></script>
 
+<script src="${pageContext.request.contextPath}/plugins/tooltip/ui-bootstrap-tpls-1.1.2.min.js"></script>
+
 <!-- Anglar App Script -->
 <script src="${pageContext.request.contextPath}/js/app.js"></script>
 <script src="${pageContext.request.contextPath}/js/config.js"></script>

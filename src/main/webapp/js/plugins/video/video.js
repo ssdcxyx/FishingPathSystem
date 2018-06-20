@@ -3153,12 +3153,12 @@
     }
 
     /**
-     * Player Component - Base class for all UI objects
+     * Player Component - base class for all UI objects
      *
      * @file component.js
      */
     /**
-     * Base class for all UI Components.
+     * base class for all UI Components.
      * Components are UI objects which represent both a javascript object and an element
      * in the DOM. They can be children of other components, and can have
      * children themselves.
@@ -12334,7 +12334,7 @@
      * @file button.js
      */
     /**
-     * Base class for all buttons.
+     * base class for all buttons.
      *
      * @extends ClickableComponent
      */

@@ -7569,7 +7569,7 @@ try {
 // Segment location into parts
 ajaxLocParts = rurl.exec( ajaxLocation.toLowerCase() ) || [];
 
-// Base "constructor" for jQuery.ajaxPrefilter and jQuery.ajaxTransport
+// base "constructor" for jQuery.ajaxPrefilter and jQuery.ajaxTransport
 function addToPrefiltersOrTransports( structure ) {
 
 	// dataTypeExpression is optional and defaults to "*"
@@ -7601,7 +7601,7 @@ function addToPrefiltersOrTransports( structure ) {
 	};
 }
 
-// Base inspection function for prefilters and transports
+// base inspection function for prefilters and transports
 function inspectPrefiltersOrTransports( structure, options, originalOptions, jqXHR ) {
 
 	var inspected = {},
@@ -33055,17 +33055,17 @@ function classDirective(name, selector) {
      </file>
      <file name="protractor.js" type="protractor">
        it('should check ng-class', function() {
-         expect(element(by.css('.base-class')).getAttribute('class')).not.
+         expect(element(by.css(BaseControllerTest)).getAttribute('class')).not.
            toMatch(/my-class/);
 
          element(by.id('setbtn')).click();
 
-         expect(element(by.css('.base-class')).getAttribute('class')).
+         expect(element(by.css(BaseControllerTest)).getAttribute('class')).
            toMatch(/my-class/);
 
          element(by.id('clearbtn')).click();
 
-         expect(element(by.css('.base-class')).getAttribute('class')).not.
+         expect(element(by.css(BaseControllerTest)).getAttribute('class')).not.
            toMatch(/my-class/);
        });
      </file>

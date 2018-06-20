@@ -20,7 +20,7 @@
     <div class="row m-b-lg m-t-lg">
         <div class="col-md-6">
             <div class="profile-image">
-                <img ng-src="{{staff.user.logoPath}}" class="img-circle circle-border m-b-md" alt="profile">
+                <img title="{{staff.user.name}}" tooltip-placement="bottom" uib-tooltip="{{staff.user.name}}" ng-src="{{staff.user.logoPath}}" class="img-circle circle-border m-b-md">
             </div>
             <div class="profile-info">
                 <div class="">
@@ -72,7 +72,7 @@
             <div class="ibox">
                 <div class="ibox-content">
                     <div class="user-friends">
-                        <a href="#"><img ng-repeat="staff1 in staffs" alt="image" class="img-circle" ng-src="{{staff1.user.logoPath}}"></a>
+                        <a href="#"><img ng-repeat="staff1 in staffs" tooltip-placement="bottom" uib-tooltip="{{staff1.user.name}}" title="{{staff1.user.name}}" class="img-circle" ng-src="{{staff1.user.logoPath}}"></a>
                     </div>
                 </div>
             </div>
@@ -107,7 +107,7 @@
                 </div>
                 <div class="social-avatar">
                     <a href="" class="pull-left">
-                        <img alt="image" ng-src="{{dynamicState.user.logoPath}}">
+                        <img tooltip-placement="bottom" uib-tooltip="{{dynamicState.user.name}}" title="{{dynamicState.user.name}}" ng-src="{{dynamicState.user.logoPath}}">
                     </a>
                     <div class="media-body">
                         <a href="#">
@@ -135,7 +135,7 @@
                 <div  class="social-footer">
                     <div ng-repeat="dynamicStateComment in dynamicState.dynamicStateCommentList" class="social-comment">
                         <a href="" class="pull-left">
-                            <img alt="image" ng-src="{{dynamicStateComment.user.logoPath}}">
+                            <img tooltip-placement="bottom" uib-tooltip="{{dynamicStateComment.user.name}}"  title="{{dynamicStateComment.user.name}}" ng-src="{{dynamicStateComment.user.logoPath}}">
                         </a>
                         <div class="media-body">
                             <a href="#">
@@ -149,7 +149,7 @@
 
                     <div class="social-comment">
                         <a href="" class="pull-left">
-                            <img alt="image" ng-src="{{staff.user.logoPath}}">
+                            <img tooltip-placement="bottom" uib-tooltip="{{staff.user.name}}"  title="{{staff.user.name}}" ng-src="{{staff.user.logoPath}}">
                         </a>
                         <div class="media-body">
                             <textarea id="comment" class="form-control" placeholder="说点什么吧..." required></textarea>

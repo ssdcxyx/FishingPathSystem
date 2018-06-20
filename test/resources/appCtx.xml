@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 指定Spring配置文件的Schema信息 -->
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+	http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/aop
+	http://www.springframework.org/schema/aop/spring-aop.xsd
+	http://www.springframework.org/schema/tx
+	http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/context
+	http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <bean id="userService"
+          class="edu.jxufe.tiamo.fishingpathsys.service.impl.UserServiceImpl"
+          p:userDao-ref="userDao"
+            p:staffDao-ref="staffDao"
+            p:enterpriseDao-ref="enterpriseDao"
+            p:adminDao-ref="adminDao"
+            p:dynamicStateDao-ref="dynamicStateDao"/>
+
+    <bean id="enterpriseService"
+          class="edu.jxufe.tiamo.fishingpathsys.service.impl.EnterpriseServiceImpl"
+          p:enterpriseDao-ref="enterpriseDao"
+            p:staffDao-ref="staffDao"
+            p:userDao-ref="userDao"
+            p:enterpriseTypeDao-ref="enterpriseTypeDao"
+            p:postTypeDao-ref="postTypeDao"
+            p:departmentDao-ref="departmentDao"
+            p:announcementDao-ref="announcementDao"/>
+
+    <bean id="staffService"
+          class="edu.jxufe.tiamo.fishingpathsys.service.impl.StaffServiceImpl"
+          p:staffDao-ref="staffDao"
+            p:announcementDao-ref="announcementDao"
+            p:courseDao-ref="courseDao"
+            p:courseSectionDao-ref="courseSectionDao"
+            p:learningPathDao-ref="learningPathDao"
+            p:learningRecordDao-ref="learningRecordDao"/>
+
+    <bean id="courseService"
+          class="edu.jxufe.tiamo.fishingpathsys.service.impl.CourseServiceImpl"
+          p:courseDao-ref="courseDao"
+            p:courseSectionDao-ref="courseSectionDao"
+            p:staffDao-ref="staffDao"/>
+
+    <bean id="associateService"
+          class="edu.jxufe.tiamo.fishingpathsys.service.impl.AssociateServiceImpl"
+          p:userDao-ref="userDao"
+            p:dynamicStateDao-ref="dynamicStateDao"
+            p:dynamicStateCommentDao-ref="dynamicStateCommentDao"
+            p:dynamicStateLikeDao-ref="dynamicStateLikeDao"/>
+
+    <!--配置Hibernate的局部事务管理器-->
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate5.HibernateTransactionManager"
+          p:sessionFactory-ref="sessionFactory"
+           />
+
+    <bean id="multipartResolver"
+          class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- set the max upload size100MB -->
+        <property name="maxUploadSize">
+            <value>104857600</value>
+        </property>
+        <property name="maxInMemorySize">
+            <value>4096</value>
+        </property>
+    </bean>
+
+    <!--配置事务切面Bean,指定事务管理器-->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <!--用于配置详细的事务定义-->
+        <tx:attributes>
+            <tx:method name="get*" read-only="true" timeout="8"/>
+            <tx:method name="*" timeout="5"/>
+        </tx:attributes>
+    </tx:advice>
+    <aop:config>
+        <!--配置一个切入点，匹配指定包下所有以Impl结尾的类执行的所有方法-->
+        <aop:pointcut id="userPc" expression="execution(* edu.jxufe.tiamo.fishingpathsys.service.impl.*Impl.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="userPc"/>
+    </aop:config>
+</beans>
